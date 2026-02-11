@@ -17,7 +17,7 @@ npm install
 
 Después, se peude levantar el proyecto en `http://localhost:4200/`. con
 ```bash
-ng serve -o
+ng serve
 ```
 
 Si quieres que te abra automáticamente una ventana de tu navegador por defecto usa:
