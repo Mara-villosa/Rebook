@@ -98,6 +98,15 @@ export class AuthService {
   }
 
   /**
+   * Comprueba si existe la cookie del access token y si esta es válida.
+   * Si es así, devuelve true y considera al user autenticado.
+   * @returns true si el user está autenticado, false si no
+   */
+  isAuthenticated(): boolean {
+    return this.#token.getTokenData() !== null;
+  }
+
+  /**
    * Comprueba si los tokens de access y refresh son válidos y
    * si se necesita refrescar el access token
    * @returns

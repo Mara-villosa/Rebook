@@ -1,3 +1,8 @@
+/**
+ * Devuelve el contenido de una cookie pasada por parámetro o null si la cookie no existe
+ * @param cookieName cookie a buscar
+ * @returns string | null
+ */
 export function getCookie(cookieName: string): string | null {
   const name = cookieName + '=';
   const cookies = document.cookie.split(';');
