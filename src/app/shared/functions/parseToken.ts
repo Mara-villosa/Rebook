@@ -1,4 +1,4 @@
-import { TokenDecoded } from '../interfaces/TokenDecoded';
+import { TokenDecoded } from '../interfaces/Storage/TokenDecoded';
 
 export function parseToken<T = TokenDecoded>(encodedToken: string): T | null {
   try {
