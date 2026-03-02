@@ -58,6 +58,12 @@ export class TokenService {
     return this.getTokenData() !== null;
   }
 
+  /**
+   * Hace una petición al endpoint /auth/refresh enviando el refresh token
+   * Si el refresco en el servidor es exitoso, recupera un nuevo access token.
+   * Si no, devuelve un error HTTPErrorResponse
+   * @returns
+   */
   refreshToken(): Observable<any> {
     return this.#http
       .post<RefreshTokenResponse>(this.BASE_URL + '/auth/refresh', {

@@ -92,8 +92,35 @@ export class AuthService {
   /**
    * Elimina todos los datos almacenados en memoria de usuario y tokens
    */
-  cleanStorage() {
+  cleanStorage(): void {
     this.#token.cleanStorage();
     this.#user.cleanStorage();
+  }
+
+  /**
+   * Comprueba si los tokens de access y refresh son válidos y
+   * si se necesita refrescar el access token
+   * @returns
+   */
+  checkTokens(): void {
+    //Comprobar si existe token y es válido
+    if (!this.#token.checkValidToken()) {
+      this.logout();
+      return;
+    }
+
+    /**
+     * Comprueba si el token está expirado
+     * Si es así, prueba a refrescar y si no puede refrescar
+     * hace log out
+     */
+    if (this.#token.checkExpiredToken()) {
+      this.#token.refreshToken().subscribe({
+        error: (err) => {
+          console.log(err);
+          this.logout();
+        },
+      });
+    }
   }
 }
