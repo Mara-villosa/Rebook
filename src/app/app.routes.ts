@@ -7,6 +7,6 @@ import { LogIn } from './authentication/log-in/log-in';
 export const routes: Routes = [
     {path: 'auth/login', component: LogIn},
     {path: 'auth/signup', component: SignUp},
-    {path: 'home', component: Home, canActivate: [authGuard]},
+    {path: 'home', component: Home},
     {path: '**', redirectTo: 'home'},
 ];

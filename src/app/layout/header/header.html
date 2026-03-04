@@ -1,0 +1,132 @@
+<header class="rebook-header sticky-top">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container-fluid px-3 px-lg-5">
+      
+      <!-- LOGO (cuando lo tengamos) -->
+      <a class="navbar-brand d-flex align-items-center" routerLink="/">
+        <img 
+          src="#" 
+          alt="Rebook Logo" 
+          class="rebook-logo me-2"
+          height="40"
+          onerror="this.parentElement.innerHTML='📚 Rebook'"
+        >
+      </a>
+
+      <!-- BOTÓN HAMBURGUESA (PÁRA PANTALLAS PEQUEÑAS Y MÓVIL) -->
+      <button 
+        class="navbar-toggler border-0" 
+        type="button" 
+        (click)="toggleMenu()"
+        [attr.aria-expanded]="isMenuOpen()"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- CONTENIDO COLAPSABLE -->
+      <div 
+        class="collapse navbar-collapse" 
+        [class.show]="isMenuOpen()"
+        id="navbarContent"
+      >
+        
+        <!-- ENLACES IZQUIERDA DEL HEADER -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <i class="fas fa-home me-1"></i>Inicio
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              <i class="fas fa-list me-1"></i>Categorías
+            </a>
+            <ul class="dropdown-menu border-0 shadow">
+              <li><a class="dropdown-item" href="#">Literatura</a></li>
+              <li><a class="dropdown-item" href="#">Académicos</a></li>
+              <li><a class="dropdown-item" href="#">Infantil</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Ver todas</a></li>
+            </ul>
+          </li>
+
+          <!-- ENLACES SOLO LOGUEADOS -->
+          @if (isAuthenticated()) {
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/mis-libros" routerLinkActive="active">
+                <i class="fas fa-book me-1"></i>Mis libros
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/perfil" routerLinkActive="active">
+                <i class="fas fa-user me-1"></i>Mi perfil
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link btn btn-sm btn-success text-white ms-lg-2 mt-1 mt-lg-0" routerLink="/anadir-libro">
+                <i class="fas fa-plus me-1"></i>Añadir libro
+              </a>
+            </li>
+          }
+        </ul>
+
+        <!-- BARRA DE BÚSQUEDA -->
+        <form class="d-flex mx-auto my-2 my-lg-0" role="search" style="max-width: 400px; width: 100%;">
+          <div class="input-group">
+            <input 
+              class="form-control" 
+              type="search" 
+              placeholder="Buscar libros..." 
+              aria-label="Search"
+            >
+            <button class="btn btn-outline-secondary" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </form>
+
+        <!-- ACCIONES DERECHA -->
+        <ul class="navbar-nav ms-auto align-items-center">
+          <!-- CARRITO -->
+          <li class="nav-item me-3">
+            <a class="nav-link position-relative" routerLink="/carrito">
+              <i class="fas fa-shopping-cart fa-lg"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                3
+                <span class="visually-hidden">items en carrito</span>
+              </span>
+            </a>
+          </li>
+
+          <!-- AUTH: LOGUEADO / NO LOGUEADO -->
+          @if (isAuthenticated()) {
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                <i class="fas fa-user-circle fa-lg me-1"></i>
+                <span class="d-none d-lg-inline">Mi cuenta</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+                <li><a class="dropdown-item" routerLink="/perfil"><i class="fas fa-user me-2"></i>Perfil</a></li>
+                <li><a class="dropdown-item" routerLink="/mis-pedidos"><i class="fas fa-box me-2"></i>Mis pedidos</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                  <button class="dropdown-item text-danger" (click)="toggleAuth()">
+                    <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
+                  </button>
+                </li>
+              </ul>
+            </li>
+          } @else {
+            <li class="nav-item">
+              <button class="btn btn-outline-success btn-sm px-3" (click)="toggleAuth()">
+                <i class="fas fa-sign-in-alt me-1"></i>Iniciar sesión
+              </button>
+            </li>
+          }
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+</header>
