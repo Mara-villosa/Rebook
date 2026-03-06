@@ -11,11 +11,12 @@ export class BookCard {
   @Input() book: any;
   message = '';
 
-  constructor(private cartService: Cart) {}
+  constructor(private cartService: Cart) { }
 
   //Método en caso de compra
   addComprar() {
-      this.cartService.addToCart({
+
+    this.cartService.addToCart({
       id: this.book.id,
       title: this.book.title,
       price: this.book.buyPrice,
@@ -23,11 +24,12 @@ export class BookCard {
       quantity: 1
     });
 
-    this.message = 'Libro añadido para compra';
+    this.message = 'Libro añadido al carrito para compra';
+
   }
 
-  //Método para añadir en caso de alquiler
-  addAquilar() {
+  addAlquilar() {
+
     const returnDate = new Date();
     returnDate.setDate(returnDate.getDate() + 15);
 
@@ -40,7 +42,7 @@ export class BookCard {
       quantity: 1
     });
 
-    this.message = 'Libro añadido para alquiler';
-  }
+    this.message = 'Libro añadido al carrito para alquiler';
 
+  }
 }
