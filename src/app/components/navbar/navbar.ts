@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FavoritesService } from '../../services/favorites';
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +11,9 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./navbar.scss'],
 })
 export class NavbarComponent {
-  // Categorías simuladas (luego vendrán de la base de datos)
+  //Inyectamos el servicio para que el HTML pueda usarlo
+  favoritesService = inject(FavoritesService);
+
   categories = [
     'Fantasía',
     'Ciencia Ficción',
