@@ -1,0 +1,47 @@
+<!-- Tarjeta individual de libro -->
+<div class="tarjeta-libro">
+
+  <!-- Zona de la portada con etiqueta de género -->
+  <div class="portada-libro">
+    <img [src]="libro().portada" [alt]="libro().titulo" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/200x300/2a1a0a/d4a853?text=📚'">
+    <div class="etiqueta-genero">{{ libro().genero }}</div>
+  </div>
+
+  <!-- Información principal del libro -->
+  <div class="informacion-libro">
+    <h3 class="titulo-libro">{{ libro().titulo }}</h3>
+    <p class="autor-libro">{{ libro().autor }}</p>
+
+    <!-- Estrellas de valoración -->
+    <div class="estrellas-valoracion">
+      @for (estrella of obtenerEstrellas(libro().valoracion); track $index) {
+        <span>★</span>
+      }
+    </div>
+
+    <p class="descripcion-libro">{{ libro().descripcion }}</p>
+    <span class="precio-libro">{{ libro().precio | currency:'EUR':'symbol':'1.2-2' }}</span>
+  </div>
+
+  <!-- Botones de acción: Favoritos y Carrito -->
+  <div class="acciones-libro">
+
+    <!-- Botón para guardar o quitar de favoritos -->
+    <button
+      class="boton-accion boton-favorito"
+      [class.activo]="esFavorito"
+      (click)="alternarFavorito()">
+      {{ esFavorito ? '❤️ Guardado' : '🤍 Favoritos' }}
+    </button>
+
+    <!-- Botón para añadir al carrito -->
+    <button
+      class="boton-accion boton-carrito"
+      [class.agregado]="animacionAgregado"
+      (click)="agregarAlCarrito()">
+      {{ animacionAgregado ? '✓ Añadido' : '🛒 Carrito' }}
+    </button>
+
+  </div>
+</div>

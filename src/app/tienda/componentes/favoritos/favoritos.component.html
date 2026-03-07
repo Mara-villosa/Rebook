@@ -1,0 +1,31 @@
+<!-- Vista de libros favoritos -->
+<div class="contenedor-favoritos">
+
+  <!-- Cabecera con título, contador y enlace para volver -->
+  <div class="cabecera-favoritos">
+    <h2>❤️ Mis favoritos</h2>
+    <span class="contador-favoritos">
+      {{ librosFavoritos().length }} libro{{ librosFavoritos().length !== 1 ? 's' : '' }}
+    </span>
+    <!-- Enlace de vuelta a la tienda mediante routing -->
+    <a class="boton-volver" routerLink="/tienda">← Volver a la tienda</a>
+  </div>
+
+  @if (librosFavoritos().length > 0) {
+    <!-- Rejilla de tarjetas con los libros favoritos -->
+    <div class="rejilla-favoritos">
+      @for (libro of librosFavoritos(); track libro.id) {
+        <app-tarjeta-libro [libro]="libro" />
+      }
+    </div>
+
+  } @else {
+    <!-- Mensaje cuando aún no hay favoritos -->
+    <div class="sin-favoritos">
+      <p>🤍</p>
+      <p>Aún no tienes favoritos</p>
+      <span>Pulsa ❤️ Favoritos en cualquier libro para guardarlo aquí</span>
+    </div>
+  }
+
+</div>
