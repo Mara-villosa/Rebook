@@ -23,8 +23,9 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
+            "assets": [ 
               {
+                
                 "glob": "**/*",
                 "input": "public"
               }
@@ -89,8 +90,12 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/assets/theme/all.css"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/assets/theme"]
+            },
             "scripts": [
               "node_modules/@popperjs/core/dist/umd/popper.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js"

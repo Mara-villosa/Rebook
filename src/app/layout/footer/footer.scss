@@ -1,0 +1,100 @@
+.rebook-footer {
+  // Colores claros para todo el texto del footer
+  color: rgba(255, 255, 255, 0.85) !important;
+  
+  // Títulos de sección (usando color primario de la paleta)
+  h6 {
+    color: var(--rebook-primary) !important;
+    letter-spacing: 0.5px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  // Párrafos y texto general
+  p, span, small {
+    color: rgba(255, 255, 255, 0.85) !important;
+  }
+
+  // Enlaces: estado normal
+  a {
+    color: rgba(255, 255, 255, 0.75) !important;
+    text-decoration: none !important;
+    transition: var(--rebook-transition);
+    display: inline-block;
+    
+    &:hover {
+      color: var(--rebook-primary) !important;
+      transform: translateX(3px);
+    }
+    
+    // Efecto de subrayado animado
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background-color: var(--rebook-primary);
+      transition: var(--rebook-transition);
+    }
+    &:hover::after {
+      width: 100%;
+    }
+  }
+
+  // Listas sin viñetas
+  ul.list-unstyled {
+    padding: 0;
+    margin: 0;
+    
+    li {
+      margin-bottom: 0.5rem;
+      
+      a {
+        font-size: 0.9rem;
+        font-weight: 400;
+      }
+    }
+  }
+
+  // Iconos de redes sociales
+  .fab, .fas {
+    font-size: 1.1rem;
+    transition: var(--rebook-transition);
+    
+    &:hover {
+      transform: translateY(-3px) scale(1.1);
+      color: var(--rebook-primary) !important;
+    }
+  }
+
+  // Separador horizontal
+  hr {
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    opacity: 1;
+  }
+
+  // Copyright y texto pequeño
+  .text-muted {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+
+  // Responsive móvil
+  @media (max-width: 768px) {
+    .row.g-4 {
+      text-align: center;
+      
+      .d-flex.justify-content-center.justify-content-md-end {
+        justify-content: center !important;
+      }
+    }
+    
+    h6 {
+      text-align: center;
+    }
+  }
+}

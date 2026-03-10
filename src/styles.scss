@@ -1,2 +1,25 @@
 @use 'assets/theme/all.scss';
+
+/* REBOOK - Variables de tema */
+:root {
+  --rebook-primary: #E0BE63;
+  --rebook-secondary: #D3A08D;
+  --rebook-accent: #B0C6C4;
+  --rebook-success: #83A084;
+  --rebook-dark: #2C3E50;
+  --rebook-light: #F8F9FA;
+  --rebook-white: #FFFFFF;
+  
+  // Sombras y transiciones
+  --rebook-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --rebook-transition: all 0.3s ease;
+}
+
+/* Podemos usar FontAwesome Free oficial para ahorrarnos problemas:
+@import '@fortawesome/fontawesome-free/scss/fontawesome';
+@import '@fortawesome/fontawesome-free/scss/solid';
+@import '@fortawesome/fontawesome-free/scss/brands';
+*/
+
 @import "bootstrap/dist/css/bootstrap.min.css";
+
