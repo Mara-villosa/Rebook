@@ -1,0 +1,14 @@
+<div class="book-card">
+
+  <h3>{{ book.title }}</h3>
+  <p>Autor: {{ book.author }}</p>
+
+  <p>Compra: {{ book.buyPrice }}€</p>
+  <p>Alquiler: {{ book.rentPrice }}€</p>
+
+  <button (click)="addComprar()">Comprar</button>
+  <button (click)="addAlquilar()">Alquilar</button>
+
+  <p class="message">{{ message }}</p>
+
+</div>

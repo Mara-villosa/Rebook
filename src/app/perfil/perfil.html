@@ -1,0 +1,38 @@
+<h2>Mi perfil</h2>
+
+<form (ngSubmit)="guardar()">
+  <div class="form-row">
+    <label>Nombre completo: <!--<input type="text" [(ngModel)]="user.name" name="name">--></label>
+    <label>Email: <!--<input type="email" [(ngModel)]="user.email" name="email">--></label>
+  </div>
+
+  <div class="form-row">
+    <label>Teléfono: <!--<input type="tel" [(ngModel)]="user.phone" name="phone">--></label>
+    <label>Calle:<!--<input type="text" [(ngModel)]="user.address.street" name="street">--></label>
+  </div>
+
+  <div class="form-row">
+    <label>Ciudad:<!--<input type="text" [(ngModel)]="user.address.city" name="city">--></label>
+    <label>Código Postal: <!--<input type="text" [(ngModel)]="user.address.postalCode" name="postalCode">--></label>
+    <label>Contraseña: <!--<input type="password" [(ngModel)]="user.password" name="password">--></label>
+  </div>
+
+  <div class="checkbox-row">
+    <!--<input type="checkbox" [(ngModel)]="user.notifications" name="notifications">-->
+    <label>Recibir notificaciones por email</label>
+  </div>
+
+  <h3>Información de tarjeta (opcional)</h3>
+  <div class="form-row">
+    <label>Número de tarjeta: <!--<input type="text" [(ngModel)]="user.creditCard.number" name="cardNumber">--></label>
+    <label>Nombre en la tarjeta: <!-- <input type="text" [(ngModel)]="user.creditCard.name" name="cardName">--></label>
+  </div>
+  <div class="form-row">
+    <label>Fecha de expiración: <!--<input type="month" [(ngModel)]="user.creditCard.expiry" name="cardExpiry">--></label>
+    <label>CVV: <!-- <input type="text" [(ngModel)]="user.creditCard.cvv" name="cardCvv">--></label>
+  </div>
+
+  <button type="submit">Guardar</button>
+</form>
+
+<p *ngIf="message">{{ message }}</p>

@@ -1,0 +1,155 @@
+/* Tarjeta principal del libro */
+.tarjeta-libro {
+  background: var(--fondo-tarjeta);
+  border: 1px solid #e7af40;
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  animation: aparecerTarjeta 0.5s ease forwards;
+
+  /* Efecto al pasar el ratón */
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    border-color: var(--acento);
+
+    /* Zoom de la portada al hacer hover */
+    .portada-libro img { transform: scale(1.05); }
+  }
+}
+
+/* Animación de entrada de la tarjeta */
+@keyframes aparecerTarjeta {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Zona de la imagen de portada */
+.portada-libro {
+  position: relative;
+  height: 215px;
+  overflow: hidden;
+  background: #1a0f05;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  /* Etiqueta del género en la esquina superior izquierda */
+  .etiqueta-genero {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #e7af40;
+    color: var(--fondo-oscuro);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Zona de información textual */
+.informacion-libro {
+  padding: 1rem 1.1rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+}
+
+/* Título del libro */
+.titulo-libro {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  color: var(--texto-principal);
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Nombre del autor en cursiva dorada */
+.autor-libro {
+  color: var(--acento);
+  font-size: 0.82rem;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Estrellas de valoración */
+.estrellas-valoracion {
+  color: #f5c518;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+}
+
+/* Descripción del libro (máximo 2 líneas) */
+.descripcion-libro {
+  color: var(--texto-secundario);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Precio destacado */
+.precio-libro {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  color: var(--acento);
+  font-weight: 700;
+  margin-top: 0.3rem;
+}
+
+/* Zona de botones inferiores en dos columnas iguales */
+.acciones-libro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid rgba(212, 168, 83, 0.12);
+}
+
+/* Estilo base compartido por ambos botones */
+.boton-accion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.65rem 0.5rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: all 0.2s;
+  color: var(--texto-secundario);
+
+  /* Separador vertical entre los dos botones */
+  &:first-child { border-right: 1px solid rgba(212, 168, 83, 0.12); }
+}
+
+/* Botón de favoritos */
+.boton-favorito {
+  &:hover      { background: rgba(229, 115, 115, 0.1); color: #e57373; }
+  &.activo     { color: #e57373; }
+  &.activo:hover { background: rgba(229, 115, 115, 0.15); }
+}
+
+/* Botón de añadir al carrito */
+.boton-carrito {
+  &:hover   { background: rgba(212, 168, 83, 0.12); color: var(--acento); }
+  &.agregado { color: #4caf50; }
+}

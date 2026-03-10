@@ -1,0 +1,70 @@
+/* Vista principal de favoritos */
+.contenedor-favoritos {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Cabecera con título, contador y botón de volver */
+.cabecera-favoritos {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(212, 168, 83, 0.2);
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--acento);
+    margin: 0;
+  }
+}
+
+/* Etiqueta con el número de favoritos */
+.contador-favoritos {
+  color: var(--texto-secundario);
+  font-size: 0.9rem;
+  background: rgba(212, 168, 83, 0.1);
+  border: 1px solid rgba(212, 168, 83, 0.2);
+  padding: 0.2rem 0.75rem;
+  border-radius: 20px;
+}
+
+/* Enlace para volver a la tienda */
+.boton-volver {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 1px solid rgba(212, 168, 83, 0.3);
+  color: var(--texto-secundario);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+
+  &:hover { border-color: var(--acento); color: var(--acento); }
+}
+
+/* Rejilla de tarjetas de favoritos */
+.rejilla-favoritos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Mensaje cuando no hay ningún favorito guardado */
+.sin-favoritos {
+  text-align: center;
+  padding: 5rem 1rem;
+  color: var(--texto-secundario);
+
+  p:first-child { font-size: 3.5rem; margin-bottom: 0.75rem; }
+  p { font-size: 1.1rem; margin: 0 0 0.5rem; color: var(--texto-principal); }
+  span { font-size: 0.85rem; }
+}
