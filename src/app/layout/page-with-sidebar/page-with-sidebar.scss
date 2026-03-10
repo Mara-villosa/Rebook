@@ -1,0 +1,19 @@
+.page-with-sidebar-container {
+  display: flex;
+  min-height: calc(100vh - 200px); // Ajustar según header/footer
+  
+  .main-content {
+    flex: 1;
+    padding: 2rem;
+    background-color: #f8f9fa;
+  }
+  
+  // En móvil, el sidebar no ocupa espacio en el layout
+  @media (max-width: 991px) {
+    display: block;
+    
+    .main-content {
+      padding: 1rem;
+    }
+  }
+}
