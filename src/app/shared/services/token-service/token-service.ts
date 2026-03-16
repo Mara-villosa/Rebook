@@ -17,6 +17,7 @@ import { TokenDecoded } from '../../interfaces/Storage/TokenDecoded';
 export class TokenService {
   //URL base de la API
   private BASE_URL = environment.api.url;
+  private REFRESH_TOKEN_ENDPOINT: string = environment.api.endpoints.public.refreshToken;
 
   //Cookies
   private TOKEN_COOKIE: string = 'accessToken';
@@ -65,8 +66,9 @@ export class TokenService {
    * @returns
    */
   refreshToken(): Observable<any> {
+    const url = this.BASE_URL + this.REFRESH_TOKEN_ENDPOINT;
     return this.#http
-      .post<RefreshTokenResponse>(this.BASE_URL + '/auth/refresh', {
+      .post<RefreshTokenResponse>(url, {
         refreshToken: this.getRefreshToken(),
       })
       .pipe(
