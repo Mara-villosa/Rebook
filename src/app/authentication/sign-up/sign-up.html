@@ -1,1 +1,151 @@
-<p>sign-up works!</p>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col mt-2 text-center">
+      <h1>Crear una cuenta</h1>
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center m-4">
+    <div class="border rounded shadow col-md-8">
+      <div class="text-danger m-3">
+        @if (this.errorMessage.length > 0) {
+          <p>{{ this.errorMessage }}</p>
+        }
+      </div>
+      <div class="text-success m-3">
+        @if (this.successMessage.length > 0) {
+          <p>{{ this.successMessage }}</p>
+        }
+      </div>
+      <form [formGroup]="form" (submit)="onSubmit()">
+        <!--Name-->
+        <div class="m-3">
+          <label for="name" class="form-label">Nombre</label>
+          <input
+            type="text"
+            id="name"
+            class="form-control"
+            name="name"
+            formControlName="name"
+            placeholder="Nombre..."
+          />
+          <div class="text-danger mt-2 ms-2">
+            @if (this.form.get('name')?.touched) {
+              @if (this.form.get('name')?.errors?.['required']) {
+                <p>El nombre no puede estar vacío</p>
+              }
+              @if (this.form.get('name')?.errors?.['minlength']) {
+                <p>El nombre debe tener al menos 2 caracteres</p>
+              }
+            }
+          </div>
+        </div>
+        <!--Email-->
+        <div class="m-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            id="email"
+            class="form-control"
+            name="email"
+            formControlName="email"
+            placeholder="Email..."
+          />
+          <div class="text-danger mt-2 ms-2">
+            @if (this.form.get('email')?.touched) {
+              @if (this.form.get('email')?.errors?.['required']) {
+                <p>El email no puede estar vacío</p>
+              }
+              @if (this.form.get('email')?.errors?.['pattern']) {
+                <p>Introduce un email válido</p>
+              }
+              @if (this.form.get('email')?.errors?.['minlength']) {
+                <p>El email debe tener al menos 6 caracteres</p>
+              }
+            }
+          </div>
+        </div>
+        <!--Password-->
+        <div class="m-3">
+          <label for="password" class="form-label">Contraseña</label>
+          <div class="input-group">
+            <input
+              [type]="this.passwordVisible ? 'text' : 'password'"
+              id="password"
+              class="form-control"
+              name="password"
+              formControlName="password"
+              placeholder="Contraseña..."
+            />
+            <span class="input-group-text border-0">
+              <app-password-toggler
+                (toggleVisibility)="togglePasswordVisibility($event)"
+              ></app-password-toggler>
+            </span>
+          </div>
+          <div class="text-danger mt-2 ms-2">
+            @if (this.form.get('password')?.touched) {
+              @if (this.form.get('password')?.errors?.['required']) {
+                <p>La contraseña no puede estar vacía</p>
+              }
+              @if (this.form.get('password')?.errors?.['minlength']) {
+                <p>La contraseña debe tener al menos 6 caracteres</p>
+              }
+            }
+          </div>
+        </div>
+        <!--Repeat Password-->
+        <div class="m-3">
+          <label for="confirmPassword" class="form-label">Repetir Contraseña</label>
+          <div class="input-group">
+            <input
+              [type]="this.confirmPasswordVisible ? 'text' : 'password'"
+              id="confirmPassword"
+              class="form-control"
+              name="confirmPassword"
+              formControlName="confirmPassword"
+              placeholder="Contraseña..."
+            />
+            <span class="input-group-text border-0">
+              <app-password-toggler
+                (toggleVisibility)="toggleConfirmPasswordVisibility($event)"
+              ></app-password-toggler>
+            </span>
+          </div>
+          <div class="text-danger mt-2 ms-2">
+            @if (this.form.get('confirmPassword')?.touched) {
+              @if (this.form.errors?.['passwordMismatch']) {
+                <p>Las contraseñas no coinciden</p>
+              }
+            }
+          </div>
+        </div>
+        <!--Submit Button-->
+        <div class="d-flex justify-content-center m-3">
+          <button
+            type="submit"
+            class="btn btn-success col-12 m-3 p-3"
+            [disabled]="this.form.invalid || this.validating"
+          >
+            @if (this.redirecting) {
+              Cargando...
+              <span class="spinner-border spinner-border-sm ml-5"></span>
+            } @else {
+              Crear cuenta
+              @if (this.validating) {
+                <span class="spinner-border spinner-border-sm ml-5"></span>
+              }
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row mt-3 mb-4">
+    <div class="col">
+      <h4 class="text-center">¿Ya tienes una cuenta?</h4>
+      <h5 class="text-center">
+        <a class="link-opacity-75-hover" [routerLink]="['/auth/login']">Inicia Sesión</a>
+      </h5>
+    </div>
+  </div>
+</div>

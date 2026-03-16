@@ -60,17 +60,11 @@ export class AuthService {
    * Si no se puede realizar el registro, devuelve HTTPErrorResponse en el
    * observable
    * @param name nombre del usuario
-   * @param lastname apellidos del usuario
    * @param email email del usuario
    * @param password contraseña del usuario
    * @returns Observable<SignUpResponse>
    */
-  signup(
-    name: string,
-    lastname: string,
-    email: string,
-    password: string,
-  ): Observable<SignUpResponse> {
+  signup(name: string, email: string, password: string): Observable<SignUpResponse> {
     this.cleanStorage();
 
     const url = this.BASE_URL + this.SIGNUP_ENDPOINT;
