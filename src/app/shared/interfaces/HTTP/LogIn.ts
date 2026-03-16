@@ -7,12 +7,10 @@ export interface LogInRequest {
 }
 
 export interface LogInResponse {
-  user: {
+  userData: {
     name: string;
-    lastname: string;
+    email: string;
   };
-  tokens: {
-    accessToken: string;
-    refreshToken: string;
-  };
+  accessToken: string;
+  refreshToken: string;
 }

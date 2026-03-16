@@ -10,28 +10,21 @@ export const refreshInterceptor: HttpInterceptorFn = (req, next) => {
   const tokenService = inject(TokenService);
   const authService = inject(AuthService);
 
-  //URL base de la API backend
+  //API backend
   const BASE_URL = environment.api.url;
-
-  //Access token
-  const token = tokenService.getAccessToken();
-
-  const isRefreshRequest = req.url === `${BASE_URL}/auth/refresh`;
+  const PUBLIC_API_URLS = environment.api.endpoints.public;
 
   //No se interceptan llamadas que no vayan a la API del backend
   if (!req.url.includes(BASE_URL)) return next(req);
 
   /**
-   * Si es una llamada de login o signup donde no existe access token
-   * no se comprueba si se tiene que refrescar y no se intercepta la request
+   * Las llamadas públicas a la API (signup, login y refresh)
+   * no se interceptan para refresco de token ya que este no existe o no es relevante.
+   * Se usa X-API-KEY para autenticación en su lugar.
    */
-  if (!token) return next(req);
-
-  /**
-   * Si es una petición de refresco no se intercepta
-   * (crearía un bucle infinito)
-   */
-  if (isRefreshRequest) return next(req);
+  for (const [key, value] of Object.entries(PUBLIC_API_URLS)) {
+    if (req.url.includes(value)) return next(req);
+  }
 
   /**
    * Si es una llamada a un endpoint privado de la API del backend se comprueba si el token está expirado.

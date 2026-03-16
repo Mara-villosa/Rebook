@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { getCookie } from '../../functions/getCookie';
 import { parseToken } from '../../functions/parseToken';
 import { RefreshTokenResponse } from '../../interfaces/HTTP/RefreshToken';
 import { TokenDecoded } from '../../interfaces/Storage/TokenDecoded';
@@ -17,10 +16,11 @@ import { TokenDecoded } from '../../interfaces/Storage/TokenDecoded';
 export class TokenService {
   //URL base de la API
   private BASE_URL = environment.api.url;
+  private REFRESH_TOKEN_ENDPOINT: string = environment.api.endpoints.public.refreshToken;
 
-  //Cookies
-  private TOKEN_COOKIE: string = 'accessToken';
-  private REFRESH_TOKEN_COOKIE: string = 'refreshToken';
+  //Local Storage
+  private ACCESS_TOKEN_LOCALSTORAGE: string = 'accessToken';
+  private REFRESH_TOKEN_LOCALSTORAGE: string = 'refreshToken';
 
   #http = inject(HttpClient);
 
@@ -65,8 +65,9 @@ export class TokenService {
    * @returns
    */
   refreshToken(): Observable<any> {
+    const url = this.BASE_URL + this.REFRESH_TOKEN_ENDPOINT;
     return this.#http
-      .post<RefreshTokenResponse>(this.BASE_URL + '/auth/refresh', {
+      .post<RefreshTokenResponse>(url, {
         refreshToken: this.getRefreshToken(),
       })
       .pipe(
@@ -78,47 +79,39 @@ export class TokenService {
 
   //Getters y Setters
   /**
-   * Guarda una cookie con el valor del access token. Obtiene el tiempo
-   * de expiración de decodificar el token
-   * (Ver interface TokenDecoded y función auxiliar parseToken)
+   * Guarda el access token en local storage
    * @param token
    */
   setAccessToken(token: string): void {
-    const exp = parseToken(token)?.exp;
-    document.cookie = this.TOKEN_COOKIE + '=' + token + '; Max-Age=' + exp + ';';
+    localStorage.setItem(this.ACCESS_TOKEN_LOCALSTORAGE, token);
   }
 
   /**
-   * Guarda una cookie con el valor del refresh token. Obtiene el tiempo
-   * de expiración de decodificar el token
-   * (Ver interface TokenDecoded y función auxiliar parseToken)
+   * Guarda el refresh token en local storage
    * @param token
    */
   setRefreshToken(token: string): void {
-    const exp = parseToken(token)?.exp;
-    document.cookie = this.REFRESH_TOKEN_COOKIE + '=' + token + '; Max-Age=' + exp + ';';
+    localStorage.setItem(this.REFRESH_TOKEN_LOCALSTORAGE, token);
   }
 
   /**
-   * Utiliza la función auxiliar getCookie para devolver el valor del
-   * access token. Si no existe, devuelve null
+   * Recupera el access token de local storage. Si no existe, devuelve null
    * @returns string | null
    */
   getAccessToken(): string | null {
-    return getCookie(this.TOKEN_COOKIE);
+    return localStorage.getItem(this.ACCESS_TOKEN_LOCALSTORAGE);
   }
 
   /**
-   * Utiliza la función auxiliar getCookie para devolver el valor del
-   * refresh token. Si no existe, devuelve null
+   * Recupera el refresh token de local storage. Si no existe, devuelve null
    * @returns string | null
    */
   getRefreshToken(): string | null {
-    return getCookie(this.REFRESH_TOKEN_COOKIE);
+    return localStorage.getItem(this.REFRESH_TOKEN_LOCALSTORAGE);
   }
 
   /**
-   * Borra las cookies del access token y refresh token
+   * Borra el access token y refresh token de local storage
    */
   cleanStorage(): void {
     this.removeToken();
@@ -126,10 +119,10 @@ export class TokenService {
   }
 
   private removeToken(): void {
-    document.cookie = this.TOKEN_COOKIE + '=; expires=0;';
+    localStorage.removeItem(this.ACCESS_TOKEN_LOCALSTORAGE);
   }
 
   private removeRefresthToken(): void {
-    document.cookie = this.REFRESH_TOKEN_COOKIE + '=; expires=0;';
+    localStorage.removeItem(this.REFRESH_TOKEN_LOCALSTORAGE);
   }
 }

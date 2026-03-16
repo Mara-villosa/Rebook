@@ -1,26 +1,69 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink, RouterModule } from '@angular/router';
+import { finalize } from 'rxjs';
+import { PasswordToggler } from '../../shared/components/password-toggler/password-toggler';
+import { AuthService } from '../../shared/services/auth-service/auth-service';
 
 @Component({
   selector: 'app-log-in',
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule, RouterLink, RouterModule, PasswordToggler],
   templateUrl: './log-in.html',
   styleUrl: './log-in.scss',
 })
-
-
 export class LogIn {
-  constructor(private router: Router) {}
+  #auth = inject(AuthService);
+  #formBuilder = inject(FormBuilder);
+  #router = inject(Router);
 
-  email: string = '';
-  password: string = '';
-  error: boolean = false;
+  private emailPattern: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
-  login() {
-  const user = { email: this.email };
-  localStorage.setItem('user', JSON.stringify(user));
-  this.router.navigate(['/perfil']); 
-}
+  form = this.#formBuilder.group({
+    email: [
+      '',
+      [Validators.required, Validators.minLength(6), Validators.pattern(this.emailPattern)],
+    ],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+  });
 
+  errorMessage: string = '';
+  validating: boolean = false;
+  passwordVisible: boolean = false;
+
+  onSubmit() {
+    this.validating = true;
+
+    const { email, password } = this.form.value;
+    if (!email || !password) return;
+
+    this.#auth
+      .login(email, password)
+      .pipe(finalize(() => (this.validating = false)))
+      .subscribe({
+        next: (response) => {
+          this.errorMessage = '';
+          this.#router.navigate(['/perfil']);
+        },
+        error: (err) => {
+          console.log(err);
+          this.handleError(err);
+          this.form.get('password')?.reset();
+        },
+      });
+  }
+
+  togglePasswordVisibility(visible: boolean) {
+    this.passwordVisible = visible;
+  }
+
+  handleError(error: HttpErrorResponse) {
+    const errorData = error.error;
+
+    if (errorData.status === 0) {
+      this.errorMessage = 'Error al conectar con el servidor. Inténtalo más tarde';
+    } else {
+      this.errorMessage = 'Fallo al iniciar sesión';
+    }
+  }
 }

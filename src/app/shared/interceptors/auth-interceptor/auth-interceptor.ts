@@ -12,12 +12,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   //URL de la API
   const BASE_URL = environment.api.url;
+  const PUBLIC_API_URLS = environment.api.endpoints.public;
 
   //Access token y API Key
   const API_KEY = environment.api.key;
   const token = tokenService.getAccessToken();
-
-  const isRefreshRequest = req.url === `${BASE_URL}/auth/refresh`;
 
   /**
    * No se interceptan requests que no vayan a la API del Backend
@@ -25,16 +24,17 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   if (!req.url.includes(BASE_URL)) return next(req);
 
   /**
-   * Para los endpoints públicos de la API (login, signup y refresh)
-   * no se usa el access token, se usa la API KEY
-   * (porque el token no existe aún o necesita refrescarse)
+   * Las llamadas públicas a la API (signup, login y refresh)
+   * Usan la cabecera X-API-KEY para autenticación en lugar de Bearer token
    */
-  if (!token || isRefreshRequest) {
-    return next(
-      req.clone({
-        setHeaders: { 'x-api-key': API_KEY },
-      }),
-    );
+  for (const [key, value] of Object.entries(PUBLIC_API_URLS)) {
+    if (req.url.includes(value)) {
+      return next(
+        req.clone({
+          setHeaders: { 'x-api-key': API_KEY },
+        }),
+      );
+    }
   }
 
   /**
