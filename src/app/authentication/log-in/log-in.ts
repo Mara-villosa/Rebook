@@ -5,6 +5,7 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
 import { finalize } from 'rxjs';
 import { PasswordToggler } from '../../shared/components/password-toggler/password-toggler';
 import { AuthService } from '../../shared/services/auth-service/auth-service';
+import { BackgroundRefreshToken } from '../../shared/services/background-refresh-token-service/background-refresh-token';
 
 @Component({
   selector: 'app-log-in',
@@ -14,6 +15,7 @@ import { AuthService } from '../../shared/services/auth-service/auth-service';
 })
 export class LogIn {
   #auth = inject(AuthService);
+  #backgroundTokenRefresh = inject(BackgroundRefreshToken);
   #formBuilder = inject(FormBuilder);
   #router = inject(Router);
 
@@ -43,6 +45,7 @@ export class LogIn {
       .subscribe({
         next: (response) => {
           this.errorMessage = '';
+          this.#backgroundTokenRefresh.start();
           this.#router.navigate(['/perfil']);
         },
         error: (err) => {
