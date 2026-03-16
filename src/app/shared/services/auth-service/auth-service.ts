@@ -43,13 +43,13 @@ export class AuthService {
     return this.#http.post<LogInResponse>(url, request).pipe(
       tap((response) => {
         //Guardar token de acceso y de refresco
-        this.#token.setAccessToken(response.tokens.accessToken);
-        this.#token.setRefreshToken(response.tokens.accessToken);
+        this.#token.setAccessToken(response.accessToken);
+        this.#token.setRefreshToken(response.refreshToken);
 
         //Guardar datos del usuario en LocalStorage
         this.#user.storeLocalUser({
-          name: response.user.name,
-          lastname: response.user.lastname,
+          name: response.userData.name,
+          email: response.userData.email,
         });
       }),
     );
@@ -76,7 +76,6 @@ export class AuthService {
     const url = this.BASE_URL + this.SIGNUP_ENDPOINT;
     const user: SignUpRequest = {
       name,
-      lastname,
       email,
       password,
     };
@@ -102,7 +101,7 @@ export class AuthService {
   }
 
   /**
-   * Comprueba si existe la cookie del access token y si esta es válida.
+   * Comprueba si existe el access token en local storage y si esta es válida.
    * Si es así, devuelve true y considera al user autenticado.
    * @returns true si el user está autenticado, false si no
    */

@@ -4,5 +4,6 @@
  */
 
 export interface TokenDecoded {
+  id: string;
   exp: number;
 }
