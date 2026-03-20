@@ -29,7 +29,7 @@ export class BackgroundRefreshToken {
 
   //Cancelar la suscipción al intervalo para que deje de emitir
   stop() {
-    this.subscription.unsubscribe();
+    if (this.subscription) this.subscription.unsubscribe();
   }
 
   //Al destruirse el componente se cancela la suscripción
