@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { finalize } from 'rxjs';
@@ -13,11 +13,11 @@ import { BackgroundRefreshToken } from '../../shared/services/background-refresh
   templateUrl: './log-in.html',
   styleUrl: './log-in.scss',
 })
-export class LogIn {
+export class LogIn implements OnInit {
   #auth = inject(AuthService);
-  #backgroundTokenRefresh = inject(BackgroundRefreshToken);
   #formBuilder = inject(FormBuilder);
   #router = inject(Router);
+  #backgroundRefreshToken = inject(BackgroundRefreshToken);
 
   private emailPattern: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -33,7 +33,10 @@ export class LogIn {
   validating: boolean = false;
   passwordVisible: boolean = false;
 
+  ngOnInit(): void {}
+
   onSubmit() {
+    this.#backgroundRefreshToken.stop();
     this.validating = true;
 
     const { email, password } = this.form.value;
@@ -45,7 +48,7 @@ export class LogIn {
       .subscribe({
         next: (response) => {
           this.errorMessage = '';
-          this.#backgroundTokenRefresh.start();
+          this.#backgroundRefreshToken.start();
           this.#router.navigate(['/perfil']);
         },
         error: (err) => {

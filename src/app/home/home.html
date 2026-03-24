@@ -1,2 +1,24 @@
+<<<<<<< HEAD
 <p>home works!</p>
 <app-sidebar></app-sidebar>
+=======
+<h2>Libros disponibles</h2>
+
+<div class="container">
+  <div *ngFor="let book of books" class="book-card">
+    <h3>{{ book.title }}</h3>
+    <p>Autor: {{ book.author }}</p>
+
+    <div class="buttons">
+      <button class="buy-btn" (click)="addToCart(book, 'buy')">
+        Comprar - {{ getBuyPrice(book) }}€
+      </button>
+      <button class="rent-btn" (click)="addToCart(book, 'rent')">
+        Alquilar - {{ getRentPrice(book) }}€
+      </button>
+    </div>
+  </div>
+</div>
+
+<p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+>>>>>>> main
