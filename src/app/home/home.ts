@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { Cart } from '../services/cart';
 import { Book } from '../shared/interfaces/Book/Book';
@@ -7,6 +8,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule],
+
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
