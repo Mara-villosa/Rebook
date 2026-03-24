@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { BackgroundRefreshToken } from '../shared/services/background-refresh-token-service/background-refresh-token';
-import { SidebarComponent } from '../layout/sidebar/sidebar';
-@Component({
-  selector: 'app-home',
-  imports: [ SidebarComponent ],
-=======
+
 import { Component, OnInit } from '@angular/core';
 import { Cart } from '../services/cart';
 import { Book } from '../shared/interfaces/Book/Book';
@@ -15,7 +8,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule],
->>>>>>> main
+
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
