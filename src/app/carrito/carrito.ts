@@ -1,35 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { Cart, CartItem } from '../cart';
+import { Cart, CartItem } from '../services/cart';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-carrito',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './carrito.html',
   styleUrl: './carrito.scss',
 })
 export class Carrito implements OnInit {
+
   cartItems: CartItem[] = [];
   errorMessage = '';
 
-  constructor(private cartService: Cart) { }
+  constructor(private cartService: Cart) {}
 
   ngOnInit(): void {
+    this.loadCart();
+  }
+
+  loadCart() {
     this.cartItems = this.cartService.getCart();
   }
 
   remove(item: CartItem) {
-
-    if (this.cartItems.length === 0) {
-      this.errorMessage = 'El carrito ya está vacío';
-      return;
-    }
-
     this.cartService.removeFromCart(item.id, item.type);
-
-    this.cartItems = this.cartService.getCart();
-
-    this.errorMessage = 'Libro eliminado del carrito';
-
+    this.loadCart(); // 🔑 refresca la vista después de eliminar
   }
-
 }

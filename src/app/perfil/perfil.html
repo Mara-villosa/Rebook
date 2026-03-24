@@ -1,38 +1,104 @@
 <h2>Mi perfil</h2>
 
-<form (ngSubmit)="guardar()">
-  <div class="form-row">
-    <label>Nombre completo: <!--<input type="text" [(ngModel)]="user.name" name="name">--></label>
-    <label>Email: <!--<input type="email" [(ngModel)]="user.email" name="email">--></label>
+<div class="profile-container">
+  <!-- Foto -->
+  <div class="profile-photo">
+    <img [src]="user.photo || 'assets/default-avatar.png'" alt="Foto de perfil">
+    <button (click)="cambiarFoto()">Cambiar foto</button>
   </div>
 
-  <div class="form-row">
-    <label>Teléfono: <!--<input type="tel" [(ngModel)]="user.phone" name="phone">--></label>
-    <label>Calle:<!--<input type="text" [(ngModel)]="user.address.street" name="street">--></label>
-  </div>
+  <!-- Datos -->
+  <form (ngSubmit)="guardar()" class="profile-form">
+    <!-- Datos básicos -->
+    <div class="form-row">
+      <label>Nombre:
+        <input type="text" [(ngModel)]="user.name" name="name" [readonly]="!editFields.name">
+      </label>
+      <button type="button" (click)="toggleEdit('name')">{{ editFields.name ? 'Guardar' : 'Cambiar' }}</button>
+    </div>
 
-  <div class="form-row">
-    <label>Ciudad:<!--<input type="text" [(ngModel)]="user.address.city" name="city">--></label>
-    <label>Código Postal: <!--<input type="text" [(ngModel)]="user.address.postalCode" name="postalCode">--></label>
-    <label>Contraseña: <!--<input type="password" [(ngModel)]="user.password" name="password">--></label>
-  </div>
+    <div class="form-row">
+      <label>Email:
+        <input type="email" [(ngModel)]="user.email" name="email" [readonly]="!editFields.email">
+      </label>
+      <button type="button" (click)="toggleEdit('email')">{{ editFields.email ? 'Guardar' : 'Cambiar' }}</button>
+    </div>
 
-  <div class="checkbox-row">
-    <!--<input type="checkbox" [(ngModel)]="user.notifications" name="notifications">-->
-    <label>Recibir notificaciones por email</label>
-  </div>
+    <div class="form-row">
+      <label>Teléfono:
+        <input type="tel" [(ngModel)]="user.phone" name="phone" [readonly]="!editFields.phone">
+      </label>
+      <button type="button" (click)="toggleEdit('phone')">{{ editFields.phone ? 'Guardar' : 'Cambiar' }}</button>
+    </div>
 
-  <h3>Información de tarjeta (opcional)</h3>
-  <div class="form-row">
-    <label>Número de tarjeta: <!--<input type="text" [(ngModel)]="user.creditCard.number" name="cardNumber">--></label>
-    <label>Nombre en la tarjeta: <!-- <input type="text" [(ngModel)]="user.creditCard.name" name="cardName">--></label>
-  </div>
-  <div class="form-row">
-    <label>Fecha de expiración: <!--<input type="month" [(ngModel)]="user.creditCard.expiry" name="cardExpiry">--></label>
-    <label>CVV: <!-- <input type="text" [(ngModel)]="user.creditCard.cvv" name="cardCvv">--></label>
-  </div>
+    <div class="form-row">
+      <label>Calle:
+        <input type="text" [(ngModel)]="user.address.street" name="street" [readonly]="!editFields.street">
+      </label>
+      <button type="button" (click)="toggleEdit('street')">{{ editFields.street ? 'Guardar' : 'Cambiar' }}</button>
+    </div>
 
-  <button type="submit">Guardar</button>
-</form>
+    <div class="form-row">
+      <label>Ciudad:
+        <input type="text" [(ngModel)]="user.address.city" name="city" [readonly]="!editFields.city">
+      </label>
+      <button type="button" (click)="toggleEdit('city')">{{ editFields.city ? 'Guardar' : 'Cambiar' }}</button>
+
+      <label>Código Postal:
+        <input type="text" [(ngModel)]="user.address.postalCode" name="postalCode" [readonly]="!editFields.postalCode">
+      </label>
+      <button type="button" (click)="toggleEdit('postalCode')">{{ editFields.postalCode ? 'Guardar' : 'Cambiar' }}</button>
+    </div>
+
+    <div class="form-row">
+      <label>Contraseña:
+        <input type="password" [(ngModel)]="user.password" name="password" [readonly]="!editFields.password">
+      </label>
+      <button type="button" (click)="toggleEdit('password')">{{ editFields.password ? 'Guardar' : 'Cambiar' }}</button>
+    </div>
+
+    <div class="checkbox-row">
+      <input type="checkbox" [(ngModel)]="user.notifications" name="notifications">
+      <label>Recibir notificaciones por email</label>
+    </div>
+
+    <!-- Tarjeta opcional -->
+    <div class="credit-card-section">
+      <label>
+        <input type="checkbox" [(ngModel)]="showCardFields" name="showCard"> Añadir tarjeta
+      </label>
+
+      <div *ngIf="showCardFields" class="card-fields">
+        <div class="form-row">
+          <label>Número de tarjeta:
+            <input type="text" [(ngModel)]="user.creditCard.number" name="cardNumber" [readonly]="!editFields.cardNumber">
+          </label>
+          <button type="button" (click)="toggleEdit('cardNumber')">{{ editFields.cardNumber ? 'Guardar' : 'Cambiar' }}</button>
+        </div>
+
+        <div class="form-row">
+          <label>Nombre en la tarjeta:
+            <input type="text" [(ngModel)]="user.creditCard.name" name="cardName" [readonly]="!editFields.cardName">
+          </label>
+          <button type="button" (click)="toggleEdit('cardName')">{{ editFields.cardName ? 'Guardar' : 'Cambiar' }}</button>
+        </div>
+
+        <div class="form-row">
+          <label>Fecha de expiración:
+            <input type="month" [(ngModel)]="user.creditCard.expiry" name="cardExpiry" [readonly]="!editFields.cardExpiry">
+          </label>
+          <button type="button" (click)="toggleEdit('cardExpiry')">{{ editFields.cardExpiry ? 'Guardar' : 'Cambiar' }}</button>
+
+          <label>CVV:
+            <input type="text" [(ngModel)]="user.creditCard.cvv" name="cardCvv" [readonly]="!editFields.cardCvv">
+          </label>
+          <button type="button" (click)="toggleEdit('cardCvv')">{{ editFields.cardCvv ? 'Guardar' : 'Cambiar' }}</button>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="save-btn">Guardar todos los cambios</button>
+  </form>
+</div>
 
 <p *ngIf="message">{{ message }}</p>

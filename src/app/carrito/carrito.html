@@ -4,30 +4,37 @@
   <p>No hay libros en el carrito.</p>
 </div>
 
-<div *ngFor="let item of cartItems" class="cart-item">
+<div class="cart-container" *ngIf="cartItems.length > 0">
 
-  <h4>{{ item.title }}</h4>
+  <!-- Columna Libros de Compra -->
+  <div class="cart-column">
+    <h4>Libros de Compra</h4>
+    <ng-container *ngFor="let item of cartItems">
+      <div *ngIf="item.type === 'buy'" class="cart-item">
+        <h4>{{ item.title }}</h4>
+        <p>Tipo: Compra</p>
+        <p>Precio: {{ item.price }}€</p>
+        <p>Cantidad: {{ item.quantity }}</p>
+        <button (click)="remove(item)">Eliminar</button>
+        <hr>
+      </div>
+    </ng-container>
+  </div>
 
-  <p *ngIf="item.type === 'buy'">
-    Tipo: Compra
-  </p>
-
-  <p *ngIf="item.type === 'rent'">
-    Tipo: Alquiler
-  </p>
-
-  <p>Precio: {{ item.price }}€</p>
-
-  <p *ngIf="item.type === 'rent'">
-    Fecha devolución: {{ item.returnDate }}
-  </p>
-
-  <p>Cantidad: {{ item.quantity }}</p>
-
-  <button (click)="remove(item)">Eliminar</button>
-
-  <hr>
+  <!-- Columna Libros de Alquiler -->
+  <div class="cart-column">
+    <h4>Libros de Alquiler</h4>
+    <ng-container *ngFor="let item of cartItems">
+      <div *ngIf="item.type === 'rent'" class="cart-item">
+        <h4>{{ item.title }}</h4>
+        <p>Tipo: Alquiler</p>
+        <p>Precio: {{ item.price }}€</p>
+        <p>Fecha devolución: {{ item.returnDate }}</p>
+        <p>Cantidad: {{ item.quantity }}</p>
+        <button (click)="remove(item)">Eliminar</button>
+        <hr>
+      </div>
+    </ng-container>
+  </div>
 
 </div>
-
-<p class="error">{{ errorMessage }}</p>
