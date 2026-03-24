@@ -1,21 +1,21 @@
 <header class="rebook-header sticky-top">
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
     <div class="container-fluid px-3 px-lg-5">
-      
-      <!-- LOGO (cuando lo tengamos) -->
-      <a class="navbar-brand d-flex align-items-center" routerLink="/">
+
+      <!-- LOGO (izquierda en móvil, centrado en desktop) -->
+      <a class="navbar-brand d-flex align-items-center order-1 order-lg-2" routerLink="/">
         <img 
-          src="#" 
+          src="/logo.png"
           alt="Rebook Logo" 
           class="rebook-logo me-2"
-          height="40"
-          onerror="this.parentElement.innerHTML='📚 Rebook'"
+          height="60"
+          onerror="this.parentElement.innerHTML='📚 <span>Rebook</span>'"
         >
       </a>
 
-      <!-- BOTÓN HAMBURGUESA (PÁRA PANTALLAS PEQUEÑAS Y MÓVIL) -->
+      <!-- BOTÓN HAMBURGUESA (derecha siempre) -->
       <button 
-        class="navbar-toggler border-0" 
+        class="navbar-toggler border-0 order-3 order-lg-3" 
         type="button" 
         (click)="toggleMenu()"
         [attr.aria-expanded]="isMenuOpen()"
@@ -26,7 +26,7 @@
 
       <!-- CONTENIDO COLAPSABLE -->
       <div 
-        class="collapse navbar-collapse" 
+        class="collapse navbar-collapse order-4 order-lg-1" 
         [class.show]="isMenuOpen()"
         id="navbarContent"
       >
@@ -71,21 +71,6 @@
           }
         </ul>
 
-        <!-- BARRA DE BÚSQUEDA -->
-        <form class="d-flex mx-auto my-2 my-lg-0" role="search" style="max-width: 400px; width: 100%;">
-          <div class="input-group">
-            <input 
-              class="form-control" 
-              type="search" 
-              placeholder="Buscar libros..." 
-              aria-label="Search"
-            >
-            <button class="btn btn-outline-secondary" type="submit">
-              <i class="fas fa-search"></i>
-            </button>
-          </div>
-        </form>
-
         <!-- ACCIONES DERECHA -->
         <ul class="navbar-nav ms-auto align-items-center">
           <!-- CARRITO -->
@@ -118,10 +103,16 @@
               </ul>
             </li>
           } @else {
-            <li class="nav-item">
+            <li class="nav-item d-flex align-items-center gap-2">
+              <!-- Botón Iniciar sesión -->
               <button class="btn btn-outline-success btn-sm px-3" (click)="toggleAuth()">
-                <i class="fas fa-sign-in-alt me-1"></i>Iniciar sesión
+                <i class="fas fa-sign-in-alt me-1"></i><span class="d-none d-sm-inline">Iniciar sesión</span>
               </button>
+              
+              <!-- Botón Regístrate aquí -->
+              <a routerLink="/auth/signup" class="btn btn-success btn-sm px-3 text-white">
+                <i class="fas fa-user-plus me-1"></i><span class="d-none d-sm-inline">Regístrate aquí</span>
+              </a>
             </li>
           }
         </ul>

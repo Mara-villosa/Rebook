@@ -1,9 +1,9 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { BackgroundRefreshToken } from '../shared/services/background-refresh-token-service/background-refresh-token';
-
+import { SidebarComponent } from '../layout/sidebar/sidebar';
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [ SidebarComponent ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
