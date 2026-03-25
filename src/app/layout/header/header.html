@@ -1,21 +1,21 @@
 <header class="rebook-header sticky-top">
-  <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container-fluid px-3 px-lg-5">
-
-      <!-- LOGO (izquierda en móvil, centrado en desktop) -->
-      <a class="navbar-brand d-flex align-items-center order-1 order-lg-2" routerLink="/">
+      
+      <!-- LOGO -->
+      <a class="navbar-brand d-flex align-items-center" routerLink="/">
         <img 
-          src="/logo.png"
+          src="#" 
           alt="Rebook Logo" 
           class="rebook-logo me-2"
-          height="60"
-          onerror="this.parentElement.innerHTML='📚 <span>Rebook</span>'"
+          height="40"
+          onerror="this.parentElement.innerHTML='📚 Rebook'"
         >
       </a>
 
-      <!-- BOTÓN HAMBURGUESA (derecha siempre) -->
+      <!-- BOTÓN HAMBURGUESA -->
       <button 
-        class="navbar-toggler border-0 order-3 order-lg-3" 
+        class="navbar-toggler border-0" 
         type="button" 
         (click)="toggleMenu()"
         [attr.aria-expanded]="isMenuOpen()"
@@ -26,12 +26,12 @@
 
       <!-- CONTENIDO COLAPSABLE -->
       <div 
-        class="collapse navbar-collapse order-4 order-lg-1" 
+        class="collapse navbar-collapse" 
         [class.show]="isMenuOpen()"
         id="navbarContent"
       >
         
-        <!-- ENLACES IZQUIERDA DEL HEADER -->
+        <!-- ENLACES IZQUIERDA -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
@@ -51,7 +51,6 @@
             </ul>
           </li>
 
-          <!-- ENLACES SOLO LOGUEADOS -->
           @if (isAuthenticated()) {
             <li class="nav-item">
               <a class="nav-link" routerLink="/mis-libros" routerLinkActive="active">
@@ -71,8 +70,68 @@
           }
         </ul>
 
+        <!-- BARRA DE BÚSQUEDA -->
+        <form class="d-flex mx-auto my-2 my-lg-0" role="search" style="max-width: 400px; width: 100%;">
+          <div class="input-group">
+            <input 
+              class="form-control" 
+              type="search" 
+              placeholder="Buscar libros..." 
+              aria-label="Search"
+            >
+            <button class="btn btn-outline-secondary" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </form>
+
         <!-- ACCIONES DERECHA -->
         <ul class="navbar-nav ms-auto align-items-center">
+
+          <!-- FAVORITOS -->
+          <li class="nav-item me-3 position-relative">
+            <button class="nav-link btn-favoritos-header" (click)="togglePanelFavoritos()">
+              <i class="fas fa-heart fa-lg" [class.tiene-favoritos]="favoritosService.totalFavoritos() > 0"></i>
+              @if (favoritosService.totalFavoritos() > 0) {
+                <span class="badge-favoritos">{{ favoritosService.totalFavoritos() }}</span>
+              }
+            </button>
+
+            <!-- PANEL DESPLEGABLE DE FAVORITOS -->
+            @if (isPanelFavoritosOpen()) {
+              <div class="panel-favoritos" (click)="$event.stopPropagation()">
+                <div class="panel-favoritos-header">
+                  <span>❤️ Mis favoritos</span>
+                  <button class="btn-cerrar-panel" (click)="cerrarPanelFavoritos()">✕</button>
+                </div>
+
+                @if (favoritosService.obtenerFavoritos().length === 0) {
+                  <p class="panel-vacio">Aún no tienes favoritos. ¡Dale al ❤️ en algún libro!</p>
+                }
+
+                @for (libro of favoritosService.obtenerFavoritos(); track libro.id) {
+                  <div class="panel-favoritos-item">
+                    <img [src]="libro.imageUrl" [alt]="libro.title" onerror="this.src='https://via.placeholder.com/50x70/2a1a0a/d4a853?text=📚'">
+                    <div class="panel-favoritos-info">
+                      <p class="panel-libro-titulo">{{ libro.title }}</p>
+                      <p class="panel-libro-autor">{{ libro.author }}</p>
+                      <p class="panel-libro-precio">{{ libro.price | currency:'EUR':'symbol':'1.2-2' }}</p>
+                    </div>
+                  </div>
+                }
+
+                @if (favoritosService.obtenerFavoritos().length > 0) {
+                  <a routerLink="/favoritos" class="panel-ver-todos" (click)="cerrarPanelFavoritos()">
+                    Ver todos mis favoritos →
+                  </a>
+                }
+              </div>
+
+              <!-- Overlay para cerrar al hacer clic fuera -->
+              <div class="panel-overlay" (click)="cerrarPanelFavoritos()"></div>
+            }
+          </li>
+
           <!-- CARRITO -->
           <li class="nav-item me-3">
             <a class="nav-link position-relative" routerLink="/carrito">
@@ -84,7 +143,7 @@
             </a>
           </li>
 
-          <!-- AUTH: LOGUEADO / NO LOGUEADO -->
+          <!-- AUTH -->
           @if (isAuthenticated()) {
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
@@ -103,16 +162,10 @@
               </ul>
             </li>
           } @else {
-            <li class="nav-item d-flex align-items-center gap-2">
-              <!-- Botón Iniciar sesión -->
+            <li class="nav-item">
               <button class="btn btn-outline-success btn-sm px-3" (click)="toggleAuth()">
-                <i class="fas fa-sign-in-alt me-1"></i><span class="d-none d-sm-inline">Iniciar sesión</span>
+                <i class="fas fa-sign-in-alt me-1"></i>Iniciar sesión
               </button>
-              
-              <!-- Botón Regístrate aquí -->
-              <a routerLink="/auth/signup" class="btn btn-success btn-sm px-3 text-white">
-                <i class="fas fa-user-plus me-1"></i><span class="d-none d-sm-inline">Regístrate aquí</span>
-              </a>
             </li>
           }
         </ul>

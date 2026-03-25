@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { FavoritosService } from '../../tienda/servicios/favoritos.service';
 
 @Component({
   selector: 'app-header',
@@ -12,12 +13,23 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class HeaderComponent {
   isAuthenticated = signal<boolean>(false);
   isMenuOpen = signal<boolean>(false);
-  
+  isPanelFavoritosOpen = signal<boolean>(false);
+
+  constructor(public favoritosService: FavoritosService) {}
+
   toggleMenu(): void {
     this.isMenuOpen.update(value => !value);
   }
-  
+
   toggleAuth(): void {
     this.isAuthenticated.update(value => !value);
+  }
+
+  togglePanelFavoritos(): void {
+    this.isPanelFavoritosOpen.update(value => !value);
+  }
+
+  cerrarPanelFavoritos(): void {
+    this.isPanelFavoritosOpen.set(false);
   }
 }
