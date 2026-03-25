@@ -1,10 +1,13 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { Libro, ElementoCarrito } from '../models/libro.model';
+import { Cart } from '../../services/cart';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarritoService {
+
+  constructor(private cart: Cart) {}
 
   // Lista reactiva de elementos en el carrito
   private elementosCarrito = signal<ElementoCarrito[]>([]);
@@ -22,16 +25,28 @@ export class CarritoService {
     this.elementosCarrito().reduce((suma, elemento) => suma + elemento.libro.precio * elemento.cantidad, 0)
   );
 
-  // Añade un libro o incrementa su cantidad si ya existe
-  agregarAlCarrito(libro: Libro): void {
+  // Añade un libro al carrito indicando si es compra o alquiler
+  agregarAlCarrito(libro: Libro, tipo: 'buy' | 'rent' = 'buy'): void {
+    // Fecha de devolución para alquileres (7 días)
+    const fechaDevolucion = tipo === 'rent' ? this.calcularFechaDevolucion() : undefined;
+
+    // Añadir al Cart compartido de la compañera
+    this.cart.addToCart({
+      id: libro.id,
+      title: libro.titulo,
+      price: tipo === 'rent' ? libro.precio * 0.5 : libro.precio,
+      type: tipo,
+      quantity: 1,
+      returnDate: fechaDevolucion
+    });
+
+    // Actualizar también el signal local
     const actual = this.elementosCarrito();
-    const existente = actual.find(elemento => elemento.libro.id === libro.id);
+    const existente = actual.find(e => e.libro.id === libro.id);
     if (existente) {
       this.elementosCarrito.set(
-        actual.map(elemento =>
-          elemento.libro.id === libro.id
-            ? { ...elemento, cantidad: elemento.cantidad + 1 }
-            : elemento
+        actual.map(e =>
+          e.libro.id === libro.id ? { ...e, cantidad: e.cantidad + 1 } : e
         )
       );
     } else {
@@ -41,8 +56,9 @@ export class CarritoService {
 
   // Elimina completamente un libro del carrito
   eliminarDelCarrito(libroId: number): void {
+    this.cart.removeFromCart(libroId, 'buy');
     this.elementosCarrito.set(
-      this.elementosCarrito().filter(elemento => elemento.libro.id !== libroId)
+      this.elementosCarrito().filter(e => e.libro.id !== libroId)
     );
   }
 
@@ -50,12 +66,19 @@ export class CarritoService {
   actualizarCantidad(libroId: number, cantidad: number): void {
     if (cantidad <= 0) { this.eliminarDelCarrito(libroId); return; }
     this.elementosCarrito.set(
-      this.elementosCarrito().map(elemento =>
-        elemento.libro.id === libroId ? { ...elemento, cantidad } : elemento
+      this.elementosCarrito().map(e =>
+        e.libro.id === libroId ? { ...e, cantidad } : e
       )
     );
   }
 
   // Vacía el carrito por completo
   vaciarCarrito(): void { this.elementosCarrito.set([]); }
+
+  // Calcula la fecha de devolución (7 días desde hoy)
+  private calcularFechaDevolucion(): string {
+    const fecha = new Date();
+    fecha.setDate(fecha.getDate() + 7);
+    return fecha.toLocaleDateString();
+  }
 }

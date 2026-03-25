@@ -1,10 +1,13 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { Libro } from '../models/libro.model';
+import { FavoritesService } from '../../services/favorites';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoritosService {
+
+  constructor(private favoritesService: FavoritesService) {}
 
   // Conjunto de IDs de libros marcados como favoritos
   private idsFavoritos = signal<Set<number>>(new Set());
@@ -22,8 +25,18 @@ export class FavoritosService {
     const copia = new Set(this.idsFavoritos());
     if (copia.has(libro.id)) {
       copia.delete(libro.id);
+      // Quitar también del servicio de la compañera
+      this.favoritesService.toggleFavorite({ id: libro.id });
     } else {
       copia.add(libro.id);
+      // Añadir al servicio de la compañera con los datos del libro
+      this.favoritesService.toggleFavorite({
+        id: libro.id,
+        title: libro.titulo,
+        author: libro.autor,
+        price: libro.precio,
+        imageUrl: libro.portada
+      });
     }
     this.idsFavoritos.set(copia);
   }
@@ -31,5 +44,10 @@ export class FavoritosService {
   // Devuelve el conjunto completo de IDs favoritos
   obtenerIdsFavoritos(): Set<number> {
     return this.idsFavoritos();
+  }
+
+  // Devuelve los libros favoritos completos (desde el servicio compartido)
+  obtenerFavoritos(): any[] {
+    return this.favoritesService.favorites;
   }
 }
