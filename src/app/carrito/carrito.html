@@ -1,5 +1,10 @@
 <h2>Carrito</h2>
 
+<!-- MENSAJE DE ERROR GLOBAL -->
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
 <div *ngIf="cartItems.length === 0">
   <p>No hay libros en el carrito.</p>
 </div>
