@@ -91,34 +91,8 @@
     border-color: var(--rebook-success);
     
     &:hover {
-      background-color: var(--rebook-dark);
-      color: var(--rebook-light) !important;
-    }
-  }
-
-  // Input de búsqueda (si lo activamos en el futuro)
-  .input-group {
-    .form-control {
-      background-color: white;
-      border-color: #e0e0e0;
-      
-      &:focus {
-        box-shadow: 0 0 0 0.2rem rgba(131, 160, 132, 0.25);
-        border-color: var(--rebook-success);
-        background-color: white;
-      }
-    }
-    
-    .btn-outline-secondary {
-      color: var(--rebook-dark);
-      background-color: white;
-      border-color: #e0e0e0;
-      
-      &:hover {
-        background-color: var(--rebook-primary);
-        border-color: var(--rebook-primary);
-        color: white;
-      }
+      background-color: #6b8a6c;
+      border-color: #6b8a6c;
     }
   }
 
@@ -160,7 +134,7 @@
   // Ajuste extra para móviles muy pequeños
   @media (max-width: 576px) {
     .navbar-brand img {
-      height: 45px !important;  // Logo más pequeño en móvil
+      height: 45px !important;
     }
     
     .btn-sm {
@@ -168,4 +142,46 @@
       padding: 0.35rem 0.6rem;
     }
   }
+  
+  .dropdown {
+    position: relative;
+    
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 1000;
+      min-width: 200px;
+      
+      &.show {
+        display: block;
+        animation: fadeIn 0.2s ease;
+      }
+    }
+    
+    .dropdown-toggle.show {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  // Dropdown de cuenta (alineado a la derecha)
+  .nav-item.dropdown:last-child {
+    .dropdown-menu {
+      left: auto;
+      right: 0;
+    }
+  }
+
 }

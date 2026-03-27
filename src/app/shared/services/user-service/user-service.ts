@@ -21,7 +21,7 @@ export class UserService {
    * Recupera los datos de usuario almacenados en local storage.
    * Si no puede, devuelve null. Si puede, devuelve un objeto de tipo
    * UserData con los datos recuperados
-   * @returns UserData | null
+   * @returns UserData | nullº
    */
   getLocalUserData(): UserData | null {
     let data = localStorage.getItem(this.USER_LOCAL_STORAGE);
