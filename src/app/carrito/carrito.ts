@@ -20,11 +20,23 @@ export class Carrito implements OnInit {
   }
 
   loadCart() {
-    this.cartItems = this.cartService.getCart();
+    try {
+      this.errorMessage = '';
+      this.cartItems = this.cartService.getCart();
+    } catch (error) {
+      console.error('Error al cargar el carrito:', error);
+      this.errorMessage = 'Error al cargar el carrito. Inténtalo de nuevo.';
+    }
   }
 
   remove(item: CartItem) {
-    this.cartService.removeFromCart(item.id, item.type);
-    this.loadCart(); // 🔑 refresca la vista después de eliminar
+    try {
+      this.errorMessage = '';
+      this.cartService.removeFromCart(item.id, item.type);
+      this.loadCart();
+    } catch (error) {
+      console.error('Error al eliminar el producto:', error);
+      this.errorMessage = 'No se pudo eliminar el producto del carrito.';
+    }
   }
 }

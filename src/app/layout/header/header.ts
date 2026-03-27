@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth-service/auth-service';
 import { UserService } from '../../shared/services/user-service/user-service';
 import { UserData } from '../../shared/interfaces/Storage/UserData';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FavoritosService } from '../../tienda/servicios/favoritos.service';
 
 @Component({
@@ -36,7 +37,7 @@ export class HeaderComponent {
   toggleMenu(): void {
     this.isMenuOpen.update(value => !value);
   }
-  
+
   toggleAuth(): void {
     this.isAuthenticated.update(value => !value);
   }

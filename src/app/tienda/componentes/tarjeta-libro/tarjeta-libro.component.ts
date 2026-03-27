@@ -21,8 +21,9 @@ export class TarjetaLibroComponent {
   servicioCarrito  = inject(CarritoService);
   servicioFavoritos = inject(FavoritosService);
 
-  // Activa la animación del botón al añadir al carrito
-  animacionAgregado = false;
+  // Animaciones independientes para cada botón
+  animacionCompra   = false;
+  animacionAlquiler = false;
 
   // Comprueba si este libro está marcado como favorito
   get esFavorito(): boolean {
@@ -34,11 +35,18 @@ export class TarjetaLibroComponent {
     this.servicioFavoritos.alternarFavorito(this.libro());
   }
 
-  // Añade el libro al carrito y muestra la animación de confirmación
-  agregarAlCarrito(): void {
-    this.servicioCarrito.agregarAlCarrito(this.libro());
-    this.animacionAgregado = true;
-    setTimeout(() => this.animacionAgregado = false, 600);
+  // Añade el libro al carrito como COMPRA
+  agregarCompra(): void {
+    this.servicioCarrito.agregarAlCarrito(this.libro(), 'buy');
+    this.animacionCompra = true;
+    setTimeout(() => this.animacionCompra = false, 600);
+  }
+
+  // Añade el libro al carrito como ALQUILER
+  agregarAlquiler(): void {
+    this.servicioCarrito.agregarAlCarrito(this.libro(), 'rent');
+    this.animacionAlquiler = true;
+    setTimeout(() => this.animacionAlquiler = false, 600);
   }
 
   // Genera un array del tamaño de la valoración para pintar las estrellas

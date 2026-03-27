@@ -21,10 +21,21 @@
     </div>
 
     <p class="descripcion-libro">{{ libro().descripcion }}</p>
-    <span class="precio-libro">{{ libro().precio | currency:'EUR':'symbol':'1.2-2' }}</span>
+
+    <!-- Precios de compra y alquiler -->
+    <div class="precios-libro">
+      <span class="precio-compra">
+        <span class="precio-etiqueta">Compra</span>
+        {{ libro().precio | currency:'EUR':'symbol':'1.2-2' }}
+      </span>
+      <span class="precio-alquiler">
+        <span class="precio-etiqueta">Alquiler</span>
+        {{ libro().precio * 0.5 | currency:'EUR':'symbol':'1.2-2' }}
+      </span>
+    </div>
   </div>
 
-  <!-- Botones de acción: Favoritos y Carrito -->
+  <!-- Botones de acción: Favoritos, Comprar y Alquilar -->
   <div class="acciones-libro">
 
     <!-- Botón para guardar o quitar de favoritos -->
@@ -35,12 +46,20 @@
       {{ esFavorito ? '❤️ Guardado' : '🤍 Favoritos' }}
     </button>
 
-    <!-- Botón para añadir al carrito -->
+    <!-- Botón para comprar -->
     <button
       class="boton-accion boton-carrito"
-      [class.agregado]="animacionAgregado"
-      (click)="agregarAlCarrito()">
-      {{ animacionAgregado ? '✓ Añadido' : '🛒 Carrito' }}
+      [class.agregado]="animacionCompra"
+      (click)="agregarCompra()">
+      {{ animacionCompra ? '✓ Añadido' : '🛒 Comprar' }}
+    </button>
+
+    <!-- Botón para alquilar -->
+    <button
+      class="boton-accion boton-alquiler"
+      [class.agregado]="animacionAlquiler"
+      (click)="agregarAlquiler()">
+      {{ animacionAlquiler ? '✓ Añadido' : '📖 Alquilar' }}
     </button>
 
   </div>

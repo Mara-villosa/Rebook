@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class Perfil {
   user = {
-    photo: '', // URL de la foto
+    photo: '', 
     name: '',
     email: '',
     phone: '',
