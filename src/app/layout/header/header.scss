@@ -206,6 +206,49 @@
       flex-shrink: 0;
     }
   }
+  
+  .dropdown {
+    position: relative;
+    
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 1000;
+      min-width: 200px;
+      
+      &.show {
+        display: block;
+        animation: fadeIn 0.2s ease;
+      }
+    }
+    
+    .dropdown-toggle.show {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  // Dropdown de cuenta (alineado a la derecha)
+  .nav-item.dropdown:last-child {
+    .dropdown-menu {
+      left: auto;
+      right: 0;
+    }
+  }
+
+}
 
   .panel-favoritos-info {
     display: flex;

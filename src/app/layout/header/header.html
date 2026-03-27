@@ -8,8 +8,8 @@
           src="#" 
           alt="Rebook Logo" 
           class="rebook-logo me-2"
-          height="40"
-          onerror="this.parentElement.innerHTML='📚 Rebook'"
+          height="60"
+          onerror="this.parentElement.innerHTML='<span>Rebook</span>'"
         >
       </a>
 
@@ -38,11 +38,21 @@
               <i class="fas fa-home me-1"></i>Inicio
             </a>
           </li>
+          <!-- CATEGORÍAS -->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            <a 
+              class="nav-link dropdown-toggle" 
+              href="#" 
+              role="button"
+              (click)="toggleCategories($event)"
+              [class.show]="isCategoriesOpen()"
+            >
               <i class="fas fa-list me-1"></i>Categorías
             </a>
-            <ul class="dropdown-menu border-0 shadow">
+            <ul 
+              class="dropdown-menu border-0 shadow"
+              [class.show]="isCategoriesOpen()"
+            >
               <li><a class="dropdown-item" href="#">Literatura</a></li>
               <li><a class="dropdown-item" href="#">Académicos</a></li>
               <li><a class="dropdown-item" href="#">Infantil</a></li>
@@ -137,7 +147,7 @@
             <a class="nav-link position-relative" routerLink="/carrito">
               <i class="fas fa-shopping-cart fa-lg"></i>
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                3
+                7
                 <span class="visually-hidden">items en carrito</span>
               </span>
             </a>
