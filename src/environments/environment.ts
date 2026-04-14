@@ -1,6 +1,6 @@
 export const environment = {
   api: {
-    url: 'http://localhost:8080/Rebook-Backend/api.php',
+    url: 'http://localhost/Rebook-Backend/api.php',
     key: 'd6o06RFU8bwKUGftmVQ2Caj9OHarGZdN',
     endpoints: {
       public: {
@@ -8,7 +8,9 @@ export const environment = {
         signup: '/signup',
         refreshToken: '/refresh',
       },
-      private: {},
+      private: {
+        updateUser: '/user',
+      },
     },
   },
 };
