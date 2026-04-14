@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LibrosService } from '../tienda/servicios/libros.service';
-import { TarjetaLibroComponent } from '../tienda/componentes/tarjeta-libro/tarjeta-libro.component';
+import { TarjetaLibroComponent } from '../tarjeta-libro/tarjeta-libro.component';
+import { LibrosService } from '../../shared/services/libros.service';
 
 @Component({
   selector: 'app-home',

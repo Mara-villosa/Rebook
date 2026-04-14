@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FavoritesService } from '../../services/favorites';
+import { FavoritesService } from '../../shared/services/favorites';
 
 @Component({
   selector: 'app-navbar',

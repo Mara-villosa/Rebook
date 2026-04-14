@@ -1,5 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { Libro } from '../models/libro.model';
+import { Libro } from '../../shared/models/libro.model';
 
 @Injectable({
   providedIn: 'root'
