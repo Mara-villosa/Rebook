@@ -64,7 +64,18 @@ export class AuthService {
    * @param password contraseña del usuario
    * @returns Observable<SignUpResponse>
    */
-  signup(name: string, email: string, password: string): Observable<SignUpResponse> {
+  signup(
+    name: string,
+    email: string,
+    password: string,
+    lastname: string,
+    id_document: string,
+    birthday: string,
+    city: string,
+    address: string,
+    postal_code: string,
+    phone: string,
+  ): Observable<SignUpResponse> {
     this.cleanStorage();
 
     const url = this.BASE_URL + this.SIGNUP_ENDPOINT;
@@ -72,6 +83,13 @@ export class AuthService {
       name,
       email,
       password,
+      lastname,
+      id_document,
+      birthday,
+      city,
+      address,
+      postal_code,
+      phone,
     };
 
     return this.#http.post<SignUpResponse>(url, user);

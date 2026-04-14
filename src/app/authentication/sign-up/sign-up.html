@@ -39,6 +39,28 @@
             }
           </div>
         </div>
+        <!--Lastname-->
+        <div class="m-3">
+          <label for="lastname" class="form-label">Apellidos</label>
+          <input
+            type="text"
+            id="lastname"
+            class="form-control"
+            name="lastname"
+            formControlName="lastname"
+            placeholder="Apellidos..."
+          />
+          <div class="text-danger mt-2 ms-2">
+            @if (this.form.get('lastname')?.touched) {
+              @if (this.form.get('lastname')?.errors?.['required']) {
+                <p>Los apellidos no pueden estar vacíos</p>
+              }
+              @if (this.form.get('lastname')?.errors?.['minlength']) {
+                <p>Los apellidos deben tener al menos 2 caracteres</p>
+              }
+            }
+          </div>
+        </div>
         <!--Email-->
         <div class="m-3">
           <label for="email" class="form-label">Email</label>
@@ -115,6 +137,134 @@
             @if (this.form.get('confirmPassword')?.touched) {
               @if (this.form.errors?.['passwordMismatch']) {
                 <p>Las contraseñas no coinciden</p>
+              }
+            }
+          </div>
+        </div>
+        <!--ID-->
+        <div class="m-3">
+          <label for="id" class="form-label">DNI</label>
+          <input
+            type="text"
+            id="id"
+            class="form-control"
+            name="id"
+            formControlName="id"
+            placeholder="DNI..."
+          />
+          <div class="text-danger mt-2 ms-2">
+            @if (this.form.get('id')?.touched) {
+              @if (this.form.get('id')?.errors?.['required']) {
+                <p>El DNI no puede estar vacío</p>
+              }
+              @if (this.form.get('id')?.errors?.['pattern']) {
+                <p>Introduce un DNI válido</p>
+              }
+            }
+          </div>
+        </div>
+        <!--Birthday-->
+        <div class="m-3">
+          <label for="birthday" class="form-label">Fecha de Nacimiento</label>
+          <input
+            type="date"
+            id="birthday"
+            class="form-control"
+            name="birthday"
+            formControlName="birthday"
+          />
+          <div class="text-danger mt-2 ms-2">
+            @if (this.form.get('birthday')?.touched) {
+              @if (this.form.get('birthday')?.errors?.['required']) {
+                <p>Selecciona una fecha de nacimiento</p>
+              }
+            }
+          </div>
+        </div>
+        <!--City-->
+        <div class="m-3">
+          <label for="city" class="form-label">Localidad</label>
+          <input
+            type="text"
+            id="city"
+            class="form-control"
+            name="city"
+            formControlName="city"
+            placeholder="Localidad..."
+          />
+          <div class="text-danger mt-2 ms-2">
+            @if (this.form.get('city')?.touched) {
+              @if (this.form.get('city')?.errors?.['required']) {
+                <p>La localidad no puede estar vacía</p>
+              }
+              @if (this.form.get('city')?.errors?.['minlength']) {
+                <p>La localidad debe tener al menos 3 caracteres</p>
+              }
+            }
+          </div>
+        </div>
+        <!--Address-->
+        <div class="m-3">
+          <label for="address" class="form-label">Dirección</label>
+          <input
+            type="text"
+            id="address"
+            class="form-control"
+            name="address"
+            formControlName="address"
+            placeholder="Dirección..."
+          />
+          <div class="text-danger mt-2 ms-2">
+            @if (this.form.get('address')?.touched) {
+              @if (this.form.get('address')?.errors?.['required']) {
+                <p>La dirección no puede estar vacía</p>
+              }
+              @if (this.form.get('address')?.errors?.['minlength']) {
+                <p>La dirección debe tener al menos 3 caracteres</p>
+              }
+            }
+          </div>
+        </div>
+        <!--Postal Code-->
+        <div class="m-3">
+          <label for="postalCode" class="form-label">Código postal</label>
+          <input
+            type="text"
+            id="postalCode"
+            class="form-control"
+            name="postalCode"
+            formControlName="postalCode"
+            placeholder="Código Postal..."
+          />
+          <div class="text-danger mt-2 ms-2">
+            @if (this.form.get('postalCode')?.touched) {
+              @if (this.form.get('postalCode')?.errors?.['required']) {
+                <p>El código postal no puede estar vacío</p>
+              }
+              @if (this.form.get('postalCode')?.errors?.['pattern']) {
+                <p>Introduce un código postal válido</p>
+              }
+            }
+          </div>
+        </div>
+        <!--Phone-->
+        <div class="m-3">
+          <label for="phone" class="form-label">Teléfono</label>
+          <input
+            type="text"
+            id="phone"
+            class="form-control"
+            name="phone"
+            formControlName="phone"
+            placeholder="Teléfono..."
+          />
+          <div class="text-danger mt-2 ms-2">
+            @if (this.form.get('phone')?.touched) {
+              @if (this.form.get('phone')?.errors?.['required']) {
+                <p>El teléfono no puede estar vacío</p>
+              }
+              @if (this.form.get('phone')?.errors?.['pattern']) {
+                <p>Introduce un teléfono válido</p>
               }
             }
           </div>
