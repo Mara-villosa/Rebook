@@ -10,6 +10,7 @@ export const environment = {
       },
       private: {
         updateUser: '/user',
+        uploadBook: '/books/new',
       },
     },
   },
