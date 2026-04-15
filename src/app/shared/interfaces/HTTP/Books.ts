@@ -8,3 +8,7 @@ export interface UploadBookRequest {
   rent_price?: number;
   sell_price?: number;
 }
+
+export interface DeleteBookRequest {
+  book_id: number;
+}
