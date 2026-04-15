@@ -10,6 +10,12 @@ export const environment = {
       },
       private: {
         updateUser: '/user',
+        uploadBook: '/books/new',
+        deleteBook: '/books/delete',
+        getAllBooks: '/books/getAll',
+        getAllBooksFromUser: '/books/getFromUser',
+        getBookDetails: '/books/getBook',
+        getBooksFromCategory: '/books/category',
       },
     },
   },
