@@ -26,6 +26,24 @@ export interface GetAllBooksFromUserResponse {
   rented: BookDTO[];
   bought: BookDTO[];
 }
+
+// /books/category
+export interface GetAllBooksFromCategoryRequest {
+  category: string;
+}
+export interface GetAllBooksFromCategoryResponse {
+  books: BookDTO[];
+}
+
+// /books/getBook
+export interface GetBookDetailsRequest {
+  book_id: number;
+}
+export interface GetBookDetailsResponse {
+  book: BookDTO;
+}
+
+//DTO del libro devuelto en la base de datos
 interface BookDTO {
   id: number;
   title: string;
