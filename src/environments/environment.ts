@@ -12,6 +12,7 @@ export const environment = {
         updateUser: '/user',
         uploadBook: '/books/new',
         deleteBook: '/books/delete',
+        getAllBooks: '/books/get',
       },
     },
   },

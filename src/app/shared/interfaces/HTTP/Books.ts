@@ -12,3 +12,19 @@ export interface UploadBookRequest {
 export interface DeleteBookRequest {
   book_id: number;
 }
+
+export interface GetAllBooksRequest {
+  books: {
+    id: number;
+    title: string;
+    author: string;
+    description: string;
+    rentPrice: number;
+    sellPrice: number;
+    isbn: string;
+    url: string;
+    category: string;
+    rented: boolean;
+    inCart: boolean;
+  }[];
+}
