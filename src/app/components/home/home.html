@@ -1,0 +1,7 @@
+<h2>Libros disponibles</h2> 
+<div class="contenedor-lista"> 
+    <div class="rejilla-libros"> 
+        @for (libro of libros; track libro.id) { 
+            <app-tarjeta-libro [libro]="libro" /> } 
+    </div> 
+</div>

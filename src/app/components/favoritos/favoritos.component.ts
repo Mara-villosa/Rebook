@@ -1,9 +1,10 @@
 import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { FavoritosService } from '../../servicios/favoritos.service';
-import { LibrosService } from '../../servicios/libros.service';
+
 import { TarjetaLibroComponent } from '../tarjeta-libro/tarjeta-libro.component';
+import { FavoritosService } from '../../shared/services/favoritos.service';
+import { LibrosService } from '../../shared/services/libros.service';
 
 // Componente que muestra la página de libros favoritos
 @Component({

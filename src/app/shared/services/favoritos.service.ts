@@ -1,6 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { Libro } from '../models/libro.model';
-import { FavoritesService } from '../../services/favorites';
+import { Libro } from '../../shared/models/libro.model';
+import { FavoritesService } from '../../shared/services/favorites';
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,7 @@
-import { Component, signal, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { Component, HostListener, inject, signal } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { UserData } from '../../shared/interfaces/Storage/UserData';
 import { AuthService } from '../../shared/services/auth-service/auth-service';
 import { UserService } from '../../shared/services/user-service/user-service';
 import { UserData } from '../../shared/interfaces/Storage/UserData';
@@ -11,11 +12,10 @@ import { FavoritosService } from '../../tienda/servicios/favoritos.service';
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './header.html',
-  styleUrl: './header.scss'
+  styleUrl: './header.scss',
 })
 
 export class HeaderComponent {
-
   // Inyección de los servicios
   private authService = inject(AuthService);
   private userService = inject(UserService);
@@ -35,18 +35,18 @@ export class HeaderComponent {
   constructor(public favoritosService: FavoritosService) {}
 
   toggleMenu(): void {
-    this.isMenuOpen.update(value => !value);
+    this.isMenuOpen.update((value) => !value);
   }
 
   toggleAuth(): void {
-    this.isAuthenticated.update(value => !value);
+    this.isAuthenticated.update((value) => !value);
   }
 
   // Toggle categorías
   toggleCategories(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    this.isCategoriesOpen.update(value => !value);
+    this.isCategoriesOpen.update((value) => !value);
     this.isAccountOpen.set(false);
   }
 
@@ -54,8 +54,8 @@ export class HeaderComponent {
   toggleAccount(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    this.isAccountOpen.update(value => !value);
-    this.isCategoriesOpen.set(false);  // Cerrar otros dropdowns
+    this.isAccountOpen.update((value) => !value);
+    this.isCategoriesOpen.set(false); // Cerrar otros dropdowns
   }
 
   // Logout
@@ -77,7 +77,7 @@ export class HeaderComponent {
   }
 
   togglePanelFavoritos(): void {
-    this.isPanelFavoritosOpen.update(value => !value);
+    this.isPanelFavoritosOpen.update((value) => !value);
   }
 
   cerrarPanelFavoritos(): void {

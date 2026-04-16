@@ -1,14 +1,22 @@
 export const environment = {
   api: {
-    url: 'http://localhost:8080/Rebook-Backend/api.php',
+    url: 'http://localhost/Rebook-Backend/api.php',
     key: 'd6o06RFU8bwKUGftmVQ2Caj9OHarGZdN',
     endpoints: {
       public: {
         login: '/login',
         signup: '/signup',
         refreshToken: '/refresh',
+        getBookDetails: '/books/getBook',
+        getBooksFromCategory: '/books/category',
+        getAllBooks: '/books/getAll',
       },
-      private: {},
+      private: {
+        updateUser: '/user',
+        uploadBook: '/books/new',
+        deleteBook: '/books/delete',
+        getAllBooksFromUser: '/books/getFromUser',
+      },
     },
   },
 };

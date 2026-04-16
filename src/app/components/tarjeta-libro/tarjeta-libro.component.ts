@@ -1,8 +1,9 @@
 import { Component, input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Libro } from '../../models/libro.model';
-import { CarritoService } from '../../servicios/carrito.service';
-import { FavoritosService } from '../../servicios/favoritos.service';
+import { Libro } from '../../shared/models/libro.model';
+import { CarritoService } from '../../shared/services/carrito.service';
+import { FavoritosService } from '../../shared/services/favoritos.service';
+
 
 // Componente que representa una tarjeta individual de libro
 @Component({
