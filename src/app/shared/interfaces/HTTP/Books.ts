@@ -58,5 +58,6 @@ interface BookDTO {
   inCart: boolean;
   id_user: number;
   rent_expired: boolean;
+  rent_expiration_date: string;
   sold: boolean;
 }
