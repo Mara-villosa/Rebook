@@ -57,6 +57,14 @@ export interface RentBookResponse {
   expiration_date: string;
 }
 
+// /rent/extend
+export interface ExtendRentRequest {
+  book_id: string;
+}
+
+export interface ExtendRentResponse {
+  expiration_date: string;
+}
 //DTO del libro devuelto en la base de datos
 interface BookDTO {
   id: number;
