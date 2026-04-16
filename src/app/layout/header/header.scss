@@ -1,20 +1,72 @@
 .rebook-header {
+  // Estilos header 
   .navbar {
-    padding: 0.75rem 0;
+    padding: 0.5rem 0;
+    min-height: 120px;
+    background-color: var(--rebook-light) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
 
-  .rebook-logo {
-    transition: var(--rebook-transition);
-    
-    &:hover {
-      transform: scale(1.05);
+  .container-fluid {
+    @media (min-width: 992px) {
+      flex-direction: column !important;
+      align-items: stretch;
     }
   }
 
+  // Fila superior: Logo + Hamburguesa
+  .navbar-top-row {
+    padding: 0.25rem 0;
+    min-height: 70px;
+    
+    @media (min-width: 992px) {
+      justify-content: center !important;
+      
+      .navbar-brand {
+        margin: 0 !important;
+      }
+    }
+  }
+
+  // Logo
+  .navbar-brand {
+    .rebook-logo {
+      height: 60px !important;
+      width: auto;
+      transition: var(--rebook-transition);
+      
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  // Menú hamburguesa: siempre visible y por encima del logo 
+  .navbar-toggler {
+    z-index: 10;
+    padding: 0.25rem 0.5rem;
+    
+    .navbar-toggler-icon {
+      width: 1.5em;
+      height: 1.5em;
+    }
+  }
+
+  .navbar-bottom-row {
+    // En desktop: contenido en una sola fila
+    @media (min-width: 992px) {
+      display: flex !important;
+      align-items: center;
+      padding-top: 0.5rem;
+    }
+  }
+
+  // enlaces de navegación
   .nav-link {
     font-weight: 500;
+    font-size: 1.1rem;
     color: var(--rebook-dark) !important;
-    padding: 0.5rem 1rem !important;
+    padding: 0.5rem 0.75rem !important;
     transition: var(--rebook-transition);
 
     &:hover,
@@ -23,14 +75,33 @@
     }
 
     i {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
   }
 
-  .dropdown-menu {
-    border-radius: 8px;
-    padding: 0.5rem 0;
-    
+  // Dropdowns centrados (Categorías y Mi cuenta)
+  .dropdown{
+    position: relative;
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 1000;
+      min-width: 200px;
+      margin-top: 0.5rem;
+
+      &.show {
+        display: block;
+        animation: fadeIn 0.2s ease;
+      }
+    }
+
+    .dropdown-toggle.show {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+      
     .dropdown-item {
       padding: 0.5rem 1.5rem;
       font-weight: 400;
@@ -47,16 +118,47 @@
     }
   }
 
+  // Dropdown de cuenta alineado a la derecha
+  .nav-item.dropdown:last-child {
+    .dropdown-menu {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  // Botones de auth
+  .btn-outline-success {
+    border-color: var(--rebook-success);
+    color: var(--rebook-success);
+
+    &:hover {
+      background-color: var(--rebook-success);
+      color: white;
+    }
+  }
+
   .btn-success {
     background-color: var(--rebook-success);
     border-color: var(--rebook-success);
     
     &:hover {
-      background-color: darken(#83A084, 10%);
-      border-color: darken(#83A084, 10%);
+      background-color: #6B8A6C;
+      border-color: #6B8A6C;
     }
   }
 
+  // Input de búsqueda de libros
   .input-group {
     .form-control {
       &:focus {
@@ -76,35 +178,13 @@
     }
   }
 
+  // Badge del carrito
   .badge {
     font-size: 0.7rem;
     padding: 0.35em 0.5em;
   }
 
-  @media (max-width: 991px) {
-    .navbar-collapse {
-      background: white;
-      padding: 1rem;
-      border-radius: 8px;
-      margin-top: 1rem;
-      box-shadow: var(--rebook-shadow);
-    }
-    
-    .navbar-nav {
-      .nav-item {
-        margin: 0.25rem 0;
-      }
-    }
-    
-    .d-flex.mx-auto {
-      order: 3;
-      width: 100% !important;
-      max-width: 100% !important;
-      margin-top: 1rem !important;
-    }
-  }
-}
-  // Botón icono de favoritos en la navbar
+  // Botón de favoritos en el header
   .btn-favoritos-header {
     background: transparent;
     border: none;
@@ -117,10 +197,15 @@
     .fa-heart {
       color: #ccc;
       transition: color 0.3s;
-      &.tiene-favoritos { color: #e57373; }
+
+      &.tiene-favoritos { 
+        color: #e57373; 
+      }
     }
 
-    &:hover .fa-heart { color: #e57373; }
+    &:hover .fa-heart { 
+      color: #e57373; 
+    }
   }
 
   // Badge contador de favoritos
@@ -179,7 +264,11 @@
     font-size: 0.85rem;
     padding: 2px 6px;
     border-radius: 4px;
-    &:hover { background: #f5f5f5; color: #333; }
+    
+    &:hover { 
+      background: #f5f5f5; 
+      color: #333; 
+    }
   }
 
   .panel-vacio {
@@ -196,7 +285,10 @@
     padding: 0.65rem 1rem;
     border-bottom: 1px solid #faf5ea;
     transition: background 0.2s;
-    &:hover { background: #fdf9f0; }
+    
+    &:hover { 
+      background: #fdf9f0; 
+    }
 
     img {
       width: 44px;
@@ -206,49 +298,6 @@
       flex-shrink: 0;
     }
   }
-  
-  .dropdown {
-    position: relative;
-    
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      z-index: 1000;
-      min-width: 200px;
-      
-      &.show {
-        display: block;
-        animation: fadeIn 0.2s ease;
-      }
-    }
-    
-    .dropdown-toggle.show {
-      background-color: rgba(0, 0, 0, 0.05);
-    }
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  // Dropdown de cuenta (alineado a la derecha)
-  .nav-item.dropdown:last-child {
-    .dropdown-menu {
-      left: auto;
-      right: 0;
-    }
-  }
-
-}
 
   .panel-favoritos-info {
     display: flex;
@@ -288,12 +337,64 @@
     color: #e7af40;
     text-decoration: none;
     transition: color 0.2s;
-    &:hover { color: #c8920a; }
+    
+    &:hover { 
+      color: #c8920a; 
+    }
   }
 
-  // Overlay para cerrar el panel al hacer clic fuera
+  // Overlay para cerrar el panel al hacer clic fuera de este
   .panel-overlay {
     position: fixed;
     inset: 0;
     z-index: 1059;
   }
+
+  // Responsive móvil
+  @media (max-width: 991px) {
+    .navbar-collapse {
+      background-color: var(--rebook-light) !important;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      box-shadow: var(--rebook-shadow);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .navbar-nav {
+      .nav-item {
+        margin: 0.25rem 0;
+      }
+    }
+
+    // Botones de auth apilados en móvil pequeño
+    .nav-item.d-flex {
+      flex-direction: column;
+      gap: 0.5rem !important;
+      
+      .btn { 
+        width: 100%; 
+        justify-content: center; 
+      }
+    }
+  
+    
+    .d-flex.mx-auto {
+      order: 3;
+      width: 100% !important;
+      max-width: 100% !important;
+      margin-top: 1rem !important;
+    }
+  }
+
+  // Móviles muy pequeños
+  @media (max-width: 576px) {
+    .navbar-brand img { 
+      height: 45px !important; 
+    }
+    .btn-sm { 
+      font-size: 0.8rem; 
+      padding: 0.35rem 0.6rem; 
+    }
+  }
+}
