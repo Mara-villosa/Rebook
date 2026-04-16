@@ -1,35 +1,36 @@
+<!-- !! HEADER DE LA APLICACIÓN: NO BORRAR -->
+
 <header class="rebook-header sticky-top">
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
     <div class="container-fluid px-3 px-lg-5">
-      
-      <!-- LOGO -->
-      <a class="navbar-brand d-flex align-items-center" routerLink="/">
-        <img 
-          src="#" 
-          alt="Rebook Logo" 
-          class="rebook-logo me-2"
-          height="60"
-          onerror="this.parentElement.innerHTML='<span>Rebook</span>'"
+      <div class="navbar-top-row d-flex align-items-center justify-content-between w-100">
+
+        <!-- LOGO -->
+        <a class="navbar-brand d-flex align-items-center" routerLink="/">
+          <img 
+            src="/logo.png"
+            alt="Rebook Logo" 
+            class="rebook-logo me-2"
+            height="60"
+            style="object-fit: contain;"
+            onerror="this.parentElement.innerHTML='<span>Rebook</span>'"
+          >
+        </a>
+
+        <!-- BOTÓN HAMBURGUESA (solo en movil) -->
+        <button 
+          class="navbar-toggler border-0 d-lg-none" 
+          type="button" 
+          (click)="toggleMenu()"
+          [attr.aria-expanded]="isMenuOpen()"
+          aria-label="Toggle navigation"
         >
-      </a>
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <!-- BOTÓN HAMBURGUESA -->
-      <button 
-        class="navbar-toggler border-0" 
-        type="button" 
-        (click)="toggleMenu()"
-        [attr.aria-expanded]="isMenuOpen()"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      </div>
 
-      <!-- CONTENIDO COLAPSABLE -->
-      <div 
-        class="collapse navbar-collapse" 
-        [class.show]="isMenuOpen()"
-        id="navbarContent"
-      >
+      <div class="collapse navbar-collapse navbar-bottom-row mt-2 mt-lg-0" [class.show]="isMenuOpen()" id="navbarContent">
         
         <!-- ENLACES IZQUIERDA -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -38,7 +39,8 @@
               <i class="fas fa-home me-1"></i>Inicio
             </a>
           </li>
-          <!-- CATEGORÍAS -->
+          
+          <!-- CATEGORÍAS (dropdown) -->
           <li class="nav-item dropdown">
             <a 
               class="nav-link dropdown-toggle" 
@@ -61,6 +63,7 @@
             </ul>
           </li>
 
+          <!-- ENLACES SOLO LOGUEADOS -->
           @if (isAuthenticated()) {
             <li class="nav-item">
               <a class="nav-link" routerLink="/mis-libros" routerLinkActive="active">
@@ -80,8 +83,8 @@
           }
         </ul>
 
-        <!-- BARRA DE BÚSQUEDA -->
-        <form class="d-flex mx-auto my-2 my-lg-0" role="search" style="max-width: 400px; width: 100%;">
+        <!-- BARRA DE BÚSQUEDA CENTRADA (solo en desktop) -->
+        <form class="d-none d-lg-flex mx-auto my-2 my-lg-0" role="search" style="max-width: 400px; width: 100%;">
           <div class="input-group">
             <input 
               class="form-control" 
@@ -106,40 +109,6 @@
                 <span class="badge-favoritos">{{ favoritosService.totalFavoritos() }}</span>
               }
             </button>
-
-            <!-- PANEL DESPLEGABLE DE FAVORITOS -->
-            @if (isPanelFavoritosOpen()) {
-              <div class="panel-favoritos" (click)="$event.stopPropagation()">
-                <div class="panel-favoritos-header">
-                  <span>❤️ Mis favoritos</span>
-                  <button class="btn-cerrar-panel" (click)="cerrarPanelFavoritos()">✕</button>
-                </div>
-
-                @if (favoritosService.obtenerFavoritos().length === 0) {
-                  <p class="panel-vacio">Aún no tienes favoritos. ¡Dale al ❤️ en algún libro!</p>
-                }
-
-                @for (libro of favoritosService.obtenerFavoritos(); track libro.id) {
-                  <div class="panel-favoritos-item">
-                    <img [src]="libro.imageUrl" [alt]="libro.title" onerror="this.src='https://via.placeholder.com/50x70/2a1a0a/d4a853?text=📚'">
-                    <div class="panel-favoritos-info">
-                      <p class="panel-libro-titulo">{{ libro.title }}</p>
-                      <p class="panel-libro-autor">{{ libro.author }}</p>
-                      <p class="panel-libro-precio">{{ libro.price | currency:'EUR':'symbol':'1.2-2' }}</p>
-                    </div>
-                  </div>
-                }
-
-                @if (favoritosService.obtenerFavoritos().length > 0) {
-                  <a routerLink="/favoritos" class="panel-ver-todos" (click)="cerrarPanelFavoritos()">
-                    Ver todos mis favoritos →
-                  </a>
-                }
-              </div>
-
-              <!-- Overlay para cerrar al hacer clic fuera -->
-              <div class="panel-overlay" (click)="cerrarPanelFavoritos()"></div>
-            }
           </li>
 
           <!-- CARRITO -->
@@ -153,29 +122,42 @@
             </a>
           </li>
 
-          <!-- AUTH -->
+          <!-- AUTH: LOGUEADO / NO LOGUEADO -->
           @if (isAuthenticated()) {
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+              <a 
+                class="nav-link dropdown-toggle d-flex align-items-center" 
+                href="#" 
+                role="button"
+                (click)="toggleAccount($event)"
+                [class.show]="isAccountOpen()"
+              >
                 <i class="fas fa-user-circle fa-lg me-1"></i>
-                <span class="d-none d-lg-inline">Mi cuenta</span>
+                <span class="d-none d-lg-inline">{{ currentUser()?.name || 'Mi cuenta' }}</span>
               </a>
-              <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+              <ul 
+                class="dropdown-menu dropdown-menu-end border-0 shadow"
+                [class.show]="isAccountOpen()"
+              >
                 <li><a class="dropdown-item" routerLink="/perfil"><i class="fas fa-user me-2"></i>Perfil</a></li>
                 <li><a class="dropdown-item" routerLink="/mis-pedidos"><i class="fas fa-box me-2"></i>Mis pedidos</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li>
-                  <button class="dropdown-item text-danger" (click)="toggleAuth()">
+                  <button class="dropdown-item text-danger" (click)="logout()">
                     <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
                   </button>
                 </li>
               </ul>
             </li>
           } @else {
-            <li class="nav-item">
-              <button class="btn btn-outline-success btn-sm px-3" (click)="toggleAuth()">
-                <i class="fas fa-sign-in-alt me-1"></i>Iniciar sesión
+            <!-- BOTONES DE AUTH CON "REGÍSTRATE AQUÍ" -->
+            <li class="nav-item d-flex align-items-center gap-2">
+              <button class="btn btn-outline-success btn-sm px-3" routerLink="/auth/login">
+                <i class="fas fa-sign-in-alt me-1"></i><span class="d-none d-sm-inline">Iniciar sesión</span>
               </button>
+              <a routerLink="/auth/signup" class="btn btn-success btn-sm px-3 text-white">
+                <i class="fas fa-user-plus me-1"></i><span class="d-none d-sm-inline">Regístrate aquí</span>
+              </a>
             </li>
           }
         </ul>
