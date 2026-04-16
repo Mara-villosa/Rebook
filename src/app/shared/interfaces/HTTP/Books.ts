@@ -48,6 +48,15 @@ export interface GetRentedBooksFromUserResponse {
   books: BookDTO[];
 }
 
+// /rent/rent
+export interface RentBookRequest {
+  book_id: string;
+}
+
+export interface RentBookResponse {
+  expiration_date: string;
+}
+
 //DTO del libro devuelto en la base de datos
 interface BookDTO {
   id: number;

@@ -20,6 +20,7 @@ export const environment = {
         getRentedFromUser: '/rent/get',
         checkRent: '/rent/check',
         extendRent: '/rent/extend',
+        returnRentedBook: '/rent/return',
       },
     },
   },
