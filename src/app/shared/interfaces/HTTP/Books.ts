@@ -67,6 +67,14 @@ export interface ReturnRentedBookRequest {
   book_id: string;
 }
 
+// /rent/check
+export interface CheckRentedBookRequest {
+  book_id: string;
+}
+
+export interface CheckRentedBookResponse {
+  expiration_date: string;
+}
 export interface ExtendRentResponse {
   expiration_date: string;
 }
