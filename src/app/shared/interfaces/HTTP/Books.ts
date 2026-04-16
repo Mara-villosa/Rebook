@@ -43,6 +43,11 @@ export interface GetBookDetailsResponse {
   book: BookDTO;
 }
 
+// /rent/get
+export interface GetRentedBooksFromUserResponse {
+  books: BookDTO[];
+}
+
 //DTO del libro devuelto en la base de datos
 interface BookDTO {
   id: number;
