@@ -140,5 +140,5 @@ interface BookDTO {
   rent_expired: boolean;
   rent_expiration_date: string;
   sold: boolean;
-  in_cart_for_rent: boolean;
+  in_cart_for_rent?: boolean;
 }
