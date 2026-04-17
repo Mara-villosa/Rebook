@@ -1,0 +1,68 @@
+<h2>Mis pedidos</h2>
+
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
+<!-- LIBROS ALQUILADOS -->
+<div class="cart-section">
+
+  <div class="section-header">
+    <h3>Libros alquilados</h3>
+  </div>
+
+  <div *ngIf="rentedBooks.length === 0">
+    <p class="empty">No tienes libros alquilados</p>
+  </div>
+
+  <div *ngFor="let item of rentedBooks" class="cart-row">
+
+    <img [src]="item.url" />
+
+    <div class="info">
+      <p class="titulo">{{ item.title }}</p>
+      <p class="autor">{{ item.author }}</p>
+
+      <p class="fecha">
+        Devolver: {{ item.returnDate | date:'shortDate' }}
+      </p>
+    </div>
+
+    <div class="acciones">
+
+      <button class="btn-extend" (click)="extenderAlquiler(item)">
+        ⏳ Extender
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- LIBROS COMPRADOS -->
+<div class="cart-section">
+
+  <div class="section-header">
+    <h3>Libros comprados</h3>
+  </div>
+
+  <div *ngIf="purchasedBooks.length === 0">
+    <p class="empty">No has comprado libros todavía</p>
+  </div>
+
+  <div *ngFor="let item of purchasedBooks" class="cart-row">
+
+    <img [src]="item.url" />
+
+    <div class="info">
+      <p class="titulo">{{ item.title }}</p>
+      <p class="autor">{{ item.author }}</p>
+    </div>
+
+    <div class="acciones">
+      <button class="btn-secondary" (click)="volverAComprar(item)">🔁 Volver a comprar</button>
+      <button class="btn-primary" (click)="alquilar(item)">Alquilar</button>
+    </div>
+
+  </div>
+</div>

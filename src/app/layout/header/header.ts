@@ -6,7 +6,6 @@ import { AuthService } from '../../shared/services/auth-service/auth-service';
 import { UserService } from '../../shared/services/user-service/user-service';
 import { FavoritosService } from '../../shared/services/favoritos.service';
 
-
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -14,6 +13,7 @@ import { FavoritosService } from '../../shared/services/favoritos.service';
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
+
 export class HeaderComponent {
   // Inyección de los servicios
   private authService = inject(AuthService);

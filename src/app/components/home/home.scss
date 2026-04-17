@@ -1,13 +1,123 @@
-/* Contenedor principal del catálogo */
+.titulo-seccion {
+  text-align: center;
+  padding: 80px 0px 10px;
+  color: var(--rebook-dark);
+  font-weight: bold;
+}
+
+.contenedor-carrusel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+  max-width: 1600px;
+}
+
+.carrusel {
+  display: flex;
+  gap: 30px;
+  overflow: hidden;
+  width: 100%;
+}
+
 .contenedor-lista {
-  padding: 1rem 2rem 3rem;
-  max-width: 1400px;
+  padding: 20px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
-/* Rejilla responsive de tarjetas */
 .rejilla-libros {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 30px;
+}
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+    background: #f7f3ea;
+}
+.item-carrusel {
+  width: 400px;
+  flex-shrink: 0;
+}
+
+.item-carrusel app-tarjeta-libro {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.contenedor-carrusel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+  max-width: 100%;
+  position: relative;
+  padding: 0 30px;
+}
+
+.carrusel {
+  display: flex;
+  gap: 10px;
+  overflow: hidden;
+  width: 100%;
+  justify-content: center;
+  scroll-behavior: smooth;
+}
+
+.item-carrusel {
+  width: 400px;
+}
+
+.btn-carrusel {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: #e7af40;
+  color: #1e1e1e;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  
+}
+
+.btn-carrusel:hover {
+  transform: scale(1.1);
+  background: #d89c2b;
+}
+
+.btn-carrusel:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-carrusel.izquierda {
+  position: absolute;
+  left: 60px;
+}
+
+.btn-carrusel.derecha {
+  position: absolute;
+  right: 60px;
+}
+
+.contenedor-lista {
+  padding: 20px 100px;
+  max-width: 1600px;
+}
+
+.rejilla-libros {
+  display: grid;
+  gap: 10px;
 }

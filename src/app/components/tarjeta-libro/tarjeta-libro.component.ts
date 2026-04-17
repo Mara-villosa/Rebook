@@ -1,11 +1,9 @@
-import { Component, input, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Libro } from '../../shared/models/libro.model';
-import { CarritoService } from '../../shared/services/carrito.service';
+import { Cart } from '../../shared/services/cart';
 import { FavoritosService } from '../../shared/services/favoritos.service';
+import { BookDTO } from '../../shared/interfaces/Book/Book';
 
-
-// Componente que representa una tarjeta individual de libro
 @Component({
   selector: 'app-tarjeta-libro',
   standalone: true,
@@ -15,43 +13,73 @@ import { FavoritosService } from '../../shared/services/favoritos.service';
 })
 export class TarjetaLibroComponent {
 
-  // El libro que se pasa desde el componente padre
-  libro = input.required<Libro>();
+  @Input() libro!: BookDTO; 
 
-  // Servicios del carrito y de favoritos
-  servicioCarrito  = inject(CarritoService);
+  servicioCarrito = inject(Cart);
   servicioFavoritos = inject(FavoritosService);
 
-  // Animaciones independientes para cada botón
-  animacionCompra   = false;
-  animacionAlquiler = false;
+  estaEnCarritoCompra = false;
+  estaEnCarritoAlquiler = false;
+  animacionFavorito = false;
 
-  // Comprueba si este libro está marcado como favorito
   get esFavorito(): boolean {
-    return this.servicioFavoritos.esFavorito(this.libro().id);
+    return this.servicioFavoritos.esFavorito(this.libro.id);
   }
 
-  // Alterna el estado de favorito del libro
   alternarFavorito(): void {
-    this.servicioFavoritos.alternarFavorito(this.libro());
+    const yaEraFavorito = this.esFavorito;
+
+    this.servicioFavoritos.alternarFavorito(this.libro);
+
+    if (!yaEraFavorito) {
+      this.animacionFavorito = true;
+
+      setTimeout(() => {
+        this.animacionFavorito = false;
+      }, 1000);
+    }
   }
 
-  // Añade el libro al carrito como COMPRA
   agregarCompra(): void {
-    this.servicioCarrito.agregarAlCarrito(this.libro(), 'buy');
-    this.animacionCompra = true;
-    setTimeout(() => this.animacionCompra = false, 600);
+    this.servicioCarrito.addToCart({
+      id: this.libro.id,
+      titulo: this.libro.title,
+      autor: this.libro.author,
+      portada: this.libro.url,
+      price: this.libro.sellPrice,
+      type: 'buy',
+      quantity: 1
+    });
+
+    this.estaEnCarritoCompra = true;
+
+    setTimeout(() => {
+      this.estaEnCarritoCompra = false;
+    }, 800);
   }
 
-  // Añade el libro al carrito como ALQUILER
   agregarAlquiler(): void {
-    this.servicioCarrito.agregarAlCarrito(this.libro(), 'rent');
-    this.animacionAlquiler = true;
-    setTimeout(() => this.animacionAlquiler = false, 600);
+    this.servicioCarrito.addToCart({
+      id: this.libro.id,
+      titulo: this.libro.title,
+      autor: this.libro.author,
+      portada: this.libro.url,
+      price: this.libro.rentPrice * 0.5,
+      type: 'rent',
+      returnDate: this.calcularFecha(),
+      quantity: 1
+    });
+
+    this.estaEnCarritoAlquiler = true;
+
+    setTimeout(() => {
+      this.estaEnCarritoAlquiler = false;
+    }, 800);
   }
 
-  // Genera un array del tamaño de la valoración para pintar las estrellas
-  obtenerEstrellas(valoracion: number): number[] {
-    return Array(valoracion).fill(0);
+  calcularFecha(): string {
+    const fecha = new Date();
+    fecha.setDate(fecha.getDate() + 7);
+    return fecha.toISOString().split('T')[0];
   }
 }

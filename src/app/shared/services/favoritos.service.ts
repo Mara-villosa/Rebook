@@ -1,53 +1,68 @@
-import { Injectable, signal, computed } from '@angular/core';
-import { Libro } from '../../shared/models/libro.model';
-import { FavoritesService } from '../../shared/services/favorites';
+import { Injectable } from '@angular/core';
+import { BookDTO } from '../../shared/interfaces/Book/Book';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoritosService {
 
-  constructor(private favoritesService: FavoritesService) {}
+  private STORAGE_KEY = 'favoritos';
 
-  // Conjunto de IDs de libros marcados como favoritos
-  private idsFavoritos = signal<Set<number>>(new Set());
+  private idsFavoritos = new Set<number>();
+  private favoritos: BookDTO[] = [];
 
-  // Número total de favoritos
-  totalFavoritos = computed(() => this.idsFavoritos().size);
-
-  // Devuelve true si un libro está en favoritos
-  esFavorito(libroId: number): boolean {
-    return this.idsFavoritos().has(libroId);
+  constructor() {
+    this.cargarDesdeStorage();
   }
 
-  // Añade o quita un libro de favoritos según su estado actual
-  alternarFavorito(libro: Libro): void {
-    const copia = new Set(this.idsFavoritos());
-    if (copia.has(libro.id)) {
-      copia.delete(libro.id);
-      // Quitar también del servicio de la compañera
-      this.favoritesService.toggleFavorite({ id: libro.id });
-    } else {
-      copia.add(libro.id);
-      // Añadir al servicio de la compañera con los datos del libro
-      this.favoritesService.toggleFavorite({
-        id: libro.id,
-        title: libro.titulo,
-        author: libro.autor,
-        price: libro.precio,
-        imageUrl: libro.portada
-      });
+  // ---- Helpers ----
+
+  private guardarEnStorage(): void {
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.favoritos));
+  }
+
+  private cargarDesdeStorage(): void {
+    const data = localStorage.getItem(this.STORAGE_KEY);
+
+    if (data) {
+      this.favoritos = JSON.parse(data);
+      this.idsFavoritos = new Set(this.favoritos.map(f => f.id));
     }
-    this.idsFavoritos.set(copia);
   }
 
-  // Devuelve el conjunto completo de IDs favoritos
-  obtenerIdsFavoritos(): Set<number> {
-    return this.idsFavoritos();
+  // ---- API pública ----
+
+  esFavorito(libroId: number): boolean {
+    return this.idsFavoritos.has(libroId);
   }
 
-  // Devuelve los libros favoritos completos (desde el servicio compartido)
-  obtenerFavoritos(): any[] {
-    return this.favoritesService.favorites;
+  alternarFavorito(libro: BookDTO): void {
+    if (this.idsFavoritos.has(libro.id)) {
+      this.idsFavoritos.delete(libro.id);
+      this.favoritos = this.favoritos.filter(f => f.id !== libro.id);
+    } else {
+      this.idsFavoritos.add(libro.id);
+      this.favoritos.push(libro);
+    }
+
+    this.guardarEnStorage();
+  }
+
+  obtenerFavoritos(): BookDTO[] {
+    return this.favoritos;
+  }
+
+  obtenerIdsFavoritos(): number[] {
+    return Array.from(this.idsFavoritos);
+  }
+
+  limpiarFavoritos(): void {
+    this.favoritos = [];
+    this.idsFavoritos.clear();
+    localStorage.removeItem(this.STORAGE_KEY);
+  }
+
+  totalFavoritos(): number {
+    return this.idsFavoritos.size;
   }
 }

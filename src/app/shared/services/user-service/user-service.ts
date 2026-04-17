@@ -1,41 +1,40 @@
-import { Injectable } from '@angular/core';
-import { UserData } from '../../interfaces/Storage/UserData';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { environment } from '../../../../environments/environment';
+import { Observable } from 'rxjs';
+import { UpdateUserRequest } from '../../interfaces/User/UpdateUser';
+import { UpdateUserResponse } from '../../interfaces/User/update-user-response';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  //Nombre del objeto guardado en local storage
-  private USER_LOCAL_STORAGE: string = 'user';
 
-  /**
-   * Guarda un objeto con el nombre y apellidos del usuario en
-   * local storage
-   * @param userData objeto con nombre y apellidos a guardar
-   */
-  storeLocalUser(userData: UserData): void {
-    localStorage.setItem(this.USER_LOCAL_STORAGE, JSON.stringify(userData));
+  private http = inject(HttpClient);
+
+  private BASE_URL = environment.api.url;
+  private UPDATE_USER_ENDPOINT = environment.api.endpoints.private.updateUser;
+
+
+  // LOCAL STORAGE
+  storeLocalUser(user: any): void {
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
-  /**
-   * Recupera los datos de usuario almacenados en local storage.
-   * Si no puede, devuelve null. Si puede, devuelve un objeto de tipo
-   * UserData con los datos recuperados
-   * @returns UserData | nullº
-   */
-  getLocalUserData(): UserData | null {
-    let data = localStorage.getItem(this.USER_LOCAL_STORAGE);
-    if (!data) return null;
-
-    let user: UserData = JSON.parse(data);
-
-    return user;
+  getLocalUserData(): any {
+    const data = localStorage.getItem('user');
+    return data ? JSON.parse(data) : null;
   }
 
-  /**
-   * Elimina los datos del usuario del local storage
-   */
   cleanStorage(): void {
-    localStorage.removeItem(this.USER_LOCAL_STORAGE);
+    localStorage.removeItem('user');
+  }
+
+  // API
+  updateUser(data: UpdateUserRequest): Observable<UpdateUserResponse> {
+    return this.http.post<UpdateUserResponse>(
+      this.BASE_URL + this.UPDATE_USER_ENDPOINT,
+      data
+    );
   }
 }

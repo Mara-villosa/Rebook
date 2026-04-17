@@ -1,66 +1,46 @@
-<!-- Tarjeta individual de libro -->
 <div class="tarjeta-libro">
 
- <!--Zona de la portada con etiqueta de género -->
-  <div class="portada-libro">
-    <img [src]="libro().portada" [alt]="libro().titulo" loading="lazy"
-         onerror="this.src='https://via.placeholder.com/200x300/2a1a0a/d4a853?text=📚'">
-    <div class="etiqueta-genero">{{ libro().genero }}</div>
-  </div>
+  <div class="tarjeta-superior">
 
-  <!--Información principal del libro -->
-  <div class="informacion-libro">
-    <h3 class="titulo-libro">{{ libro().titulo }}</h3>
-    <p class="autor-libro">{{ libro().autor }}</p>
+    <!-- FOTO -->
+    <div class="portada-libro">
+      <img [src]="libro.url" [alt]="libro.title">
 
- <!--Estrellas de valoración -->
-    <div class="estrellas-valoracion">
-      @for (estrella of obtenerEstrellas(libro().valoracion); track $index) {
-        <span>★</span>
-      }
+      <div class="etiqueta-genero">
+  {{ libro.category }}
+</div>
+
+    <!-- INFO -->
+    <div class="contenido-libro">
+      <h3 class="titulo-libro">{{ libro.title }}</h3>
+      <p class="autor-libro">{{ libro.author }}</p>
+      <p class="descripcion-libro">{{ libro.description }}</p>
     </div>
 
-    <p class="descripcion-libro">{{ libro().descripcion }}</p>
-
-    <!-- Precios de compra y alquiler -->
-    <div class="precios-libro">
-      <span class="precio-compra">
-        <span class="precio-etiqueta">Compra</span>
-        {{ libro().precio | currency:'EUR':'symbol':'1.2-2' }}
-      </span>
-      <span class="precio-alquiler">
-        <span class="precio-etiqueta">Alquiler</span>
-        {{ libro().precio * 0.5 | currency:'EUR':'symbol':'1.2-2' }}
-      </span>
-    </div>
   </div>
 
- <!--Botones de acción: Favoritos, Comprar y Alquilar -->
+  <!-- BOTONES ABAJO -->
   <div class="acciones-libro">
 
- <!--Botón para guardar o quitar de favoritos -->
-    <button
-      class="boton-accion boton-favorito"
-      [class.activo]="esFavorito"
-      (click)="alternarFavorito()">
-      {{ esFavorito ? '❤️ Guardado' : '🤍 Favoritos' }}
+    <button class="boton-accion boton-favorito" [class.activo]="esFavorito" (click)="alternarFavorito()">
+      <!-- Estado animación -->
+      <span *ngIf="animacionFavorito">✔ Guardado</span>
+      <!-- Estado favorito activo -->
+      <span *ngIf="!animacionFavorito && esFavorito">❌ Quitar</span>
+      <!-- Estado normal -->
+      <span *ngIf="!animacionFavorito && !esFavorito">🤍 Favoritos</span>
     </button>
 
- <!--Botón para comprar -->
-    <button
-      class="boton-accion boton-carrito"
-      [class.agregado]="animacionCompra"
-      (click)="agregarCompra()">
-      {{ animacionCompra ? '✓ Añadido' : '🛒 Comprar' }}
+    <button class="boton-accion boton-carrito" [class.activo]="estaEnCarritoCompra" (click)="agregarCompra()">
+      <span *ngIf="!estaEnCarritoCompra">🛒 Carrito ({{ libro.sellPrice | currency:'EUR' }})</span>
+      <span *ngIf="estaEnCarritoCompra">✔ Añadido</span>
     </button>
 
-    <!-- Botón para alquilar -->
-    <button
-      class="boton-accion boton-alquiler"
-      [class.agregado]="animacionAlquiler"
-      (click)="agregarAlquiler()">
-      {{ animacionAlquiler ? '✓ Añadido' : '📖 Alquilar' }}
+    <button class="boton-accion boton-alquiler" [class.activo]="estaEnCarritoAlquiler" (click)="agregarAlquiler()">
+      <span *ngIf="!estaEnCarritoAlquiler">📖 Alquilar ({{ libro.rentPrice * 0.5 | currency:'EUR' }})</span>
+      <span *ngIf="estaEnCarritoAlquiler">✔ Añadido</span>
     </button>
 
   </div>
+
 </div>

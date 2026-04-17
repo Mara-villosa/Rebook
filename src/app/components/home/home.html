@@ -1,7 +1,28 @@
-<h2>Libros disponibles</h2> 
-<div class="contenedor-lista"> 
-    <div class="rejilla-libros"> 
-        @for (libro of libros; track libro.id) { 
-            <app-tarjeta-libro [libro]="libro" /> } 
-    </div> 
+<h2 class="titulo-seccion">Libros destacados</h2>
+
+<!-- CARRUSEL -->
+<div class="contenedor-carrusel">
+    <button class="btn-carrusel izquierda" (click)="anterior()" [disabled]="indiceActual === 0">‹</button>
+    <div class="carrusel">
+        @for (libro of librosCarrusel; track libro.id) {
+        <div class="item-carrusel">
+            <app-tarjeta-libro [libro]="libro" />
+        </div>
+        }
+    </div>
+
+    <button class="btn-carrusel derecha" (click)="siguiente()"
+        [disabled]="indiceActual + 3 >= librosLimitados.length">›</button>
+</div>
+
+
+<!-- ÚLTIMAS INCORPORACIONES -->
+<h2 class="titulo-seccion mt-4">Últimas incorporaciones</h2>
+
+<div class="contenedor-lista">
+    <div class="rejilla-libros">
+        @for (libro of ultimosLibros; track libro.id) {
+        <app-tarjeta-libro [libro]="libro" />
+        }
+    </div>
 </div>

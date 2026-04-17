@@ -1,106 +1,284 @@
 :host {
   display: block;
-  max-width: 800px;
+  max-width: 900px;
   margin: 20px auto;
   padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f9f9f9;
+  background: var(--rebook-light);
   border-radius: 12px;
-  border: 1px solid #ddd;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  box-shadow: var(--rebook-shadow);
+  color: var(--rebook-dark);
 }
 
 h2 {
   text-align: center;
-  margin-bottom: 20px;
-  color: #333;
+  color: var(--rebook-dark);
 }
 
-.cart-container {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-/* Cada columna */
-.cart-column {
-  flex: 1;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  background-color: #f9f9f9;
+.cart-section {
+  background: var(--rebook-white);
+  border: 1px solid var(--rebook-accent);
+  border-radius: 10px;
   padding: 15px;
-  border-radius: 8px;
-  box-sizing: border-box;
+  margin-bottom: 20px;
 }
 
-/* Cards dentro de la columna */
-.cart-item {
-  border: 1px solid #ddd;
-  padding: 12px 16px;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-
+.cart-row {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between; 
-  height: 100%; 
-  box-sizing: border-box;
+  align-items: center;
+  gap: 15px;
+  padding: 12px;
+  border-bottom: 1px solid var(--rebook-accent);
 }
 
-/* Títulos y párrafos */
-.cart-item h4 {
-  margin: 0 0 6px 0;
-  color: #689d60;
+.cart-row img {
+  width: 60px;
+  height: 90px;
+  border-radius: 6px;
 }
 
-.cart-item p {
-  margin: 4px 0;
-  color: #555;
-  font-size: 0.95em;
+.info {
+  flex: 1;
 }
 
-/* Botón */
-.cart-item button {
-  margin-top: auto; 
-  align-self: center; 
-  padding: 10px 20px; 
+.titulo {
+  font-weight: bold;
+}
+
+.autor {
+  color: var(--rebook-secondary);
+}
+
+.precio {
+  color: var(--rebook-primary);
+  font-weight: bold;
+}
+
+.delete {
+  background: none;
   border: none;
-  border-radius: 8px;
   cursor: pointer;
-  color: #fff;
-  background-color: #dc3545;
-  transition: background 0.3s, transform 0.2s;
 }
 
-.cart-item button:hover {
-  background-color: #b02a37;
+.subtotal,
+.total-global {
+  text-align: right;
+  font-weight: bold;
+  color: var(--rebook-dark);
+}
+
+.btn-comprar {
+  padding: 14px 35px;
+  border: none;
+  border-radius: 12px;
+  background: var(--rebook-primary);
+  color: var(--rebook-dark);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* MODAL */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(44,62,80,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-pago {
+  background: var(--rebook-white);
+  padding: 20px;
+  border-radius: 12px;
+  width: 400px;
+}
+
+/* ALERTA */
+.alert-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #dc3545;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 10px;
+  z-index: 10000;
+  font-weight: bold;
+}
+.alert-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #dc3545;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  box-shadow: var(--rebook-shadow);
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 9999;
+  animation: slideIn 0.25s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(44, 62, 80, 0.45);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-pago {
+  width: 420px;
+  max-width: 90%;
+  background: var(--rebook-light);
+  border-radius: 16px;
+  padding: 25px 22px;
+  box-shadow: var(--rebook-shadow);
+  border: 1px solid rgba(224, 190, 99, 0.3);
+  animation: modalIn 0.25s ease;
+}
+
+/* Entrada suave */
+@keyframes modalIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-pago h3 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: var(--rebook-dark);
+  font-size: 1.4rem;
+}
+
+/* Inputs */
+.modal-pago input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--rebook-accent);
+  background: var(--rebook-white);
+  color: var(--rebook-dark);
+  outline: none;
+  transition: var(--rebook-transition);
+}
+
+.modal-pago input:focus {
+  border-color: var(--rebook-primary);
+  box-shadow: 0 0 0 3px rgba(224, 190, 99, 0.2);
+}
+
+/* Fila doble */
+.fila {
+  display: flex;
+  gap: 10px;
+}
+
+.fila input {
+  flex: 1;
+}
+
+/* Botonera */
+.acciones-modal {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.acciones-modal button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--rebook-transition);
+}
+
+/* Cancelar */
+.acciones-modal button:first-child {
+  background: var(--rebook-accent);
+  color: var(--rebook-dark);
+}
+
+.acciones-modal button:first-child:hover {
+  background: #9fb8b5;
+}
+
+/* Pagar */
+.acciones-modal button:last-child {
+  background: var(--rebook-primary);
+  color: var(--rebook-dark);
+}
+
+.acciones-modal button:last-child:hover {
+  background: var(--rebook-secondary);
   transform: translateY(-1px);
 }
 
-/* Línea divisoria */
-.cart-item hr {
-  margin: 12px 0;
-  border: 0;
-  border-top: 1px solid #eee;
+.guardar-tarjeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: var(--rebook-dark);
+  cursor: pointer;
 }
 
-/* Efectos hover en la tarjeta */
-.cart-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+.guardar-tarjeta input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--rebook-primary);
 }
 
-/* Mensajes de error */
-.error {
-  color: #d9534f;
-  font-weight: 500;
-  background-color: #f8d7da;
-  padding: 10px;
-  margin-top: 15px;
-  border-radius: 8px;
-  border: 1px solid #f5c6cb;
-  text-align: center;
+.guardar-tarjeta span {
+  line-height: 1;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .modal-pago {
+    padding: 18px;
+  }
+
+  .fila {
+    flex-direction: column;
+  }
+}
+.error-text {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+  margin-top: -5px;
 }
