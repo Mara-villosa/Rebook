@@ -1,3 +1,4 @@
+//------------------------------ /books ------------------------------
 // /books/new
 export interface UploadBookRequest {
   title: string;
@@ -43,6 +44,7 @@ export interface GetBookDetailsResponse {
   book: BookDTO;
 }
 
+//------------------------------ /rent ------------------------------
 // /rent/get
 export interface GetRentedBooksFromUserResponse {
   books: BookDTO[];
@@ -71,13 +73,31 @@ export interface ReturnRentedBookRequest {
 export interface CheckRentedBookRequest {
   book_id: string;
 }
-
 export interface CheckRentedBookResponse {
   expiration_date: string;
 }
+
+// /rent/extend
 export interface ExtendRentResponse {
   expiration_date: string;
 }
+
+//------------------------------ /fav ------------------------------
+// /fav/add
+export interface AddBookToFavRequest {
+  book_id: string;
+}
+
+// /fav/remove
+export interface RemoveBookFromFavsRequest {
+  book_id: string;
+}
+
+// /fav/get
+export interface GetFavBooksResponse {
+  favourites: BookDTO[];
+}
+
 //DTO del libro devuelto en la base de datos
 interface BookDTO {
   id: number;
