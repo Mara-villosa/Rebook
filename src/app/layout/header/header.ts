@@ -13,59 +13,48 @@ import { FavoritosService } from '../../shared/services/favoritos.service';
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-
 export class HeaderComponent {
-  // Inyección de los servicios
   private authService = inject(AuthService);
   private userService = inject(UserService);
   private router = inject(Router);
 
-  // Hay que conectar esto con AuthService -- Ya conectado!
-  isAuthenticated = signal<boolean>(this.authService.isAuthenticated());
-  currentUser = signal<UserData | null>(this.userService.getLocalUserData());
+  // 🔥 AHORA ES REACTIVO REAL
+  isAuthenticated = this.authService.authState;
 
-  // Estado del menú móvil y dropdowns
+  currentUser = signal<UserData | null>(
+    this.userService.getLocalUserData(),
+  );
+
   isMenuOpen = signal<boolean>(false);
   isCategoriesOpen = signal<boolean>(false);
   isAccountOpen = signal<boolean>(false);
-
   isPanelFavoritosOpen = signal<boolean>(false);
 
   constructor(public favoritosService: FavoritosService) {}
 
   toggleMenu(): void {
-    this.isMenuOpen.update((value) => !value);
+    this.isMenuOpen.update(v => !v);
   }
 
-  toggleAuth(): void {
-    this.isAuthenticated.update((value) => !value);
-  }
-
-  // Toggle categorías
   toggleCategories(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    this.isCategoriesOpen.update((value) => !value);
+    this.isCategoriesOpen.update(v => !v);
     this.isAccountOpen.set(false);
   }
 
-  // Toggle cuenta
   toggleAccount(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    this.isAccountOpen.update((value) => !value);
-    this.isCategoriesOpen.set(false); // Cerrar otros dropdowns
+    this.isAccountOpen.update(v => !v);
+    this.isCategoriesOpen.set(false);
   }
 
-  // Logout
   logout(): void {
     this.authService.logout();
-    this.isAuthenticated.set(false);
-    this.currentUser.set(null);
     this.isAccountOpen.set(false);
   }
 
-  // Cerrar dropdowns al hacer clic fuera
   @HostListener('document:click', ['$event'])
   closeDropdowns(event: Event): void {
     const target = event.target as HTMLElement;
@@ -76,7 +65,7 @@ export class HeaderComponent {
   }
 
   togglePanelFavoritos(): void {
-    this.isPanelFavoritosOpen.update((value) => !value);
+    this.isPanelFavoritosOpen.update(v => !v);
   }
 
   cerrarPanelFavoritos(): void {
