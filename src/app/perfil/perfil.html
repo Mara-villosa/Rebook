@@ -1,104 +1,115 @@
 <h2>Mi perfil</h2>
+<div *ngIf="loading">Cargando datos...</div>
+<div class="profile-container" *ngIf="!loading">
 
-<div class="profile-container">
-  <!-- Foto -->
+  <!-- LADO IZQUIERDO -->
+<div class="profile-left">
+
   <div class="profile-photo">
-    <img [src]="user.photo || 'assets/default-avatar.png'" alt="Foto de perfil">
-    <button (click)="cambiarFoto()">Cambiar foto</button>
+    <img src="assets/profile-default.png" alt="foto perfil">
   </div>
 
-  <!-- Datos -->
-  <form (ngSubmit)="guardar()" class="profile-form">
-    <!-- Datos básicos -->
-    <div class="form-row">
-      <label>Nombre:
-        <input type="text" [(ngModel)]="user.name" name="name" [readonly]="!editFields.name">
-      </label>
-      <button type="button" (click)="toggleEdit('name')">{{ editFields.name ? 'Guardar' : 'Cambiar' }}</button>
+  <!-- SOLO LECTURA -->
+  <div class="profile-summary">
+    <p><strong>Nombre:</strong> {{ user.name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Teléfono:</strong> {{ user.phone }}</p>
+    <p><strong>Dirección:</strong> {{ user.address }}, {{ user.city }} {{ user.postalCode }}</p>
+  </div>
+
+  <button class="edit-btn" (click)="editMode = !editMode">
+    {{ editMode ? 'Cancelar edición' : 'Cambiar información' }}
+  </button>
+
+  <!-- FORM EDITABLE -->
+  <form *ngIf="editMode" (ngSubmit)="guardar()" class="profile-form">
+
+    <input [(ngModel)]="user.name" name="name" placeholder="Nombre">
+    <input [(ngModel)]="user.phone" name="phone" placeholder="Teléfono">
+
+    <input [(ngModel)]="user.address" name="street" placeholder="Calle">
+    <input [(ngModel)]="user.city" name="city" placeholder="Ciudad">
+    <input [(ngModel)]="user.postalCode" name="cp" placeholder="CP">
+
+    <button type="submit" class="save-btn">Guardar cambios</button>
+
+    <button type="button" class="password-btn" (click)="showPassword = !showPassword">
+      Cambiar contraseña
+    </button>
+
+    <div *ngIf="showPassword" class="password-box">
+
+      <input type="password" [(ngModel)]="oldPassword" name="oldPassword" placeholder="Contraseña actual">
+      <input type="password" [(ngModel)]="newPassword" name="newPassword" placeholder="Nueva contraseña">
+      <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="Confirmar contraseña">
+
     </div>
 
-    <div class="form-row">
-      <label>Email:
-        <input type="email" [(ngModel)]="user.email" name="email" [readonly]="!editFields.email">
-      </label>
-      <button type="button" (click)="toggleEdit('email')">{{ editFields.email ? 'Guardar' : 'Cambiar' }}</button>
+  </form>
+
+</div>
+
+  <!-- LADO DERECHO -->
+  <div class="profile-right">
+    <div class="books-header">
+      <h3>Mis libros subidos</h3> <button class="add-btn" (click)="abrirModalLibro()"> + Añadir libro </button>
     </div>
 
-    <div class="form-row">
-      <label>Teléfono:
-        <input type="tel" [(ngModel)]="user.phone" name="phone" [readonly]="!editFields.phone">
-      </label>
-      <button type="button" (click)="toggleEdit('phone')">{{ editFields.phone ? 'Guardar' : 'Cambiar' }}</button>
+    <!-- TABS -->
+    <div class="tabs"> 
+      <button (click)="tab='uploads'">Subidos</button> 
+      <button (click)="tab='bought'">Comprados</button> <button (click)="tab='rented'">Alquilados</button>
     </div>
 
-    <div class="form-row">
-      <label>Calle:
-        <input type="text" [(ngModel)]="user.address.street" name="street" [readonly]="!editFields.street">
-      </label>
-      <button type="button" (click)="toggleEdit('street')">{{ editFields.street ? 'Guardar' : 'Cambiar' }}</button>
+    <!-- LISTA -->
+    <div *ngFor="let book of getBooks(tab)" class="cart-row"> 
+      <img [src]="book.url">
+      <div class="info">
+        <p class="titulo">{{ book.title }}</p>
+        <p class="autor">{{ book.author }}</p>
+      </div>
+      <div class="acciones">
+        <p class="precio"> {{ book.sellPrice || book.rentPrice }}€ </p> 
+        <button (click)="deleteBook(book.id)" class="delete">🗑</button>
+      </div>
     </div>
+  </div>
+</div>
 
-    <div class="form-row">
-      <label>Ciudad:
-        <input type="text" [(ngModel)]="user.address.city" name="city" [readonly]="!editFields.city">
-      </label>
-      <button type="button" (click)="toggleEdit('city')">{{ editFields.city ? 'Guardar' : 'Cambiar' }}</button>
+<!-- MODAL AÑADIR LIBRO -->
+<div class="modal-overlay" *ngIf="showBookModal">
 
-      <label>Código Postal:
-        <input type="text" [(ngModel)]="user.address.postalCode" name="postalCode" [readonly]="!editFields.postalCode">
-      </label>
-      <button type="button" (click)="toggleEdit('postalCode')">{{ editFields.postalCode ? 'Guardar' : 'Cambiar' }}</button>
-    </div>
+  <div class="modal-pago">
 
-    <div class="form-row">
-      <label>Contraseña:
-        <input type="password" [(ngModel)]="user.password" name="password" [readonly]="!editFields.password">
-      </label>
-      <button type="button" (click)="toggleEdit('password')">{{ editFields.password ? 'Guardar' : 'Cambiar' }}</button>
-    </div>
+    <h3>Añadir libro</h3>
 
-    <div class="checkbox-row">
-      <input type="checkbox" [(ngModel)]="user.notifications" name="notifications">
-      <label>Recibir notificaciones por email</label>
-    </div>
+    <input [(ngModel)]="newBook.title" name="title" placeholder="Título">
+    <input [(ngModel)]="newBook.author" name="author" placeholder="Autor">
+    <input [(ngModel)]="newBook.isbn" name="isbn" placeholder="ISBN">
+    <input [(ngModel)]="newBook.category" name="category" placeholder="Categoría">
+    <input [(ngModel)]="newBook.url" name="url" placeholder="URL portada">
 
-    <!-- Tarjeta opcional -->
-    <div class="credit-card-section">
-      <label>
-        <input type="checkbox" [(ngModel)]="showCardFields" name="showCard"> Añadir tarjeta
-      </label>
-
-      <div *ngIf="showCardFields" class="card-fields">
-        <div class="form-row">
-          <label>Número de tarjeta:
-            <input type="text" [(ngModel)]="user.creditCard.number" name="cardNumber" [readonly]="!editFields.cardNumber">
-          </label>
-          <button type="button" (click)="toggleEdit('cardNumber')">{{ editFields.cardNumber ? 'Guardar' : 'Cambiar' }}</button>
-        </div>
-
-        <div class="form-row">
-          <label>Nombre en la tarjeta:
-            <input type="text" [(ngModel)]="user.creditCard.name" name="cardName" [readonly]="!editFields.cardName">
-          </label>
-          <button type="button" (click)="toggleEdit('cardName')">{{ editFields.cardName ? 'Guardar' : 'Cambiar' }}</button>
-        </div>
-
-        <div class="form-row">
-          <label>Fecha de expiración:
-            <input type="month" [(ngModel)]="user.creditCard.expiry" name="cardExpiry" [readonly]="!editFields.cardExpiry">
-          </label>
-          <button type="button" (click)="toggleEdit('cardExpiry')">{{ editFields.cardExpiry ? 'Guardar' : 'Cambiar' }}</button>
-
-          <label>CVV:
-            <input type="text" [(ngModel)]="user.creditCard.cvv" name="cardCvv" [readonly]="!editFields.cardCvv">
-          </label>
-          <button type="button" (click)="toggleEdit('cardCvv')">{{ editFields.cardCvv ? 'Guardar' : 'Cambiar' }}</button>
-        </div>
+    <div class="price-group">
+      <label>Precio de venta</label>
+      <div class="price-input">
+        <input type="number" [(ngModel)]="newBook.sell_price" name="sell" placeholder="0.00">
+        <span>€</span>
       </div>
     </div>
 
-    <button type="submit" class="save-btn">Guardar todos los cambios</button>
-  </form>
-</div>
+    <div class="price-group">
+      <label>Precio de alquiler</label>
+      <div class="price-input">
+        <input type="number" [(ngModel)]="newBook.rent_price" name="rent" placeholder="0.00">
+        <span>€</span>
+      </div>
+    </div>
 
-<p *ngIf="message">{{ message }}</p>
+    <div class="acciones-modal">
+      <button (click)="cerrarModalLibro()">Cancelar</button>
+      <button (click)="crearLibro()">Guardar</button>
+    </div>
+
+  </div>
+
+</div>

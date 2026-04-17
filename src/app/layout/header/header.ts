@@ -3,9 +3,8 @@ import { Component, HostListener, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { UserData } from '../../shared/interfaces/Storage/UserData';
 import { AuthService } from '../../shared/services/auth-service/auth-service';
+import { FavoritosService } from '../../shared/services/favoritos.service';
 import { UserService } from '../../shared/services/user-service/user-service';
-import { UserData } from '../../shared/interfaces/Storage/UserData';
-import { FavoritosService } from '../../tienda/servicios/favoritos.service';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +13,6 @@ import { FavoritosService } from '../../tienda/servicios/favoritos.service';
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-
 export class HeaderComponent {
   // Inyección de los servicios
   private authService = inject(AuthService);

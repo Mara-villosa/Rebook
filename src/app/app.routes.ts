@@ -6,14 +6,16 @@ import { LogIn } from './authentication/log-in/log-in';
 import { Carrito } from './components/carrito/carrito';
 import { Perfil } from './perfil/perfil';
 import { FavoritosComponent } from './components/favoritos/favoritos.component';
+import { MisPedidos } from './components/mis-pedidos/mis-pedidos';
 
 
 export const routes: Routes = [
-    {path: 'auth/signup', component: SignUp},
-    {path: 'home', component: Home, canActivate: [authGuard]},
-    {path: '**', redirectTo: 'home'},
-    {path: 'home', component: Home },
-    {path: 'carrito', component: Carrito },
-    {path: 'perfil', component: Perfil },
-    {path: 'favoritos', component: FavoritosComponent}
+  { path: 'auth/login', component: LogIn },
+  { path: 'auth/signup', component: SignUp },
+  { path: 'home', component: Home, canActivate: [authGuard] },
+  { path: 'carrito', component: Carrito },
+  { path: 'perfil', component: Perfil },
+  { path: 'favoritos', component: FavoritosComponent },
+  { path: 'mis-pedidos', component: MisPedidos},
+  { path: '**', redirectTo: 'home' }
 ];
