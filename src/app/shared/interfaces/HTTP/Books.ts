@@ -118,6 +118,11 @@ export interface GetBooksFromCartResponse {
   books: BookDTO[];
 }
 
+// /cart/buy
+export interface BuyCartResponse {
+  message: string;
+}
+
 //DTO del libro devuelto en la base de datos
 interface BookDTO {
   id: number;
@@ -135,4 +140,5 @@ interface BookDTO {
   rent_expired: boolean;
   rent_expiration_date: string;
   sold: boolean;
+  in_cart_for_rent: boolean;
 }
