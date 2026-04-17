@@ -98,6 +98,21 @@ export interface GetFavBooksResponse {
   favourites: BookDTO[];
 }
 
+//------------------------------ /fav ------------------------------
+// /cart/add
+export interface AddBookToCartRequest {
+  book_id: string;
+  is_renting: boolean;
+}
+export interface AddBookToCartResponse {
+  message: string;
+}
+
+// /cart/remove
+export interface RemoveBookFromCartRequest {
+  book_id: string;
+}
+
 //DTO del libro devuelto en la base de datos
 interface BookDTO {
   id: number;
