@@ -113,6 +113,11 @@ export interface RemoveBookFromCartRequest {
   book_id: string;
 }
 
+// /cart/get
+export interface GetBooksFromCartResponse {
+  books: BookDTO[];
+}
+
 //DTO del libro devuelto en la base de datos
 interface BookDTO {
   id: number;
