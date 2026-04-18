@@ -9,7 +9,7 @@ export const environment = {
         refreshToken: '/refresh',
         getBookDetails: '/books/getBook',
         getBooksFromCategory: '/books/category',
-        getAllBooks: '/books/getAllBooks',
+        getAllBooks: '/books/getAll',
       },
       private: {
         updateUser: '/user',
