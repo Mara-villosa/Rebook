@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, inject, signal } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, HostListener, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { UpdateUserRequest } from '../../shared/interfaces/HTTP/User';
 import { AuthService } from '../../shared/services/auth-service/auth-service';
 import { FavoritosService } from '../../shared/services/favoritos.service';
 import { UserService } from '../../shared/services/user-service/user-service';
-import { UpdateUserRequest } from '../../shared/interfaces/User/UpdateUser';
 
 @Component({
   selector: 'app-header',
@@ -40,7 +40,6 @@ export class HeaderComponent {
   }
 
   loadUser(): void {
-
     const request: UpdateUserRequest = {
       name: '',
       lastname: '',
@@ -54,7 +53,7 @@ export class HeaderComponent {
       phone: '',
       card_name: '',
       card_number: '',
-      cvv: ''
+      cvv: '',
     };
 
     this.userService.updateUser(request).subscribe({
@@ -63,7 +62,7 @@ export class HeaderComponent {
       },
       error: () => {
         this.currentUser = null;
-      }
+      },
     });
   }
 
@@ -74,7 +73,7 @@ export class HeaderComponent {
       },
       error: () => {
         this.favoritos = [];
-      }
+      },
     });
   }
 

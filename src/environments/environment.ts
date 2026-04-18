@@ -12,7 +12,8 @@ export const environment = {
         getAllBooks: '/books/getAll',
       },
       private: {
-        updateUser: '/user',
+        updateUser: '/user/update',
+        getUserData: '/user/get',
         uploadBook: '/books/new',
         deleteBook: '/books/delete',
         getAllBooksFromUser: '/books/getFromUser',

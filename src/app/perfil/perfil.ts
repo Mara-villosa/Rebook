@@ -6,7 +6,7 @@ import {
   GetAllBooksFromUserResponse,
   UploadBookRequest,
 } from '../shared/interfaces/HTTP/Books';
-import { UpdateUserRequest } from '../shared/interfaces/User/UpdateUser';
+import { UpdateUserRequest } from '../shared/interfaces/HTTP/User';
 import { BookService } from '../shared/services/book-service';
 import { UserService } from '../shared/services/user-service/user-service';
 
