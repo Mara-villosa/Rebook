@@ -1,24 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
-
+import { environment } from '../../../environments/environment';
 import {
-  UploadBookRequest,
   DeleteBookRequest,
-  GetAllBooksFromUserResponse,
-  GetAllBooksResponse,
   GetAllBooksFromCategoryRequest,
   GetAllBooksFromCategoryResponse,
+  GetAllBooksFromUserResponse,
+  GetAllBooksResponse,
   GetBookDetailsRequest,
-  GetBookDetailsResponse
-} from '../interfaces/Book/Book';
+  GetBookDetailsResponse,
+  UploadBookRequest,
+} from '../interfaces/HTTP/Books';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BookService {
-
   private http = inject(HttpClient);
 
   private BASE_URL = environment.api.url;
@@ -26,51 +24,43 @@ export class BookService {
 
   // SUBIR LIBRO
   uploadBook(data: UploadBookRequest): Observable<any> {
-    return this.http.post(
-      `${this.BASE_URL}${this.endpoints.private.uploadBook}`,
-      data
-    );
+    return this.http.post(`${this.BASE_URL}${this.endpoints.private.uploadBook}`, data);
   }
 
   // BORRAR LIBRO
   deleteBook(data: DeleteBookRequest): Observable<any> {
-    return this.http.post(
-      `${this.BASE_URL}${this.endpoints.private.deleteBook}`,
-      data
-    );
+    return this.http.post(`${this.BASE_URL}${this.endpoints.private.deleteBook}`, data);
   }
 
   // LIBROS USUARIO
   getAllBooksFromUser(): Observable<GetAllBooksFromUserResponse> {
     return this.http.get<GetAllBooksFromUserResponse>(
-      `${this.BASE_URL}${this.endpoints.private.getAllBooksFromUser}`
+      `${this.BASE_URL}${this.endpoints.private.getAllBooksFromUser}`,
     );
   }
 
   // TODOS LOS LIBROS
   getAllBooks(): Observable<GetAllBooksResponse> {
     return this.http.get<GetAllBooksResponse>(
-      `${this.BASE_URL}${this.endpoints.public.getAllBooks}`
+      `${this.BASE_URL}${this.endpoints.public.getAllBooks}`,
     );
   }
 
   // LIBROS POR CATEGORÍA
   getBooksFromCategory(
-    data: GetAllBooksFromCategoryRequest
+    data: GetAllBooksFromCategoryRequest,
   ): Observable<GetAllBooksFromCategoryResponse> {
     return this.http.post<GetAllBooksFromCategoryResponse>(
       `${this.BASE_URL}${this.endpoints.public.getBooksFromCategory}`,
-      data
+      data,
     );
   }
 
   // DETALLE LIBRO
-  getBookDetails(
-    data: GetBookDetailsRequest
-  ): Observable<GetBookDetailsResponse> {
+  getBookDetails(data: GetBookDetailsRequest): Observable<GetBookDetailsResponse> {
     return this.http.post<GetBookDetailsResponse>(
       `${this.BASE_URL}${this.endpoints.public.getBookDetails}`,
-      data
+      data,
     );
   }
 }

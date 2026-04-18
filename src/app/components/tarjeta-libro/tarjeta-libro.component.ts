@@ -1,19 +1,21 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject, Input, OnInit } from '@angular/core';
+import {
+  AddBookToFavRequest,
+  BookDTO,
+  RemoveBookFromFavsRequest,
+} from '../../shared/interfaces/HTTP/Books';
 import { Cart } from '../../shared/services/cart';
 import { FavoritosService } from '../../shared/services/favoritos.service';
-import { BookDTO } from '../../shared/interfaces/Book/Book';
-import { AddBookToFavRequest, RemoveBookFromFavsRequest } from '../../shared/interfaces/HTTP/Books';
 
 @Component({
   selector: 'app-tarjeta-libro',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './tarjeta-libro.component.html',
-  styleUrl: './tarjeta-libro.component.scss'
+  styleUrl: './tarjeta-libro.component.scss',
 })
 export class TarjetaLibroComponent implements OnInit {
-
   @Input() libro?: BookDTO;
 
   servicioCarrito = inject(Cart);
@@ -36,12 +38,12 @@ export class TarjetaLibroComponent implements OnInit {
       },
       error: () => {
         this.favoritos = [];
-      }
+      },
     });
   }
 
   get esFavorito(): boolean {
-    return this.favoritos.some(f => f.id === this.libro?.id);
+    return this.favoritos.some((f) => f.id === this.libro?.id);
   }
 
   alternarFavorito(): void {
@@ -50,27 +52,23 @@ export class TarjetaLibroComponent implements OnInit {
     const bookId = String(this.libro.id);
 
     if (this.esFavorito) {
-
       const request: RemoveBookFromFavsRequest = {
-        book_id: bookId
+        book_id: bookId,
       };
 
       this.servicioFavoritos.removeFromFavs(request).subscribe(() => {
-        this.favoritos = this.favoritos.filter(f => f.id !== this.libro!.id);
+        this.favoritos = this.favoritos.filter((f) => f.id !== this.libro!.id);
       });
-
     } else {
-
       const request: AddBookToFavRequest = {
-        book_id: bookId
+        book_id: bookId,
       };
 
       this.servicioFavoritos.addToFavs(request).subscribe(() => {
-
         this.favoritos.push(this.libro!);
 
         this.animacionFavorito = true;
-        setTimeout(() => this.animacionFavorito = false, 1000);
+        setTimeout(() => (this.animacionFavorito = false), 1000);
       });
     }
   }
@@ -85,11 +83,11 @@ export class TarjetaLibroComponent implements OnInit {
       portada: this.libro.url,
       price: this.libro.sellPrice,
       type: 'buy',
-      quantity: 1
+      quantity: 1,
     });
 
     this.estaEnCarritoCompra = true;
-    setTimeout(() => this.estaEnCarritoCompra = false, 800);
+    setTimeout(() => (this.estaEnCarritoCompra = false), 800);
   }
 
   agregarAlquiler(): void {
@@ -103,11 +101,11 @@ export class TarjetaLibroComponent implements OnInit {
       price: this.libro.rentPrice * 0.5,
       type: 'rent',
       returnDate: this.calcularFecha(),
-      quantity: 1
+      quantity: 1,
     });
 
     this.estaEnCarritoAlquiler = true;
-    setTimeout(() => this.estaEnCarritoAlquiler = false, 800);
+    setTimeout(() => (this.estaEnCarritoAlquiler = false), 800);
   }
 
   calcularFecha(): string {

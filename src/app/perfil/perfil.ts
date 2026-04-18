@@ -1,10 +1,14 @@
-import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { UserService } from '../shared/services/user-service/user-service';
+import {
+  DeleteBookRequest,
+  GetAllBooksFromUserResponse,
+  UploadBookRequest,
+} from '../shared/interfaces/HTTP/Books';
+import { UpdateUserRequest } from '../shared/interfaces/User/UpdateUser';
 import { BookService } from '../shared/services/book-service';
-import { UpdateUserRequest, } from '../shared/interfaces/User/UpdateUser';
-import { UploadBookRequest, DeleteBookRequest, GetAllBooksFromUserResponse } from '../shared/interfaces/Book/Book';
+import { UserService } from '../shared/services/user-service/user-service';
 
 @Component({
   selector: 'app-perfil',
@@ -14,7 +18,6 @@ import { UploadBookRequest, DeleteBookRequest, GetAllBooksFromUserResponse } fro
   styleUrls: ['./perfil.scss'],
 })
 export class Perfil implements OnInit {
-
   private userService = inject(UserService);
   private bookService = inject(BookService);
 
@@ -41,8 +44,8 @@ export class Perfil implements OnInit {
     creditCard: {
       number: '',
       name: '',
-      cvv: ''
-    }
+      cvv: '',
+    },
   };
 
   // BOOKS
@@ -51,7 +54,7 @@ export class Perfil implements OnInit {
   books = {
     uploads: [] as any[],
     bought: [] as any[],
-    rented: [] as any[]
+    rented: [] as any[],
   };
 
   showBookModal = false;
@@ -64,7 +67,7 @@ export class Perfil implements OnInit {
     url: '',
     category: '',
     rent_price: 0,
-    sell_price: 0
+    sell_price: 0,
   };
 
   // INIT
@@ -73,56 +76,51 @@ export class Perfil implements OnInit {
     this.cargarLibros();
   }
 
-
   // USER (BACKEND)
   cargarUsuario() {
-
     this.loading = true;
 
-  const request: UpdateUserRequest = {
-    name: '',
-    lastname: '',
-    oldPassword: '',
-    newPassword: '',
-    id_document: '',
-    birthday: '',
-    city: '',
-    address: '',
-    postal_code: '',
-    phone: '',
-    card_name: '',
-    card_number: '',
-    cvv: ''
-  };
+    const request: UpdateUserRequest = {
+      name: '',
+      lastname: '',
+      oldPassword: '',
+      newPassword: '',
+      id_document: '',
+      birthday: '',
+      city: '',
+      address: '',
+      postal_code: '',
+      phone: '',
+      card_name: '',
+      card_number: '',
+      cvv: '',
+    };
 
-  this.userService.updateUser(request).subscribe({
+    this.userService.updateUser(request).subscribe({
+      next: (data: any) => {
+        this.user.name = data.name;
+        this.user.email = data.email;
+        this.user.phone = data.phone;
 
-    next: (data: any) => {
+        this.user.address = data.address;
+        this.user.city = data.city;
+        this.user.postalCode = data.postal_code;
 
-      this.user.name = data.name;
-      this.user.email = data.email;
-      this.user.phone = data.phone;
+        this.user.creditCard.name = data.card_name;
+        this.user.creditCard.number = data.card_number;
+        this.user.creditCard.cvv = data.cvv;
 
-      this.user.address = data.address;
-      this.user.city = data.city;
-      this.user.postalCode = data.postal_code;
+        this.loading = false;
+      },
 
-      this.user.creditCard.name = data.card_name;
-      this.user.creditCard.number = data.card_number;
-      this.user.creditCard.cvv = data.cvv;
-
-      this.loading = false;
-    },
-
-    error: () => {
-      this.message = 'No se pudo cargar el usuario';
-      this.loading = false;
-    }
-  });
-}
+      error: () => {
+        this.message = 'No se pudo cargar el usuario';
+        this.loading = false;
+      },
+    });
+  }
 
   validar(): boolean {
-
     if (!this.user.name) {
       this.message = 'Nombre obligatorio';
       return false;
@@ -144,9 +142,7 @@ export class Perfil implements OnInit {
   }
 
   guardar() {
-
     if (this.showPassword) {
-
       if (!this.oldPassword || !this.newPassword || !this.confirmPassword) {
         this.message = 'Completa los campos de contraseña';
         return;
@@ -178,7 +174,6 @@ export class Perfil implements OnInit {
 
     this.userService.updateUser(request).subscribe({
       next: () => {
-
         this.message = 'Perfil actualizado correctamente';
 
         this.editMode = false;
@@ -195,13 +190,12 @@ export class Perfil implements OnInit {
 
       error: () => {
         this.message = 'Error al guardar';
-      }
+      },
     });
   }
 
-  // BOOKS 
+  // BOOKS
   cargarLibros() {
-
     this.bookService.getAllBooksFromUser().subscribe({
       next: (res: GetAllBooksFromUserResponse) => {
         this.books.uploads = res.uploads || [];
@@ -210,7 +204,7 @@ export class Perfil implements OnInit {
       },
       error: () => {
         this.message = 'Error cargando libros';
-      }
+      },
     });
   }
 
@@ -219,16 +213,14 @@ export class Perfil implements OnInit {
   }
 
   deleteBook(id: number) {
-
     const request: DeleteBookRequest = {
-      book_id: id
+      book_id: id,
     };
 
     this.bookService.deleteBook(request).subscribe({
       next: () => this.cargarLibros(),
-      error: () => this.message = 'Error eliminando libro'
+      error: () => (this.message = 'Error eliminando libro'),
     });
-
   }
 
   abrirModalLibro() {
@@ -240,7 +232,6 @@ export class Perfil implements OnInit {
   }
 
   crearLibro() {
-
     const request: UploadBookRequest = {
       title: this.newBook.title,
       description: this.newBook.description,
@@ -249,7 +240,7 @@ export class Perfil implements OnInit {
       url: this.newBook.url,
       category: this.newBook.category,
       rent_price: this.newBook.rent_price,
-      sell_price: this.newBook.sell_price
+      sell_price: this.newBook.sell_price,
     };
 
     this.bookService.uploadBook(request).subscribe({
@@ -265,11 +256,10 @@ export class Perfil implements OnInit {
           url: '',
           category: '',
           rent_price: 0,
-          sell_price: 0
+          sell_price: 0,
         };
       },
-      error: () => this.message = 'Error creando libro'
+      error: () => (this.message = 'Error creando libro'),
     });
-
   }
 }

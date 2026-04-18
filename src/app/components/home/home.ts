@@ -1,8 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TarjetaLibroComponent } from '../tarjeta-libro/tarjeta-libro.component';
+import { Component, inject, OnInit } from '@angular/core';
+import { BookDTO, GetAllBooksResponse } from '../../shared/interfaces/HTTP/Books';
 import { BookService } from '../../shared/services/book-service';
-import { BookDTO, GetAllBooksFromUserResponse, GetAllBooksResponse } from '../../shared/interfaces/Book/Book';
+import { TarjetaLibroComponent } from '../tarjeta-libro/tarjeta-libro.component';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +12,6 @@ import { BookDTO, GetAllBooksFromUserResponse, GetAllBooksResponse } from '../..
   styleUrl: './home.scss',
 })
 export class Home implements OnInit {
-
   private servicioLibros = inject(BookService);
 
   libros: BookDTO[] = [];
@@ -27,17 +26,15 @@ export class Home implements OnInit {
   }
 
   cargarLibros(): void {
-    
     this.servicioLibros.getAllBooks().subscribe({
       next: (data: GetAllBooksResponse) => {
         this.libros = data.books ?? [];
       },
       error: (err) => {
         console.error('Error cargando libros', err);
-      }
+      },
     });
   }
-
 
   get librosLimitados() {
     return this.libros.slice(0, 6);

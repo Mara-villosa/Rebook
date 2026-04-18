@@ -124,7 +124,7 @@ export interface BuyCartResponse {
 }
 
 //DTO del libro devuelto en la base de datos
-interface BookDTO {
+export interface BookDTO {
   id: number;
   title: string;
   author: string;
