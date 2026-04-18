@@ -7,26 +7,27 @@ export const environment = {
         login: '/login',
         signup: '/signup',
         refreshToken: '/refresh',
-
-        // LIBROS PUBLICOS
-        getAllBooks: '/books',
+        getBookDetails: '/books/getBook',
         getBooksFromCategory: '/books/category',
-        getBookDetails: '/books/details',
+        getAllBooks: '/books/getAll',
       },
       private: {
         updateUser: '/user',
-
-        // LIBROS PRIVADOS
-        uploadBook: '/book/upload',
-        deleteBook: '/book/delete',
-        getAllBooksFromUser: '/book/user',
-
-        // ALQUILER
+        uploadBook: '/books/new',
+        deleteBook: '/books/delete',
+        getAllBooksFromUser: '/books/getFromUser',
         rentBook: '/rent',
-        getRentedFromUser: '/rent/user',
+        getRentedFromUser: '/rent/get',
         checkRent: '/rent/check',
         extendRent: '/rent/extend',
         returnRentedBook: '/rent/return',
+        addBookToFavs: '/fav/add',
+        removeBookFromFavs: '/fav/remove',
+        getFavBooks: '/fav/get',
+        addToCart: '/cart/add',
+        removeFromCart: '/cart/remove',
+        getCart: '/cart/get',
+        buyCart: '/cart/buy',
       },
     },
   },
