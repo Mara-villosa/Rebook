@@ -7,6 +7,7 @@ import {
   CheckRentedBookResponse,
   ExtendRentRequest,
   ExtendRentResponse,
+  GetRentedBooksFromUserResponse,
   RentBookRequest,
   RentBookResponse,
   ReturnRentedBookRequest,
@@ -27,8 +28,10 @@ export class RentService {
   }
 
   // LIBROS ALQUILADOS
-  getMyRentedBooks(): Observable<any> {
-    return this.http.get(`${this.BASE_URL}${this.endpoints.getRentedFromUser}`);
+  getMyRentedBooks(): Observable<GetRentedBooksFromUserResponse> {
+    return this.http.get<GetRentedBooksFromUserResponse>(
+      `${this.BASE_URL}${this.endpoints.getRentedFromUser}`,
+    );
   }
 
   // CHECK ALQUILER
