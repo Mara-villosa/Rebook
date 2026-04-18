@@ -9,9 +9,6 @@ export interface GetUserDataResponse {
   address: string;
   postal_code: string;
   phone: string;
-  card_name?: string;
-  card_number?: string;
-  cvv?: string;
 }
 
 // /user/update
