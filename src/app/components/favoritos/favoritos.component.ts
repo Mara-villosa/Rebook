@@ -34,18 +34,10 @@ export class FavoritosComponent implements OnInit {
           ...(data.rented ?? []),
           ...(data.bought ?? [])
         ];
-
-        this.filtrarFavoritos();
       },
       error: (err) => {
         console.error('Error cargando libros', err);
       }
     });
-  }
-
-  filtrarFavoritos(): void {
-    this.librosFavoritos = this.libros.filter(libro =>
-      this.servicioFavoritos.esFavorito(Number(libro.id))
-    );
   }
 }

@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { UserData } from '../../shared/interfaces/Storage/UserData';
 import { AuthService } from '../../shared/services/auth-service/auth-service';
 import { FavoritosService } from '../../shared/services/favoritos.service';
 import { UserService } from '../../shared/services/user-service/user-service';
+import { UpdateUserRequest } from '../../shared/interfaces/User/UpdateUser';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
@@ -18,57 +18,108 @@ export class HeaderComponent {
   private userService = inject(UserService);
   private router = inject(Router);
 
-  // 🔥 AHORA ES REACTIVO REAL
-  isAuthenticated = this.authService.authState;
+  isAuthenticated = false;
+  currentUser: any = null;
 
-  currentUser = signal<UserData | null>(
-    this.userService.getLocalUserData(),
-  );
+  isMenuOpen = false;
+  isCategoriesOpen = false;
+  isAccountOpen = false;
+  isPanelFavoritosOpen = false;
 
-  isMenuOpen = signal<boolean>(false);
-  isCategoriesOpen = signal<boolean>(false);
-  isAccountOpen = signal<boolean>(false);
-  isPanelFavoritosOpen = signal<boolean>(false);
+  favoritos: any[] = [];
 
   constructor(public favoritosService: FavoritosService) {}
 
+  ngOnInit(): void {
+    this.isAuthenticated = this.authService.isAuthenticated();
+
+    if (this.isAuthenticated) {
+      this.loadUser();
+      this.loadFavoritos();
+    }
+  }
+
+  loadUser(): void {
+
+    const request: UpdateUserRequest = {
+      name: '',
+      lastname: '',
+      oldPassword: '',
+      newPassword: '',
+      id_document: '',
+      birthday: '',
+      city: '',
+      address: '',
+      postal_code: '',
+      phone: '',
+      card_name: '',
+      card_number: '',
+      cvv: ''
+    };
+
+    this.userService.updateUser(request).subscribe({
+      next: (user) => {
+        this.currentUser = user;
+      },
+      error: () => {
+        this.currentUser = null;
+      }
+    });
+  }
+
+  loadFavoritos(): void {
+    this.favoritosService.getFavs().subscribe({
+      next: (res: any) => {
+        this.favoritos = res.favs || res || [];
+      },
+      error: () => {
+        this.favoritos = [];
+      }
+    });
+  }
+
   toggleMenu(): void {
-    this.isMenuOpen.update(v => !v);
+    this.isMenuOpen = !this.isMenuOpen;
   }
 
   toggleCategories(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    this.isCategoriesOpen.update(v => !v);
-    this.isAccountOpen.set(false);
+
+    this.isCategoriesOpen = !this.isCategoriesOpen;
+    this.isAccountOpen = false;
   }
 
   toggleAccount(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    this.isAccountOpen.update(v => !v);
-    this.isCategoriesOpen.set(false);
+
+    this.isAccountOpen = !this.isAccountOpen;
+    this.isCategoriesOpen = false;
   }
 
   logout(): void {
     this.authService.logout();
-    this.isAccountOpen.set(false);
+    this.isAuthenticated = false;
+    this.currentUser = null;
+    this.isAccountOpen = false;
   }
 
   @HostListener('document:click', ['$event'])
   closeDropdowns(event: Event): void {
     const target = event.target as HTMLElement;
+
     if (!target.closest('.dropdown')) {
-      this.isCategoriesOpen.set(false);
-      this.isAccountOpen.set(false);
+      this.isCategoriesOpen = false;
+      this.isAccountOpen = false;
     }
   }
 
   togglePanelFavoritos(): void {
-    this.isPanelFavoritosOpen.update(v => !v);
+    this.isPanelFavoritosOpen = !this.isPanelFavoritosOpen;
   }
 
   cerrarPanelFavoritos(): void {
-    this.isPanelFavoritosOpen.set(false);
+    this.isPanelFavoritosOpen = false;
   }
 }

@@ -62,7 +62,18 @@ export class SignUp {
     if (!name || !email || !password || !lastname || !id || !birthday || !city || !address || !postalCode || !phone) return;
 
     this.#auth
-      .signup(name, email, password, lastname, id, birthday, city, address, postalCode, phone)
+      .signup({
+        name,
+        email,
+        password,
+        lastname,
+        id_document: id,
+        birthday,
+        city,
+        address,
+        postal_code: postalCode,
+        phone,
+      })
       .pipe(finalize(() => (this.validating = false)))
       .subscribe({
         next: (response) => {

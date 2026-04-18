@@ -72,33 +72,54 @@ export class Perfil implements OnInit {
     this.cargarUsuario();
     this.cargarLibros();
   }
-  // USER
+
+
+  // USER (BACKEND)
   cargarUsuario() {
 
     this.loading = true;
 
-    const data = this.userService.getLocalUserData();
+  const request: UpdateUserRequest = {
+    name: '',
+    lastname: '',
+    oldPassword: '',
+    newPassword: '',
+    id_document: '',
+    birthday: '',
+    city: '',
+    address: '',
+    postal_code: '',
+    phone: '',
+    card_name: '',
+    card_number: '',
+    cvv: ''
+  };
 
-    if (!data) {
-      this.message = 'No hay usuario en sesión';
+  this.userService.updateUser(request).subscribe({
+
+    next: (data: any) => {
+
+      this.user.name = data.name;
+      this.user.email = data.email;
+      this.user.phone = data.phone;
+
+      this.user.address = data.address;
+      this.user.city = data.city;
+      this.user.postalCode = data.postal_code;
+
+      this.user.creditCard.name = data.card_name;
+      this.user.creditCard.number = data.card_number;
+      this.user.creditCard.cvv = data.cvv;
+
       this.loading = false;
-      return;
+    },
+
+    error: () => {
+      this.message = 'No se pudo cargar el usuario';
+      this.loading = false;
     }
-
-    this.user.name = data.name;
-    this.user.email = data.email;
-    this.user.phone = data.phone;
-
-    this.user.address = data.address;
-    this.user.city = data.city;
-    this.user.postalCode = data.postal_code;
-
-    this.user.creditCard.name = data.card_name;
-    this.user.creditCard.number = data.card_number;
-    this.user.creditCard.cvv = data.cvv;
-
-    this.loading = false;
-  }
+  });
+}
 
   validar(): boolean {
 
@@ -160,11 +181,9 @@ export class Perfil implements OnInit {
 
         this.message = 'Perfil actualizado correctamente';
 
-        //Cierra formulario de edición
         this.editMode = false;
         this.showPassword = false;
 
-        // Limpieza de campos de contraseña
         this.oldPassword = '';
         this.newPassword = '';
         this.confirmPassword = '';
@@ -180,7 +199,7 @@ export class Perfil implements OnInit {
     });
   }
 
-  // BOOKS
+  // BOOKS 
   cargarLibros() {
 
     this.bookService.getAllBooksFromUser().subscribe({
@@ -193,7 +212,6 @@ export class Perfil implements OnInit {
         this.message = 'Error cargando libros';
       }
     });
-
   }
 
   getBooks(tab: string) {
@@ -213,7 +231,6 @@ export class Perfil implements OnInit {
 
   }
 
-  // MODAL LIBRO
   abrirModalLibro() {
     this.showBookModal = true;
   }

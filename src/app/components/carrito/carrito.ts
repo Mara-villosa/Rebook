@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Cart, CartItem } from '../../shared/services/cart';
+import { CartItem } from '../../shared/interfaces/cart-item';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../shared/services/user-service/user-service';
+import { CarritoService } from '../../shared/services/carrito-service';
 
 @Component({
   selector: 'app-carrito',
@@ -46,22 +47,48 @@ export class Carrito implements OnInit {
   };
 
   constructor(
-    private cartService: Cart,
+    private carritoService: CarritoService,
     private userService: UserService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    this.checkLogin();
     this.loadCart();
-    this.usuarioLogueado = !!this.userService.getLocalUserData();
   }
 
-  // =========================
-  // CARRITO
-  // =========================
+  // CARRITO (BACKEND)
+  checkLogin() {
+    this.carritoService.getCart().subscribe({
+      next: () => {
+        this.usuarioLogueado = true;
+      },
+      error: () => {
+        this.usuarioLogueado = false;
+      }
+    });
+  }
 
   loadCart() {
-    this.cartItems = this.cartService.getCart();
-    this.calcularTotal();
+    this.carritoService.getCart().subscribe({
+      next: (res) => {
+
+        this.cartItems = res.books.map((book: any) => ({
+          id: book.id,
+          titulo: book.title,
+          autor: book.author,
+          portada: book.image,
+          price: book.price,
+          type: book.in_cart_for_rent ? 'rent' : 'buy',
+          quantity: 1,
+          returnDate: book.return_date || ''
+        }));
+
+        this.calcularTotal();
+      },
+      error: () => {
+        this.cartItems = [];
+      }
+    });
   }
 
   getItemsByType(type: string): CartItem[] {
@@ -104,14 +131,15 @@ export class Carrito implements OnInit {
   }
 
   remove(item: CartItem) {
-    this.cartService.removeFromCart(item.id, item.type);
-    this.loadCart();
+    this.carritoService.removeFromCart({
+      book_id: String(item.id)
+    }).subscribe({
+      next: () => this.loadCart(),
+      error: () => this.mostrarMensaje('Error al eliminar del carrito')
+    });
   }
 
-  // =========================
   // MODAL
-  // =========================
-
   abrirModal() {
     if (!this.usuarioLogueado) {
       this.mostrarMensaje('Debes iniciar sesión para finalizar compra');
@@ -147,17 +175,22 @@ export class Carrito implements OnInit {
       }));
     }
 
-    this.cartService.clearCart();
-    this.cartItems = [];
-    this.mostrarModal = false;
+    this.carritoService.buyCart().subscribe({
+      next: () => {
+        this.cartItems = [];
+        this.selectedItems.clear();
+        this.total = 0;
+        this.mostrarModal = false;
 
-    this.mostrarMensaje('Pago realizado correctamente');
+        this.mostrarMensaje('Pago realizado correctamente');
+      },
+      error: () => {
+        this.mostrarMensaje('Error al procesar el pago');
+      }
+    });
   }
 
-  // =========================
-  // TOUCHED (BLUR)
-  // =========================
-
+  // VALIDACIÓN
   marcarTouched(campo: 'numeroTarjeta' | 'nombreTitular' | 'fecha' | 'cvv') {
     this.touched[campo] = true;
     this.validarCampos();
@@ -172,10 +205,6 @@ export class Carrito implements OnInit {
     };
   }
 
-  // =========================
-  // VALIDACIÓN
-  // =========================
-
   validarCampos() {
 
     this.errores = {
@@ -185,21 +214,17 @@ export class Carrito implements OnInit {
       cvv: ''
     };
 
-    // TARJETA
     if (this.touched.numeroTarjeta || this.numeroTarjeta) {
-
       if (!this.numeroTarjeta) {
         this.errores.numeroTarjeta = 'Campo obligatorio';
       } else if (!/^\d+$/.test(this.numeroTarjeta)) {
-        this.errores.numeroTarjeta = 'Solo se permiten números';
+        this.errores.numeroTarjeta = 'Solo números';
       } else if (!/^\d{16}$/.test(this.numeroTarjeta)) {
         this.errores.numeroTarjeta = 'Debe tener 16 números';
       }
     }
 
-    // NOMBRE
     if (this.touched.nombreTitular || this.nombreTitular) {
-
       if (!this.nombreTitular || this.nombreTitular.trim() === '') {
         this.errores.nombreTitular = 'Campo obligatorio';
       } else if (this.nombreTitular.trim().length < 3) {
@@ -207,9 +232,7 @@ export class Carrito implements OnInit {
       }
     }
 
-    // FECHA
     if (this.touched.fecha || this.fecha) {
-
       if (!this.fecha) {
         this.errores.fecha = 'Campo obligatorio';
       } else if (!/^\d{2}\/\d{2}$/.test(this.fecha)) {
@@ -219,9 +242,7 @@ export class Carrito implements OnInit {
       }
     }
 
-    // CVV
     if (this.touched.cvv || this.cvv) {
-
       if (!this.cvv) {
         this.errores.cvv = 'Campo obligatorio';
       } else if (!/^\d+$/.test(this.cvv)) {
@@ -232,10 +253,7 @@ export class Carrito implements OnInit {
     }
   }
 
-  // =========================
   // ALERTA
-  // =========================
-
   mostrarMensaje(msg: string) {
     this.mensajeAlerta = msg;
     this.mostrarAlerta = true;
@@ -244,10 +262,6 @@ export class Carrito implements OnInit {
       this.mostrarAlerta = false;
     }, 2500);
   }
-
-  // =========================
-  // VALID FORM
-  // =========================
 
   formValido(): boolean {
     return (

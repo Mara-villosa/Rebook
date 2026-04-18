@@ -26,7 +26,6 @@ export class AuthService {
   authState = this.authSignal.asReadonly();
 
   login(email: string, password: string): Observable<LogInResponse> {
-    this.cleanStorage();
 
     const url = this.BASE_URL + this.LOGIN_ENDPOINT;
 
@@ -40,61 +39,22 @@ export class AuthService {
         this.#token.setAccessToken(response.accessToken);
         this.#token.setRefreshToken(response.refreshToken);
 
-        this.#user.storeLocalUser({
-          name: response.userData.name,
-          email: response.userData.email,
-        });
-
-        // 🔥 ACTUALIZA ESTADO AUTH
+        // ACTUALIZA ESTADO AUTH
         this.authSignal.set(true);
       }),
     );
   }
 
-  signup(
-    name: string,
-    email: string,
-    password: string,
-    lastname: string,
-    id_document: string,
-    birthday: string,
-    city: string,
-    address: string,
-    postal_code: string,
-    phone: string,
-  ): Observable<SignUpResponse> {
-    this.cleanStorage();
+  signup(data: SignUpRequest): Observable<SignUpResponse> {
 
     const url = this.BASE_URL + this.SIGNUP_ENDPOINT;
 
-    const user: SignUpRequest = {
-      name,
-      email,
-      password,
-      lastname,
-      id_document,
-      birthday,
-      city,
-      address,
-      postal_code,
-      phone,
-    };
-
-    return this.#http.post<SignUpResponse>(url, user);
+    return this.#http.post<SignUpResponse>(url, data);
   }
 
   logout() {
-    this.cleanStorage();
-
-    // 🔥 ACTUALIZA ESTADO AUTH
-    this.authSignal.set(false);
-
-    this.#router.navigate(['/auth/login']);
-  }
-
-  cleanStorage(): void {
     this.#token.cleanStorage();
-    this.#user.cleanStorage();
+    this.#router.navigate(['/auth/login']);
   }
 
   isAuthenticated(): boolean {

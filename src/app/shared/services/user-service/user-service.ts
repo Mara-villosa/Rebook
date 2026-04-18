@@ -13,27 +13,12 @@ export class UserService {
   private http = inject(HttpClient);
 
   private BASE_URL = environment.api.url;
-  private UPDATE_USER_ENDPOINT = environment.api.endpoints.private.updateUser;
+  private endpoints = environment.api.endpoints.private;
 
-
-  // LOCAL STORAGE
-  storeLocalUser(user: any): void {
-    localStorage.setItem('user', JSON.stringify(user));
-  }
-
-  getLocalUserData(): any {
-    const data = localStorage.getItem('user');
-    return data ? JSON.parse(data) : null;
-  }
-
-  cleanStorage(): void {
-    localStorage.removeItem('user');
-  }
-
-  // API
+  // ACTUALIZAR USUARIO
   updateUser(data: UpdateUserRequest): Observable<UpdateUserResponse> {
     return this.http.post<UpdateUserResponse>(
-      this.BASE_URL + this.UPDATE_USER_ENDPOINT,
+      `${this.BASE_URL}${this.endpoints.updateUser}`,
       data
     );
   }

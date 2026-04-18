@@ -1,4 +1,4 @@
-<div class="tarjeta-libro">
+<div class="tarjeta-libro" *ngIf="libro">
 
   <div class="tarjeta-superior">
 
@@ -7,8 +7,9 @@
       <img [src]="libro.url" [alt]="libro.title">
 
       <div class="etiqueta-genero">
-  {{ libro.category }}
-</div>
+        {{ libro.category }}
+      </div>
+    </div> 
 
     <!-- INFO -->
     <div class="contenido-libro">
@@ -22,22 +23,35 @@
   <!-- BOTONES ABAJO -->
   <div class="acciones-libro">
 
-    <button class="boton-accion boton-favorito" [class.activo]="esFavorito" (click)="alternarFavorito()">
-      <!-- Estado animación -->
+    <button 
+      class="boton-accion boton-favorito" 
+      [class.activo]="esFavorito" 
+      (click)="alternarFavorito()"
+    >
       <span *ngIf="animacionFavorito">✔ Guardado</span>
-      <!-- Estado favorito activo -->
       <span *ngIf="!animacionFavorito && esFavorito">❌ Quitar</span>
-      <!-- Estado normal -->
       <span *ngIf="!animacionFavorito && !esFavorito">🤍 Favoritos</span>
     </button>
 
-    <button class="boton-accion boton-carrito" [class.activo]="estaEnCarritoCompra" (click)="agregarCompra()">
-      <span *ngIf="!estaEnCarritoCompra">🛒 Carrito ({{ libro.sellPrice | currency:'EUR' }})</span>
+    <button 
+      class="boton-accion boton-carrito" 
+      [class.activo]="estaEnCarritoCompra" 
+      (click)="agregarCompra()"
+    >
+      <span *ngIf="!estaEnCarritoCompra">
+        🛒 Carrito ({{ libro.sellPrice | currency:'EUR' }})
+      </span>
       <span *ngIf="estaEnCarritoCompra">✔ Añadido</span>
     </button>
 
-    <button class="boton-accion boton-alquiler" [class.activo]="estaEnCarritoAlquiler" (click)="agregarAlquiler()">
-      <span *ngIf="!estaEnCarritoAlquiler">📖 Alquilar ({{ libro.rentPrice * 0.5 | currency:'EUR' }})</span>
+    <button 
+      class="boton-accion boton-alquiler" 
+      [class.activo]="estaEnCarritoAlquiler" 
+      (click)="agregarAlquiler()"
+    >
+      <span *ngIf="!estaEnCarritoAlquiler">
+        📖 Alquilar ({{ (libro.rentPrice || 0) * 0.5 | currency:'EUR' }})
+      </span>
       <span *ngIf="estaEnCarritoAlquiler">✔ Añadido</span>
     </button>
 

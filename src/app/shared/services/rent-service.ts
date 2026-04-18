@@ -1,58 +1,58 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
-import { RentBookResponse } from '../interfaces/Rent/rent-book-request';
-import { CheckRentedBookResponse } from '../interfaces/Rent/check-rented-book-request';
-import { ExtendRentResponse } from '../interfaces/Rent/extend-rent-request';
+
+import { CheckRentedBookRequest } from '../interfaces/Rent/check-rented-book-request';
 import { GetRentedBooksResponse } from '../interfaces/Book/get-rented-books-response';
+import { CheckRentedBookResponse, ExtendRentRequest, ExtendRentResponse, RentBookRequest, RentBookResponse, ReturnRentedBookRequest } from '../interfaces/HTTP/Books';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RentService {
 
+  private http = inject(HttpClient);
+
   private BASE_URL = environment.api.url;
   private endpoints = environment.api.endpoints.private;
 
-  constructor(private http: HttpClient) {}
-
-  // Alquilar libro
-  rentBook(bookId: number): Observable<RentBookResponse> {
+  // ALQUILAR LIBRO
+  rentBook(data: RentBookRequest): Observable<RentBookResponse> {
     return this.http.post<RentBookResponse>(
-      this.BASE_URL + this.endpoints.rentBook,
-      { id: bookId }
+      `${this.BASE_URL}${this.endpoints.rentBook}`,
+      data
     );
   }
 
-  // Obtener libros alquilados del usuario
+  // LIBROS ALQUILADOS
   getMyRentedBooks(): Observable<GetRentedBooksResponse> {
     return this.http.get<GetRentedBooksResponse>(
-      this.BASE_URL + this.endpoints.getRentedFromUser
+      `${this.BASE_URL}${this.endpoints.getRentedFromUser}`
     );
   }
 
-  // Comprobar alquiler de un libro
-  checkRent(bookId: number): Observable<CheckRentedBookResponse> {
+  // CHECK ALQUILER
+  checkRent(data: CheckRentedBookRequest): Observable<CheckRentedBookResponse> {
     return this.http.post<CheckRentedBookResponse>(
-      this.BASE_URL + this.endpoints.checkRent,
-      { id: bookId }
+      `${this.BASE_URL}${this.endpoints.checkRent}`,
+      data
     );
   }
 
-  // Extender alquiler
-  extendRent(bookId: number): Observable<ExtendRentResponse> {
+  // EXTENDER ALQUILER
+  extendRent(data: ExtendRentRequest): Observable<ExtendRentResponse> {
     return this.http.post<ExtendRentResponse>(
-      this.BASE_URL + this.endpoints.extendRent,
-      { id: bookId }
+      `${this.BASE_URL}${this.endpoints.extendRent}`,
+      data
     );
   }
 
-  // Devolver libro
-  returnBook(bookId: number): Observable<void> {
+  // DEVOLVER LIBRO
+  returnBook(data: ReturnRentedBookRequest): Observable<void> {
     return this.http.post<void>(
-      this.BASE_URL + this.endpoints.returnRentedBook,
-      { id: bookId }
+      `${this.BASE_URL}${this.endpoints.returnRentedBook}`,
+      data
     );
   }
 }

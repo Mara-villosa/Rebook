@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TarjetaLibroComponent } from '../tarjeta-libro/tarjeta-libro.component';
 import { BookService } from '../../shared/services/book-service';
-import { GetAllBooksFromUserResponse } from '../../shared/interfaces/Book/Book';
+import { BookDTO, GetAllBooksFromUserResponse, GetAllBooksResponse } from '../../shared/interfaces/Book/Book';
 
 @Component({
   selector: 'app-home',
@@ -15,11 +15,12 @@ export class Home implements OnInit {
 
   private servicioLibros = inject(BookService);
 
+  libros: BookDTO[] = [];
+  indiceActual = 0;
+
   uploads: any[] = [];
   rented: any[] = [];
   bought: any[] = [];
-
-  indiceActual = 0;
 
   ngOnInit(): void {
     this.cargarLibros();
@@ -27,22 +28,16 @@ export class Home implements OnInit {
 
   cargarLibros(): void {
     
-    this.servicioLibros.getAllBooksFromUser().subscribe({
-      next: (data: GetAllBooksFromUserResponse) => {
-        this.uploads = data.uploads ?? [];
-        this.rented = data.rented ?? [];
-        this.bought = data.bought ?? [];
+    this.servicioLibros.getAllBooks().subscribe({
+      next: (data: GetAllBooksResponse) => {
+        this.libros = data.books ?? [];
       },
       error: (err) => {
-        console.error('Error cargando libros del usuario', err);
+        console.error('Error cargando libros', err);
       }
     });
   }
 
-  // 👉 ejemplo: todos juntos para carrusel o home
-  get libros() {
-    return [...this.uploads, ...this.rented, ...this.bought];
-  }
 
   get librosLimitados() {
     return this.libros.slice(0, 6);
