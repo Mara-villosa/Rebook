@@ -80,24 +80,10 @@ export class Perfil implements OnInit {
   cargarUsuario() {
     this.loading = true;
 
-    const request: UpdateUserRequest = {
-      name: '',
-      lastname: '',
-      oldPassword: '',
-      newPassword: '',
-      id_document: '',
-      birthday: '',
-      city: '',
-      address: '',
-      postal_code: '',
-      phone: '',
-      card_name: '',
-      card_number: '',
-      cvv: '',
-    };
+    this.userService.getUserData().subscribe({
+      next: (res: any) => {
+        const data = res.user; // 👈 AQUÍ ESTÁ LA CLAVE
 
-    this.userService.updateUser(request).subscribe({
-      next: (data: any) => {
         this.user.name = data.name;
         this.user.email = data.email;
         this.user.phone = data.phone;
@@ -106,14 +92,10 @@ export class Perfil implements OnInit {
         this.user.city = data.city;
         this.user.postalCode = data.postal_code;
 
-        this.user.creditCard.name = data.card_name;
-        this.user.creditCard.number = data.card_number;
-        this.user.creditCard.cvv = data.cvv;
-
         this.loading = false;
       },
-
-      error: () => {
+      error: (err) => {
+        console.error(err);
         this.message = 'No se pudo cargar el usuario';
         this.loading = false;
       },

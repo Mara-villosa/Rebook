@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import {
   BuyCartResponse,
@@ -21,30 +22,68 @@ export class CarritoService {
   private BASE_URL = environment.api.url;
   private endpoints = environment.api.endpoints.private;
 
+  // ESTADO REACTIVO CARRITO
+  private cartCountSubject = new BehaviorSubject<number>(0);
+  cartCount$ = this.cartCountSubject.asObservable();
+
+  setCartCount(count: number): void {
+    this.cartCountSubject.next(count);
+  }
+
   // AÑADIR AL CARRITO
   addToCart(data: AddBookToCartRequest): Observable<AddBookToCartResponse> {
-    return this.http.post<AddBookToCartResponse>(
-      `${this.BASE_URL}${this.endpoints.addToCart}`,
-      data
-    );
+    return new Observable(observer => {
+      this.http.post<AddBookToCartResponse>(
+        `${this.BASE_URL}${this.endpoints.addToCart}`, data).subscribe({
+        next: (res) => {
+          this.getCart().subscribe();
+          observer.next(res);
+          observer.complete();
+        },
+        error: (err) => observer.error(err)
+      });
+    });
   }
 
   // QUITAR DEL CARRITO
   removeFromCart(data: RemoveBookFromCartRequest): Observable<any> {
-    return this.http.post(
-      `${this.BASE_URL}${this.endpoints.removeFromCart}`,
-      data
-    );
+    return new Observable(observer => {
+      this.http.post(
+        `${this.BASE_URL}${this.endpoints.removeFromCart}`,
+        data
+      ).subscribe({
+        next: (res) => {
+          this.getCart().subscribe();
+          observer.next(res);
+          observer.complete();
+        },
+        error: (err) => observer.error(err)
+      });
+    });
   }
 
   // OBTENER CARRITO
   getCart(): Observable<GetBooksFromCartResponse> {
-    return this.http.get<GetBooksFromCartResponse>(
-      `${this.BASE_URL}${this.endpoints.getCart}`
-    );
+    return new Observable(observer => {
+      this.http.get<GetBooksFromCartResponse>(
+        `${this.BASE_URL}${this.endpoints.getCart}`
+      ).subscribe({
+        next: (res) => {
+
+          const count = res.books?.length ?? 0;
+
+          // 🔥 ACTUALIZA CONTADOR GLOBAL
+          this.setCartCount(count);
+
+          observer.next(res);
+          observer.complete();
+        },
+        error: (err) => observer.error(err)
+      });
+    });
   }
 
-  // COMPRAR / ALQUILAR CARRITO (según backend: GET)
+  // COMPRAR / ALQUILAR CARRITO
   buyCart(): Observable<BuyCartResponse> {
     return this.http.get<BuyCartResponse>(
       `${this.BASE_URL}${this.endpoints.buyCart}`

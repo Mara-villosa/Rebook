@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import {
+  AddBookToCartRequest,
   AddBookToFavRequest,
   BookDTO,
   RemoveBookFromFavsRequest,
 } from '../../shared/interfaces/HTTP/Books';
-import { Cart } from '../../shared/services/cart';
+import { CarritoService } from '../../shared/services/carrito-service';
 import { FavoritosService } from '../../shared/services/favoritos.service';
 
 @Component({
@@ -18,7 +19,7 @@ import { FavoritosService } from '../../shared/services/favoritos.service';
 export class TarjetaLibroComponent implements OnInit {
   @Input() libro?: BookDTO;
 
-  servicioCarrito = inject(Cart);
+  servicioCarrito = inject(CarritoService);
   servicioFavoritos = inject(FavoritosService);
 
   favoritos: BookDTO[] = [];
@@ -26,6 +27,8 @@ export class TarjetaLibroComponent implements OnInit {
   estaEnCarritoCompra = false;
   estaEnCarritoAlquiler = false;
   animacionFavorito = false;
+
+  mostrarModal = false;
 
   ngOnInit(): void {
     this.cargarFavoritos();
@@ -49,26 +52,32 @@ export class TarjetaLibroComponent implements OnInit {
   alternarFavorito(): void {
     if (!this.libro) return;
 
-    const bookId = String(this.libro.id);
+    const request: AddBookToFavRequest = {
+      book_id: String(this.libro.id),
+    };
 
     if (this.esFavorito) {
-      const request: RemoveBookFromFavsRequest = {
-        book_id: bookId,
+      const removeRequest: RemoveBookFromFavsRequest = {
+        book_id: String(this.libro.id),
       };
 
-      this.servicioFavoritos.removeFromFavs(request).subscribe(() => {
-        this.favoritos = this.favoritos.filter((f) => f.id !== this.libro!.id);
+      this.servicioFavoritos.removeFromFavs(removeRequest).subscribe({
+        next: () => this.cargarFavoritos(),
+        error: (err) => console.error('Error quitando favorito', err),
       });
+
     } else {
-      const request: AddBookToFavRequest = {
-        book_id: bookId,
-      };
+      this.servicioFavoritos.addToFavs(request).subscribe({
+        next: () => {
+          this.animacionFavorito = true;
 
-      this.servicioFavoritos.addToFavs(request).subscribe(() => {
-        this.favoritos.push(this.libro!);
+          setTimeout(() => {
+            this.animacionFavorito = false;
+          }, 1000);
 
-        this.animacionFavorito = true;
-        setTimeout(() => (this.animacionFavorito = false), 1000);
+          this.cargarFavoritos();
+        },
+        error: (err) => console.error('Error añadiendo favorito', err),
       });
     }
   }
@@ -76,41 +85,48 @@ export class TarjetaLibroComponent implements OnInit {
   agregarCompra(): void {
     if (!this.libro) return;
 
-    this.servicioCarrito.addToCart({
-      id: this.libro.id,
-      titulo: this.libro.title,
-      autor: this.libro.author,
-      portada: this.libro.url,
-      price: this.libro.sellPrice,
-      type: 'buy',
-      quantity: 1,
-    });
+    const request: AddBookToCartRequest = {
+      book_id: String(this.libro.id),
+      is_renting: false,
+    };
 
-    this.estaEnCarritoCompra = true;
-    setTimeout(() => (this.estaEnCarritoCompra = false), 800);
+    this.servicioCarrito.addToCart(request).subscribe({
+      next: () => {
+        this.estaEnCarritoCompra = true;
+        setTimeout(() => (this.estaEnCarritoCompra = false), 800);
+      },
+      error: (err) => console.error('Error carrito compra', err),
+    });
   }
 
   agregarAlquiler(): void {
     if (!this.libro) return;
 
-    this.servicioCarrito.addToCart({
-      id: this.libro.id,
-      titulo: this.libro.title,
-      autor: this.libro.author,
-      portada: this.libro.url,
-      price: this.libro.rentPrice * 0.5,
-      type: 'rent',
-      returnDate: this.calcularFecha(),
-      quantity: 1,
-    });
+    const request: AddBookToCartRequest = {
+      book_id: String(this.libro.id),
+      is_renting: true,
+    };
 
-    this.estaEnCarritoAlquiler = true;
-    setTimeout(() => (this.estaEnCarritoAlquiler = false), 800);
+    this.servicioCarrito.addToCart(request).subscribe({
+      next: () => {
+        this.estaEnCarritoAlquiler = true;
+        setTimeout(() => (this.estaEnCarritoAlquiler = false), 800);
+      },
+      error: (err) => console.error('Error carrito alquiler', err),
+    });
   }
 
   calcularFecha(): string {
     const fecha = new Date();
     fecha.setDate(fecha.getDate() + 7);
     return fecha.toISOString().split('T')[0];
+  }
+
+  abrirModal() {
+    this.mostrarModal = true;
+  }
+
+  cerrarModal() {
+    this.mostrarModal = false;
   }
 }

@@ -1,0 +1,28 @@
+<div class="categoria-container">
+
+  <h2 class="categoria-title">
+    {{ categoria }}
+  </h2>
+
+  @if (libros.length === 0) {
+    <p>No hay libros en esta categoría</p>
+  }
+
+  <div class="libros-grid">
+
+    @for (libro of libros; track libro.id) {
+      <div class="libro-card">
+
+        <img [src]="libro.url" />
+
+        <div class="libro-info">
+          <h4>{{ libro.title }}</h4>
+          <p>{{ libro.author }}</p>
+        </div>
+
+      </div>
+    }
+
+  </div>
+
+</div>

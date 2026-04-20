@@ -1,0 +1,62 @@
+.categoria-container {
+  padding: 1rem;
+}
+
+.categoria-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  font-size: 1.3rem;
+  text-transform: capitalize;
+}
+
+.libros-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.libro-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.libro-card:hover {
+  transform: translateY(-4px);
+}
+
+.libro-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.libro-info {
+  padding: 0.8rem;
+  text-align: center;
+}
+
+.libro-info h4 {
+  font-size: 0.95rem;
+  margin-bottom: 0.3rem;
+}
+
+.libro-info p {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.btn-ver {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  background: #83a084;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  width: 100%;
+}

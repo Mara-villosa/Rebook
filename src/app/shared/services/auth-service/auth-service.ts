@@ -21,39 +21,32 @@ export class AuthService {
   #token = inject(TokenService);
   #user = inject(UserService);
 
-  // 🔥 ESTADO REACTIVO DE AUTH
+  // 🔥 ESTADO REACTIVO
   private authSignal = signal<boolean>(this.isAuthenticated());
   authState = this.authSignal.asReadonly();
 
   login(email: string, password: string): Observable<LogInResponse> {
-
     const url = this.BASE_URL + this.LOGIN_ENDPOINT;
 
-    const request: LogInRequest = {
-      email,
-      password,
-    };
+    const request: LogInRequest = { email, password };
 
     return this.#http.post<LogInResponse>(url, request).pipe(
       tap((response) => {
         this.#token.setAccessToken(response.accessToken);
         this.#token.setRefreshToken(response.refreshToken);
-
-        // ACTUALIZA ESTADO AUTH
         this.authSignal.set(true);
-      }),
+      })
     );
   }
 
   signup(data: SignUpRequest): Observable<SignUpResponse> {
-
     const url = this.BASE_URL + this.SIGNUP_ENDPOINT;
-
     return this.#http.post<SignUpResponse>(url, data);
   }
 
-  logout() {
+  logout(): void {
     this.#token.cleanStorage();
+    this.authSignal.set(false);
     this.#router.navigate(['/auth/login']);
   }
 
@@ -69,11 +62,13 @@ export class AuthService {
 
     if (this.#token.checkExpiredToken()) {
       this.#token.refreshToken().subscribe({
-        error: (err) => {
-          console.log(err);
-          this.logout();
-        },
+        error: () => this.logout(),
       });
     }
   }
+
+  initAuthState(): void {
+    this.authSignal.set(this.isAuthenticated());
+  }
+
 }

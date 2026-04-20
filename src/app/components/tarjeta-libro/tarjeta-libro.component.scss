@@ -138,3 +138,83 @@ h3 {
 .boton-accion:active {
   transform: scale(0.97);
 }
+
+.descripcion-libro {
+  font-size: 0.75rem;
+  color: #555;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;       
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.leer-mas {
+  font-size: 0.7rem;
+  color: #b8860b;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.leer-mas:hover {
+  text-decoration: underline;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-libro {
+  background: white;
+  border-radius: 16px;
+  width: 80%;
+  max-width: 800px;
+  padding: 20px;
+  position: relative;
+}
+
+.cerrar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.modal-contenido {
+  display: flex;
+  gap: 20px;
+}
+
+.modal-img {
+  width: 200px;
+  border-radius: 10px;
+}
+
+.modal-info {
+  flex: 1;
+}
+
+.descripcion-completa {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.modal-libro .acciones-libro {
+  margin-top: 20px;
+}
+
+.modal-libro .boton-accion {
+  font-size: 0.85rem;
+  padding: 10px;
+}

@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { UpdateUserRequest } from '../../shared/interfaces/HTTP/User';
+import { Component, effect, HostListener, inject, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/services/auth-service/auth-service';
 import { FavoritosService } from '../../shared/services/favoritos.service';
 import { UserService } from '../../shared/services/user-service/user-service';
@@ -11,14 +10,14 @@ import { UserService } from '../../shared/services/user-service/user-service';
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './header.html',
-  styleUrl: './header.scss',
+  styleUrls: ['./header.scss'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+
   private authService = inject(AuthService);
   private userService = inject(UserService);
-  private router = inject(Router);
 
-  isAuthenticated = false;
+  isAuthenticated = this.authService.authState;
   currentUser: any = null;
 
   isMenuOpen = false;
@@ -28,48 +27,33 @@ export class HeaderComponent {
 
   favoritos: any[] = [];
 
-  constructor(public favoritosService: FavoritosService) {}
+  constructor(public favoritosService: FavoritosService) { }
 
   ngOnInit(): void {
-    this.isAuthenticated = this.authService.isAuthenticated();
+    effect(() => {
+      const auth = this.isAuthenticated();
 
-    if (this.isAuthenticated) {
-      this.loadUser();
-      this.loadFavoritos();
-    }
+      if (auth) {
+        this.loadUser();
+        this.loadFavoritos();
+      } else {
+        this.currentUser = null;
+        this.favoritos = [];
+      }
+    });
   }
 
   loadUser(): void {
-    const request: UpdateUserRequest = {
-      name: '',
-      lastname: '',
-      oldPassword: '',
-      newPassword: '',
-      id_document: '',
-      birthday: '',
-      city: '',
-      address: '',
-      postal_code: '',
-      phone: '',
-      card_name: '',
-      card_number: '',
-      cvv: '',
-    };
-
-    this.userService.updateUser(request).subscribe({
-      next: (user) => {
-        this.currentUser = user;
-      },
-      error: () => {
-        this.currentUser = null;
-      },
+    this.userService.getUserData().subscribe({
+      next: (user) => (this.currentUser = user),
+      error: () => (this.currentUser = null),
     });
   }
 
   loadFavoritos(): void {
     this.favoritosService.getFavs().subscribe({
       next: (res: any) => {
-        this.favoritos = res.favs || res || [];
+        this.favoritos = res.favourites ?? [];
       },
       error: () => {
         this.favoritos = [];
@@ -84,7 +68,6 @@ export class HeaderComponent {
   toggleCategories(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-
     this.isCategoriesOpen = !this.isCategoriesOpen;
     this.isAccountOpen = false;
   }
@@ -92,16 +75,27 @@ export class HeaderComponent {
   toggleAccount(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-
     this.isAccountOpen = !this.isAccountOpen;
     this.isCategoriesOpen = false;
   }
 
   logout(): void {
     this.authService.logout();
-    this.isAuthenticated = false;
+
     this.currentUser = null;
     this.isAccountOpen = false;
+  }
+
+  togglePanelFavoritos(): void {
+    this.isPanelFavoritosOpen = !this.isPanelFavoritosOpen;
+
+    if (this.isPanelFavoritosOpen) {
+      this.loadFavoritos();
+    }
+  }
+
+  cerrarPanelFavoritos(): void {
+    this.isPanelFavoritosOpen = false;
   }
 
   @HostListener('document:click', ['$event'])
@@ -112,13 +106,5 @@ export class HeaderComponent {
       this.isCategoriesOpen = false;
       this.isAccountOpen = false;
     }
-  }
-
-  togglePanelFavoritos(): void {
-    this.isPanelFavoritosOpen = !this.isPanelFavoritosOpen;
-  }
-
-  cerrarPanelFavoritos(): void {
-    this.isPanelFavoritosOpen = false;
   }
 }

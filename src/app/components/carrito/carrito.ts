@@ -4,6 +4,7 @@ import { CartItem } from '../../shared/interfaces/cart-item';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../shared/services/user-service/user-service';
 import { CarritoService } from '../../shared/services/carrito-service';
+import { AuthService } from '../../shared/services/auth-service/auth-service';
 
 @Component({
   selector: 'app-carrito',
@@ -20,7 +21,6 @@ export class Carrito implements OnInit {
   selectedItems: Set<string> = new Set();
 
   mostrarModal = false;
-  usuarioLogueado = false;
   mostrarAlerta = false;
   mensajeAlerta = '';
 
@@ -48,48 +48,38 @@ export class Carrito implements OnInit {
 
   constructor(
     private carritoService: CarritoService,
-    private userService: UserService
+    private userService: UserService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.checkLogin();
     this.loadCart();
   }
 
-  // CARRITO (BACKEND)
-  checkLogin() {
-    this.carritoService.getCart().subscribe({
-      next: () => {
-        this.usuarioLogueado = true;
-      },
-      error: () => {
-        this.usuarioLogueado = false;
-      }
-    });
-  }
+
 
   loadCart() {
     this.carritoService.getCart().subscribe({
-      next: (res) => {
+    next: (res) => {
 
-        this.cartItems = res.books.map((book: any) => ({
-          id: book.id,
-          titulo: book.title,
-          autor: book.author,
-          portada: book.image,
-          price: book.price,
-          type: book.in_cart_for_rent ? 'rent' : 'buy',
-          quantity: 1,
-          returnDate: book.return_date || ''
-        }));
+      this.cartItems = res.books.map((book: any) => ({
+        id: book.id,
+        titulo: book.title,
+        autor: book.author,
+        portada: book.url,
+        price: book.in_cart_for_rent ? book.rentPrice : book.sellPrice,
+        type: book.in_cart_for_rent ? 'rent' : 'buy',
+        quantity: 1,
+        returnDate: book.return_date || ''
+      }));
 
-        this.calcularTotal();
-      },
-      error: () => {
-        this.cartItems = [];
-      }
-    });
-  }
+      this.calcularTotal();
+    },
+    error: () => {
+      this.cartItems = [];
+    }
+  });
+}
 
   getItemsByType(type: string): CartItem[] {
     return this.cartItems.filter(i => i.type === type);
@@ -141,7 +131,7 @@ export class Carrito implements OnInit {
 
   // MODAL
   abrirModal() {
-    if (!this.usuarioLogueado) {
+    if (!this.authService.isAuthenticated()) {
       this.mostrarMensaje('Debes iniciar sesión para finalizar compra');
       return;
     }

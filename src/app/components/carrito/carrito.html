@@ -1,8 +1,7 @@
 <h2>Carrito</h2>
 
 <div class="alert-popup" *ngIf="mostrarAlerta">
-  <i class="fas fa-exclamation-circle"></i>
-  {{ mensajeAlerta }}
+  <i class="fas"></i>{{ mensajeAlerta }}
 </div>
 
 <div *ngIf="errorMessage" class="error-message">
@@ -108,8 +107,8 @@
 
     <div class="form-group">
       <label>Número de tarjeta</label>
-      <input type="text" [(ngModel)]="numeroTarjeta" (input)="validarCampos()" (blur)="marcarTouched('numeroTarjeta')" placeholder="Número de tarjeta"
-        maxlength="16" required/>
+      <input type="text" [(ngModel)]="numeroTarjeta" (input)="validarCampos()" (blur)="marcarTouched('numeroTarjeta')"
+        placeholder="Número de tarjeta" maxlength="16" required />
       <div class="error-text" *ngIf="errores.numeroTarjeta">
         {{ errores.numeroTarjeta }}
       </div>
@@ -117,7 +116,8 @@
 
     <div class="form-group">
       <label>Nombre Titular</label>
-      <input type="text" [(ngModel)]="nombreTitular" (input)="validarCampos()" (blur)="marcarTouched('nombreTitular')" placeholder="Nombre del titular" required/>
+      <input type="text" [(ngModel)]="nombreTitular" (input)="validarCampos()" (blur)="marcarTouched('nombreTitular')"
+        placeholder="Nombre del titular" required />
       <div class="error-text" *ngIf="errores.nombreTitular">
         {{ errores.nombreTitular }}
       </div>
@@ -126,7 +126,8 @@
     <div class="form-row">
       <div class="form-group">
         <label>Fecha (MM/AA)</label>
-        <input type="text" [(ngModel)]="fecha" (input)="validarCampos()" (blur)="marcarTouched('fecha')" placeholder="MM/AA" maxlength="5" required/>
+        <input type="text" [(ngModel)]="fecha" (input)="validarCampos()" (blur)="marcarTouched('fecha')"
+          placeholder="MM/AA" maxlength="5" required />
         <div class="error-text" *ngIf="errores.fecha">
           {{ errores.fecha }}
         </div>
@@ -134,7 +135,8 @@
 
       <div class="form-group">
         <label>CVV</label>
-        <input type="text" [(ngModel)]="cvv" (input)="validarCampos()" (blur)="marcarTouched('cvv')" placeholder="123" maxlength="3" required/>
+        <input type="password" [(ngModel)]="cvv" (input)="validarCampos()" (blur)="marcarTouched('cvv')" placeholder="123"
+          maxlength="3" required />
         <div class="error-text" *ngIf="errores.cvv">
           {{ errores.cvv }}
         </div>

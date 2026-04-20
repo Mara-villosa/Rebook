@@ -57,6 +57,6 @@ export class Home implements OnInit {
   }
 
   get ultimosLibros() {
-    return [...this.libros].reverse().slice(0, 8);
+    return [...this.libros].reverse().slice(0, 9);
   }
 }

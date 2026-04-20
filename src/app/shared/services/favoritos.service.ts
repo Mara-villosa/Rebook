@@ -17,7 +17,7 @@ export class FavoritosService {
   private BASE_URL = environment.api.url;
   private endpoints = environment.api.endpoints.private;
 
-  // ➕ AÑADIR FAVORITO
+  // AÑADIR FAVORITO
   addToFavs(data: AddBookToFavRequest): Observable<any> {
     return this.http.post(
       `${this.BASE_URL}${this.endpoints.addBookToFavs}`,
@@ -25,7 +25,7 @@ export class FavoritosService {
     );
   }
 
-  // ➖ ELIMINAR FAVORITO
+  // ELIMINAR FAVORITO
   removeFromFavs(data: RemoveBookFromFavsRequest): Observable<any> {
     return this.http.post(
       `${this.BASE_URL}${this.endpoints.removeBookFromFavs}`,
@@ -33,7 +33,7 @@ export class FavoritosService {
     );
   }
 
-  // 📥 OBTENER FAVORITOS
+  // OBTENER FAVORITOS
   getFavs(): Observable<GetFavBooksResponse> {
     return this.http.get<GetFavBooksResponse>(
       `${this.BASE_URL}${this.endpoints.getFavBooks}`

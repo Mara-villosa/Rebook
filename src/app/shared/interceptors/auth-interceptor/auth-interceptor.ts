@@ -1,58 +1,59 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { EMPTY } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../services/auth-service/auth-service';
 import { TokenService } from '../../services/token-service/token-service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  //Servicios
   const tokenService = inject(TokenService);
   const authService = inject(AuthService);
 
-  //URL de la API
   const BASE_URL = environment.api.url;
-  const PUBLIC_API_URLS = environment.api.endpoints.public;
-
-  //Access token y API Key
+  const PUBLIC_ENDPOINTS = Object.values(environment.api.endpoints.public);
   const API_KEY = environment.api.key;
+
   const token = tokenService.getAccessToken();
 
-  /**
-   * No se interceptan requests que no vayan a la API del Backend
-   */
-  if (!req.url.includes(BASE_URL)) return next(req);
-
-  /**
-   * Las llamadas públicas a la API (signup, login y refresh)
-   * Usan la cabecera X-API-KEY para autenticación en lugar de Bearer token
-   */
-  for (const [key, value] of Object.entries(PUBLIC_API_URLS)) {
-    if (req.url.includes(value)) {
-      return next(
-        req.clone({
-          setHeaders: { 'x-api-key': API_KEY },
-        }),
-      );
-    }
+  // 🔹 1. Solo interceptar peticiones a nuestra API
+  if (!req.url.includes(BASE_URL)) {
+    return next(req);
   }
 
-  /**
-   * Si estamos en una llamada a enpoint privado de la API se comprueba la validez del token.
-   * Si no es válido, se hace log out.
-   */
-  if (!tokenService.checkValidToken()) {
-    authService.logout();
-    return EMPTY;
+  // 🔹 2. Headers base
+  const headers: { [key: string]: string } = {
+    'x-api-key': API_KEY,
+    'Content-Type': 'application/json',
+  };
+
+  // 🔹 3. Detectar endpoint público
+  const isPublicEndpoint = PUBLIC_ENDPOINTS.some(endpoint =>
+    req.url.includes(endpoint)
+  );
+
+  // 🔹 4. Añadir token solo si es privado
+  if (!isPublicEndpoint && token) {
+    headers['Authorization'] = `Bearer ${token}`;
   }
 
-  /**
-   * Si estamos en una llamada a enpoint privado de la API se incluye
-   * el access token en la cabecera de la autenticación
-   */
-  return next(
-    req.clone({
-      setHeaders: { Authorization: 'Bearer ' + token },
-    }),
+  // 🔹 5. Clonar request
+  const clonedReq = req.clone({ setHeaders: headers });
+
+  // 🔹 6. Manejo de errores seguro
+  return next(clonedReq).pipe(
+    catchError((error: HttpErrorResponse) => {
+
+      if (error.status === 401 && !isPublicEndpoint) {
+        // ❌ SOLO limpiar sesión, NO forzar logout inmediato
+        tokenService.cleanStorage();
+
+        // opcional: solo redirigir si no estás ya en login
+        if (!window.location.pathname.includes('/auth/login')) {
+          authService.logout();
+        }
+      }
+
+      return throwError(() => error);
+    })
   );
 };

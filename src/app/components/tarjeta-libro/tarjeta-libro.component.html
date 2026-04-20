@@ -9,13 +9,19 @@
       <div class="etiqueta-genero">
         {{ libro.category }}
       </div>
-    </div> 
+    </div>
 
     <!-- INFO -->
     <div class="contenido-libro">
       <h3 class="titulo-libro">{{ libro.title }}</h3>
       <p class="autor-libro">{{ libro.author }}</p>
-      <p class="descripcion-libro">{{ libro.description }}</p>
+      <p class="descripcion-libro">
+        {{ libro.description }}
+      </p>
+
+      <span class="leer-mas" (click)="abrirModal()">
+        Leer más
+      </span>
     </div>
 
   </div>
@@ -23,32 +29,20 @@
   <!-- BOTONES ABAJO -->
   <div class="acciones-libro">
 
-    <button 
-      class="boton-accion boton-favorito" 
-      [class.activo]="esFavorito" 
-      (click)="alternarFavorito()"
-    >
+    <button class="boton-accion boton-favorito" [class.activo]="esFavorito" (click)="alternarFavorito()">
       <span *ngIf="animacionFavorito">✔ Guardado</span>
       <span *ngIf="!animacionFavorito && esFavorito">❌ Quitar</span>
       <span *ngIf="!animacionFavorito && !esFavorito">🤍 Favoritos</span>
     </button>
 
-    <button 
-      class="boton-accion boton-carrito" 
-      [class.activo]="estaEnCarritoCompra" 
-      (click)="agregarCompra()"
-    >
+    <button class="boton-accion boton-carrito" [class.activo]="estaEnCarritoCompra" (click)="agregarCompra()">
       <span *ngIf="!estaEnCarritoCompra">
         🛒 Carrito ({{ libro.sellPrice | currency:'EUR' }})
       </span>
       <span *ngIf="estaEnCarritoCompra">✔ Añadido</span>
     </button>
 
-    <button 
-      class="boton-accion boton-alquiler" 
-      [class.activo]="estaEnCarritoAlquiler" 
-      (click)="agregarAlquiler()"
-    >
+    <button class="boton-accion boton-alquiler" [class.activo]="estaEnCarritoAlquiler" (click)="agregarAlquiler()">
       <span *ngIf="!estaEnCarritoAlquiler">
         📖 Alquilar ({{ (libro.rentPrice || 0) * 0.5 | currency:'EUR' }})
       </span>
@@ -57,4 +51,56 @@
 
   </div>
 
+</div>
+<div class="modal-overlay" *ngIf="mostrarModal">
+  <div class="modal-libro">
+
+    <button class="cerrar" (click)="cerrarModal()">✖</button>
+
+    <div class="modal-contenido">
+
+      <img [src]="libro?.url" class="modal-img">
+
+      <div class="modal-info">
+        <h2>{{ libro?.title }}</h2>
+        <p class="autor">{{ libro?.author }}</p>
+
+        <!-- AQUÍ YA SIN límite -->
+        <p class="descripcion-completa">
+          {{ libro?.description }}
+        </p>
+
+        <!-- reutilizas botones -->
+        <div class="acciones-libro">
+          <div class="acciones-libro">
+
+            <button class="boton-accion boton-favorito" [class.activo]="esFavorito" (click)="alternarFavorito()">
+              <span *ngIf="animacionFavorito">✔ Guardado</span>
+              <span *ngIf="!animacionFavorito && esFavorito">❌ Quitar</span>
+              <span *ngIf="!animacionFavorito && !esFavorito">🤍 Favoritos</span>
+            </button>
+
+            <button class="boton-accion boton-carrito" [class.activo]="estaEnCarritoCompra" (click)="agregarCompra()">
+              <span *ngIf="!estaEnCarritoCompra">
+                🛒 Carrito ({{ libro?.sellPrice | currency:'EUR' }})
+              </span>
+              <span *ngIf="estaEnCarritoCompra">✔ Añadido</span>
+            </button>
+
+            <button class="boton-accion boton-alquiler" [class.activo]="estaEnCarritoAlquiler"
+              (click)="agregarAlquiler()">
+              <span *ngIf="!estaEnCarritoAlquiler">
+                📖 Alquilar ({{ (libro?.rentPrice || 0) * 0.5 | currency:'EUR' }})
+              </span>
+              <span *ngIf="estaEnCarritoAlquiler">✔ Añadido</span>
+            </button>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
 </div>
