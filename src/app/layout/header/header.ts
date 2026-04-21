@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, HostListener, inject, OnInit } from '@angular/core';
+import { Component, effect, HostListener, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/services/auth-service/auth-service';
 import { FavoritosService } from '../../shared/services/favoritos.service';
@@ -12,8 +12,7 @@ import { UserService } from '../../shared/services/user-service/user-service';
   templateUrl: './header.html',
   styleUrls: ['./header.scss'],
 })
-export class HeaderComponent implements OnInit {
-
+export class HeaderComponent {
   private authService = inject(AuthService);
   private userService = inject(UserService);
 
@@ -27,9 +26,7 @@ export class HeaderComponent implements OnInit {
 
   favoritos: any[] = [];
 
-  constructor(public favoritosService: FavoritosService) { }
-
-  ngOnInit(): void {
+  constructor(public favoritosService: FavoritosService) {
     effect(() => {
       const auth = this.isAuthenticated();
 
