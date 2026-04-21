@@ -3,30 +3,40 @@
 <header class="rebook-header sticky-top">
   <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
     <div class="container-fluid px-3 px-lg-5">
-
       <!-- TOP ROW (solo móvil) -->
       <div class="navbar-top-row d-flex align-items-center justify-content-between w-100 d-lg-none">
-
         <!-- LOGO MÓVIL -->
         <a class="navbar-brand d-flex align-items-center" routerLink="/">
-          <img src="/logo.png" alt="Rebook Logo" class="rebook-logo" height="50" style="object-fit: contain"
-            onerror="this.parentElement.innerHTML = '<span>Rebook</span>'" />
+          <img
+            src="/logo.png"
+            alt="Rebook Logo"
+            class="rebook-logo"
+            height="50"
+            style="object-fit: contain"
+            onerror="this.parentElement.innerHTML = '<span>Rebook</span>'"
+          />
         </a>
 
         <!-- HAMBURGUESA -->
-        <button class="navbar-toggler border-0" type="button" (click)="toggleMenu()" [attr.aria-expanded]="isMenuOpen"
-          aria-label="Toggle navigation">
+        <button
+          class="navbar-toggler border-0"
+          type="button"
+          (click)="toggleMenu()"
+          [attr.aria-expanded]="isMenuOpen"
+          aria-label="Toggle navigation"
+        >
           <span class="navbar-toggler-icon"></span>
         </button>
-
       </div>
 
       <!-- NAVBAR -->
-      <div class="collapse navbar-collapse navbar-bottom-row mt-2 mt-lg-0" [class.show]="isMenuOpen" id="navbarContent">
-
+      <div
+        class="collapse navbar-collapse navbar-bottom-row mt-2 mt-lg-0"
+        [class.show]="isMenuOpen"
+        id="navbarContent"
+      >
         <!-- IZQUIERDA -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
           <li class="nav-item">
             <a class="nav-link" routerLink="/" routerLinkActive="active">
               <i class="fas fa-home me-1"></i>Inicio
@@ -34,19 +44,30 @@
           </li>
 
           <li class="nav-item dropdown">
-
-            <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleCategories($event)" [class.show]="isCategoriesOpen">
-              <i class="fas fa-list me-1"></i>Categorías</a>
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              (click)="toggleCategories($event)"
+              [class.show]="isCategoriesOpen"
+            >
+              <i class="fas fa-list me-1"></i>Categorías</a
+            >
 
             <ul class="dropdown-menu border-0 shadow" [class.show]="isCategoriesOpen">
               <li>
-                <a class="dropdown-item" [routerLink]="['/categoria', 'literatura']">Literatura</a>
+                <a class="dropdown-item" [routerLink]="['/categoria', 'fantasía']">Fantasía</a>
               </li>
               <li>
-                <a class="dropdown-item" [routerLink]="['/categoria', 'academicos']">Académicos</a>
+                <a class="dropdown-item" [routerLink]="['/categoria', 'terror']">Terror</a>
               </li>
               <li>
-                <a class="dropdown-item" [routerLink]="['/categoria', 'infantil']">Infantil</a>
+                <a class="dropdown-item" [routerLink]="['/categoria', 'thriller']">Thriller</a>
+              </li>
+              <li>
+                <a class="dropdown-item" [routerLink]="['/categoria', 'ciencia ficción']"
+                  >Ciencia Ficción</a
+                >
               </li>
               <li>
                 <hr class="dropdown-divider" />
@@ -55,14 +76,19 @@
                 <a class="dropdown-item" [routerLink]="['/categorias']">Ver todas</a>
               </li>
             </ul>
-
           </li>
         </ul>
 
         <!-- LOGO CENTRO DESKTOP -->
         <a class="navbar-brand d-none d-lg-flex align-items-center mx-lg-4" routerLink="/">
-          <img src="/logo.png" alt="Rebook Logo" class="rebook-logo" height="60" style="object-fit: contain"
-            onerror="this.parentElement.innerHTML = '<span>Rebook</span>'" />
+          <img
+            src="/logo.png"
+            alt="Rebook Logo"
+            class="rebook-logo"
+            height="60"
+            style="object-fit: contain"
+            onerror="this.parentElement.innerHTML = '<span>Rebook</span>'"
+          />
         </a>
 
         <!-- BUSCADOR -->
@@ -77,48 +103,43 @@
 
         <!-- DERECHA -->
         <ul class="navbar-nav ms-auto align-items-center">
-
           <!-- FAVORITOS -->
           <li class="nav-item me-3 position-relative">
-
             <button class="nav-link btn-favoritos-header" (click)="togglePanelFavoritos()">
               <i class="fas fa-heart fa-lg" [class.tiene-favoritos]="favoritos.length > 0"></i>
 
               @if (favoritos.length > 0) {
-              <span class="badge-favoritos">
-                {{ favoritos.length }}
-              </span>
+                <span class="badge-favoritos">
+                  {{ favoritos.length }}
+                </span>
               }
             </button>
 
             @if (isPanelFavoritosOpen) {
-            <div class="panel-favoritos">
-
-              <div class="panel-favoritos-header">
-                <span>❤️ Favoritos</span>
-                <button class="btn-cerrar-panel" (click)="cerrarPanelFavoritos()">✕</button>
-              </div>
-
-              @if (favoritos.length > 0) {
-              @for (libro of favoritos; track libro.id) {
-              <div class="panel-favoritos-item">
-                <img [src]="libro.url" alt="portada" />
-
-                <div class="panel-favoritos-info">
-                  <p class="panel-libro-titulo">{{ libro.title }}</p>
-                  <p class="panel-libro-autor">{{ libro.author }}</p>
+              <div class="panel-favoritos">
+                <div class="panel-favoritos-header">
+                  <span>❤️ Favoritos</span>
+                  <button class="btn-cerrar-panel" (click)="cerrarPanelFavoritos()">✕</button>
                 </div>
+
+                @if (favoritos.length > 0) {
+                  @for (libro of favoritos; track libro.id) {
+                    <div class="panel-favoritos-item">
+                      <img [src]="libro.url" alt="portada" />
+
+                      <div class="panel-favoritos-info">
+                        <p class="panel-libro-titulo">{{ libro.title }}</p>
+                        <p class="panel-libro-autor">{{ libro.author }}</p>
+                      </div>
+                    </div>
+                  }
+                } @else {
+                  <p class="panel-vacio">No tienes favoritos aún</p>
+                }
               </div>
-              }
-              } @else {
-              <p class="panel-vacio">No tienes favoritos aún</p>
-              }
 
-            </div>
-
-            <div class="panel-overlay" (click)="cerrarPanelFavoritos()"></div>
+              <div class="panel-overlay" (click)="cerrarPanelFavoritos()"></div>
             }
-
           </li>
 
           <!-- CARRITO -->
@@ -130,58 +151,68 @@
 
           <!-- CUENTA -->
           <li class="nav-item dropdown">
-
             @if (isAuthenticated()) {
-            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button"
-              (click)="toggleAccount($event)" [class.show]="isAccountOpen">
-              <i class="fas fa-user-circle fa-lg me-1"></i>
-              Mi cuenta
-            </a>
+              <a
+                class="nav-link dropdown-toggle d-flex align-items-center"
+                href="#"
+                role="button"
+                (click)="toggleAccount($event)"
+                [class.show]="isAccountOpen"
+              >
+                <i class="fas fa-user-circle fa-lg me-1"></i>
+                Mi cuenta
+              </a>
 
-            <ul class="dropdown-menu dropdown-menu-end border-0 shadow" [class.show]="isAccountOpen">
-              <li>
-                <a class="dropdown-item" routerLink="/perfil">
-                  <i class="fas fa-user me-2"></i>Mi Perfil
-                </a>
-              </li>
+              <ul
+                class="dropdown-menu dropdown-menu-end border-0 shadow"
+                [class.show]="isAccountOpen"
+              >
+                <li>
+                  <a class="dropdown-item" routerLink="/perfil">
+                    <i class="fas fa-user me-2"></i>Mi Perfil
+                  </a>
+                </li>
 
-              <li>
-                <a class="dropdown-item" routerLink="/mis-pedidos">
-                  <i class="fas fa-box me-2"></i>Mis pedidos
-                </a>
-              </li>
+                <li>
+                  <a class="dropdown-item" routerLink="/mis-pedidos">
+                    <i class="fas fa-box me-2"></i>Mis pedidos
+                  </a>
+                </li>
 
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
 
-              <li>
-                <button class="dropdown-item text-danger" (click)="logout()">
-                  <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
-                </button>
-              </li>
-            </ul>
-
+                <li>
+                  <button class="dropdown-item text-danger" (click)="logout()">
+                    <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
+                  </button>
+                </li>
+              </ul>
             } @else {
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                (click)="toggleAccount($event)"
+                [class.show]="isAccountOpen"
+              >
+                Iniciar sesión
+              </a>
 
-            <a class="nav-link dropdown-toggle" href="#" role="button" (click)="toggleAccount($event)"
-              [class.show]="isAccountOpen">
-              Iniciar sesión
-            </a>
-
-            <ul class="dropdown-menu dropdown-menu-end border-0 shadow" [class.show]="isAccountOpen">
-              <li>
-                <a class="dropdown-item" routerLink="/auth/login">Iniciar sesión</a>
-              </li>
-              <li>
-                <a class="dropdown-item" routerLink="/auth/signup">Registrarse</a>
-              </li>
-            </ul>
-
+              <ul
+                class="dropdown-menu dropdown-menu-end border-0 shadow"
+                [class.show]="isAccountOpen"
+              >
+                <li>
+                  <a class="dropdown-item" routerLink="/auth/login">Iniciar sesión</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" routerLink="/auth/signup">Registrarse</a>
+                </li>
+              </ul>
             }
-
           </li>
-
         </ul>
       </div>
     </div>
