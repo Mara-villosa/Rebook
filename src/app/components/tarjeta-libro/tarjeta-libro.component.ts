@@ -6,6 +6,7 @@ import {
   BookDTO,
   RemoveBookFromFavsRequest,
 } from '../../shared/interfaces/HTTP/Books';
+import { AuthService } from '../../shared/services/auth-service/auth-service';
 import { CarritoService } from '../../shared/services/carrito-service';
 import { FavoritosService } from '../../shared/services/favoritos.service';
 
@@ -17,6 +18,7 @@ import { FavoritosService } from '../../shared/services/favoritos.service';
   styleUrl: './tarjeta-libro.component.scss',
 })
 export class TarjetaLibroComponent implements OnInit {
+  #authService = inject(AuthService);
   @Input() libro?: BookDTO;
 
   servicioCarrito = inject(CarritoService);
@@ -31,7 +33,7 @@ export class TarjetaLibroComponent implements OnInit {
   mostrarModal = false;
 
   ngOnInit(): void {
-    this.cargarFavoritos();
+    if (this.#authService.isAuthenticated()) this.cargarFavoritos();
   }
 
   cargarFavoritos(): void {
@@ -65,7 +67,6 @@ export class TarjetaLibroComponent implements OnInit {
         next: () => this.cargarFavoritos(),
         error: (err) => console.error('Error quitando favorito', err),
       });
-
     } else {
       this.servicioFavoritos.addToFavs(request).subscribe({
         next: () => {

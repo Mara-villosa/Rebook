@@ -1,19 +1,20 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CartItem } from '../../shared/interfaces/cart-item';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { UserService } from '../../shared/services/user-service/user-service';
-import { CarritoService } from '../../shared/services/carrito-service';
+import { CartItem } from '../../shared/interfaces/cart-item';
 import { AuthService } from '../../shared/services/auth-service/auth-service';
+import { CarritoService } from '../../shared/services/carrito-service';
+import { UserService } from '../../shared/services/user-service/user-service';
 
 @Component({
   selector: 'app-carrito',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './carrito.html',
-  styleUrls: ['./carrito.scss']
+  styleUrls: ['./carrito.scss'],
 })
 export class Carrito implements OnInit {
+  #authService = inject(AuthService);
 
   cartItems: CartItem[] = [];
   errorMessage = '';
@@ -36,67 +37,62 @@ export class Carrito implements OnInit {
     numeroTarjeta: '',
     nombreTitular: '',
     fecha: '',
-    cvv: ''
+    cvv: '',
   };
 
   touched = {
     numeroTarjeta: false,
     nombreTitular: false,
     fecha: false,
-    cvv: false
+    cvv: false,
   };
 
   constructor(
     private carritoService: CarritoService,
     private userService: UserService,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+  ) {}
 
   ngOnInit(): void {
-    this.loadCart();
+    if (this.#authService.isAuthenticated()) this.loadCart();
   }
-
-
 
   loadCart() {
     this.carritoService.getCart().subscribe({
-    next: (res) => {
+      next: (res) => {
+        this.cartItems = res.books.map((book: any) => ({
+          id: book.id,
+          titulo: book.title,
+          autor: book.author,
+          portada: book.url,
+          price: book.in_cart_for_rent ? book.rentPrice : book.sellPrice,
+          type: book.in_cart_for_rent ? 'rent' : 'buy',
+          quantity: 1,
+          returnDate: book.return_date || '',
+        }));
 
-      this.cartItems = res.books.map((book: any) => ({
-        id: book.id,
-        titulo: book.title,
-        autor: book.author,
-        portada: book.url,
-        price: book.in_cart_for_rent ? book.rentPrice : book.sellPrice,
-        type: book.in_cart_for_rent ? 'rent' : 'buy',
-        quantity: 1,
-        returnDate: book.return_date || ''
-      }));
-
-      this.calcularTotal();
-    },
-    error: () => {
-      this.cartItems = [];
-    }
-  });
-}
+        this.calcularTotal();
+      },
+      error: () => {
+        this.cartItems = [];
+      },
+    });
+  }
 
   getItemsByType(type: string): CartItem[] {
-    return this.cartItems.filter(i => i.type === type);
+    return this.cartItems.filter((i) => i.type === type);
   }
 
   toggleItem(item: CartItem) {
     const key = `${item.id}-${item.type}`;
 
-    this.selectedItems.has(key)
-      ? this.selectedItems.delete(key)
-      : this.selectedItems.add(key);
+    this.selectedItems.has(key) ? this.selectedItems.delete(key) : this.selectedItems.add(key);
 
     this.calcularTotal();
   }
 
   toggleAll(type: string, checked: boolean) {
-    this.getItemsByType(type).forEach(item => {
+    this.getItemsByType(type).forEach((item) => {
       const key = `${item.id}-${item.type}`;
       checked ? this.selectedItems.add(key) : this.selectedItems.delete(key);
     });
@@ -110,23 +106,25 @@ export class Carrito implements OnInit {
 
   calcularTotal() {
     this.total = this.cartItems
-      .filter(i => this.selectedItems.has(`${i.id}-${i.type}`))
-      .reduce((acc, i) => acc + (i.price * i.quantity), 0);
+      .filter((i) => this.selectedItems.has(`${i.id}-${i.type}`))
+      .reduce((acc, i) => acc + i.price * i.quantity, 0);
   }
 
   getSubtotalByType(type: string): number {
     return this.cartItems
-      .filter(i => i.type === type && this.selectedItems.has(`${i.id}-${i.type}`))
-      .reduce((acc, i) => acc + (i.price * i.quantity), 0);
+      .filter((i) => i.type === type && this.selectedItems.has(`${i.id}-${i.type}`))
+      .reduce((acc, i) => acc + i.price * i.quantity, 0);
   }
 
   remove(item: CartItem) {
-    this.carritoService.removeFromCart({
-      book_id: String(item.id)
-    }).subscribe({
-      next: () => this.loadCart(),
-      error: () => this.mostrarMensaje('Error al eliminar del carrito')
-    });
+    this.carritoService
+      .removeFromCart({
+        book_id: String(item.id),
+      })
+      .subscribe({
+        next: () => this.loadCart(),
+        error: () => this.mostrarMensaje('Error al eliminar del carrito'),
+      });
   }
 
   // MODAL
@@ -143,7 +141,6 @@ export class Carrito implements OnInit {
   }
 
   pagar() {
-
     this.marcarTodoTouched();
     this.validarCampos();
 
@@ -158,11 +155,14 @@ export class Carrito implements OnInit {
     }
 
     if (this.guardarTarjeta) {
-      localStorage.setItem('tarjeta', JSON.stringify({
-        numero: this.numeroTarjeta,
-        nombre: this.nombreTitular,
-        fecha: this.fecha
-      }));
+      localStorage.setItem(
+        'tarjeta',
+        JSON.stringify({
+          numero: this.numeroTarjeta,
+          nombre: this.nombreTitular,
+          fecha: this.fecha,
+        }),
+      );
     }
 
     this.carritoService.buyCart().subscribe({
@@ -176,7 +176,7 @@ export class Carrito implements OnInit {
       },
       error: () => {
         this.mostrarMensaje('Error al procesar el pago');
-      }
+      },
     });
   }
 
@@ -191,17 +191,16 @@ export class Carrito implements OnInit {
       numeroTarjeta: true,
       nombreTitular: true,
       fecha: true,
-      cvv: true
+      cvv: true,
     };
   }
 
   validarCampos() {
-
     this.errores = {
       numeroTarjeta: '',
       nombreTitular: '',
       fecha: '',
-      cvv: ''
+      cvv: '',
     };
 
     if (this.touched.numeroTarjeta || this.numeroTarjeta) {

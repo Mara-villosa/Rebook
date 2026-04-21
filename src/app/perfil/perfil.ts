@@ -7,6 +7,7 @@ import {
   UploadBookRequest,
 } from '../shared/interfaces/HTTP/Books';
 import { UpdateUserRequest } from '../shared/interfaces/HTTP/User';
+import { AuthService } from '../shared/services/auth-service/auth-service';
 import { BookService } from '../shared/services/book-service';
 import { UserService } from '../shared/services/user-service/user-service';
 
@@ -18,6 +19,7 @@ import { UserService } from '../shared/services/user-service/user-service';
   styleUrls: ['./perfil.scss'],
 })
 export class Perfil implements OnInit {
+  #authService = inject(AuthService);
   private userService = inject(UserService);
   private bookService = inject(BookService);
 
@@ -72,8 +74,10 @@ export class Perfil implements OnInit {
 
   // INIT
   ngOnInit() {
-    this.cargarUsuario();
-    this.cargarLibros();
+    if (this.#authService.isAuthenticated()) {
+      this.cargarUsuario();
+      this.cargarLibros();
+    }
   }
 
   // USER (BACKEND)

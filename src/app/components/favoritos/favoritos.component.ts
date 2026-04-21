@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BookDTO, GetAllBooksFromUserResponse } from '../../shared/interfaces/HTTP/Books';
+import { AuthService } from '../../shared/services/auth-service/auth-service';
 import { BookService } from '../../shared/services/book-service';
 import { FavoritosService } from '../../shared/services/favoritos.service';
 import { TarjetaLibroComponent } from '../tarjeta-libro/tarjeta-libro.component';
@@ -14,6 +15,7 @@ import { TarjetaLibroComponent } from '../tarjeta-libro/tarjeta-libro.component'
   styleUrl: './favoritos.component.scss',
 })
 export class FavoritosComponent implements OnInit {
+  #authService = inject(AuthService);
   private servicioFavoritos = inject(FavoritosService);
   private servicioLibros = inject(BookService);
 
@@ -21,7 +23,7 @@ export class FavoritosComponent implements OnInit {
   librosFavoritos: BookDTO[] = [];
 
   ngOnInit(): void {
-    this.cargarLibros();
+    if (this.#authService.isAuthenticated()) this.cargarLibros();
   }
 
   cargarLibros(): void {
