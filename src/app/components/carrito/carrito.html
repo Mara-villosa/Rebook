@@ -1,12 +1,10 @@
 <h2>Carrito</h2>
 
-<div class="alert-popup" *ngIf="mostrarAlerta">
+<div class="alert-popup" *ngIf="mostrarAlerta" role="alert" aria-live="assertive">
   <i class="fas"></i>{{ mensajeAlerta }}
 </div>
 
-<div *ngIf="errorMessage" class="error-message">
-  {{ errorMessage }}
-</div>
+<div *ngIf="errorMessage" class="error-message" role="alert">{{ errorMessage }}</div>
 
 <div class="cart-container">
 
@@ -17,16 +15,20 @@
       <h3>Libros de Compra</h3>
 
       <label>
-        <input type="checkbox" (change)="toggleAll('buy', $event.target.checked)">
-        Seleccionar todo
+        <input type="checkbox"
+               (change)="toggleAll('buy', $event.target.checked)"
+               aria-label="Seleccionar todos los libros de compra"> Seleccionar todo
       </label>
     </div>
 
     <div *ngFor="let item of getItemsByType('buy')" class="cart-row">
 
-      <input type="checkbox" [checked]="isSelected(item)" (change)="toggleItem(item)">
+      <input type="checkbox"
+             [checked]="isSelected(item)"
+             (change)="toggleItem(item)"
+             [attr.aria-label]="'Seleccionar libro ' + item.titulo">
 
-      <img [src]="item.portada">
+      <img [src]="item.portada" [alt]="'Portada de ' + item.titulo">
 
       <div class="info">
         <p class="titulo">{{ item.titulo }}</p>
@@ -35,14 +37,14 @@
 
       <div class="acciones">
         <p class="precio">{{ item.price | number:'1.2-2' }}€</p>
-        <button (click)="remove(item)" class="delete">🗑</button>
+        <button (click)="remove(item)"
+                class="delete"
+                aria-label="Eliminar libro del carrito"> 🗑
+        </button>
       </div>
-
     </div>
 
-    <div class="subtotal">
-      Subtotal compra: {{ getSubtotalByType('buy') | number:'1.2-2' }}€
-    </div>
+    <div class="subtotal" aria-live="polite"> Subtotal compra: {{ getSubtotalByType('buy') | number:'1.2-2' }}€ </div>
 
   </div>
 
@@ -53,16 +55,17 @@
       <h3>Libros de Alquiler</h3>
 
       <label>
-        <input type="checkbox" (change)="toggleAll('rent', $event.target.checked)">
-        Seleccionar todo
-      </label>
+        <input type="checkbox"
+               (change)="toggleAll('rent', $event.target.checked)"
+               aria-label="Seleccionar todos los libros de alquiler">Seleccionar todo </label>
     </div>
 
     <div *ngFor="let item of getItemsByType('rent')" class="cart-row">
 
-      <input type="checkbox" [checked]="isSelected(item)" (change)="toggleItem(item)">
+      <input type="checkbox" [checked]="isSelected(item)" 
+              (change)="toggleItem(item)" [attr.aria-label]="'Seleccionar libro ' + item.titulo">
 
-      <img [src]="item.portada">
+      <img [src]="item.portada" [alt]="'Portada de ' + item.titulo">
 
       <div class="info">
         <p class="titulo">{{ item.titulo }}</p>
@@ -72,32 +75,25 @@
 
       <div class="acciones">
         <p class="precio">{{ item.price | number:'1.2-2' }}€</p>
-        <button (click)="remove(item)" class="delete">🗑</button>
+        <button (click)="remove(item)" class="delete" aria-label="Eliminar libro del carrito"> 🗑</button>
       </div>
-
     </div>
 
-    <div class="subtotal">
-      Subtotal alquiler: {{ getSubtotalByType('rent') | number:'1.2-2' }}€
-    </div>
-
+    <div class="subtotal" aria-live="polite"> Subtotal alquiler: {{ getSubtotalByType('rent') | number:'1.2-2' }}€</div>
   </div>
-
 </div>
 
 <!-- TOTAL + BOTÓN FINAL -->
-<div class="total-global">
-  Total: {{ total | number:'1.2-2' }}€
-</div>
+<div class="total-global" aria-live="polite">Total: {{ total | number:'1.2-2' }}€</div>
 
 <div class="acciones-carrito">
-  <button class="btn-comprar" (click)="abrirModal()">
-    Finalizar compra
-  </button>
+  <button class="btn-comprar" (click)="abrirModal()"
+          aria-label="Finalizar compra"> Finalizar compra</button>
 </div>
 
 <!-- MODAL -->
-<div class="modal-overlay" *ngIf="mostrarModal">
+<div class="modal-overlay"
+     *ngIf="mostrarModal" role="dialog" aria-modal="true" aria-label="Formulario de pago">
 
   <div class="modal-pago">
 
@@ -107,51 +103,52 @@
 
     <div class="form-group">
       <label>Número de tarjeta</label>
-      <input type="text" [(ngModel)]="numeroTarjeta" (input)="validarCampos()" (blur)="marcarTouched('numeroTarjeta')"
-        placeholder="Número de tarjeta" maxlength="16" required />
-      <div class="error-text" *ngIf="errores.numeroTarjeta">
-        {{ errores.numeroTarjeta }}
-      </div>
+      <input type="text" [(ngModel)]="numeroTarjeta"
+             (input)="validarCampos()" (blur)="marcarTouched('numeroTarjeta')"
+             placeholder="Número de tarjeta" maxlength="16"
+             required aria-label="Número de tarjeta" />
+      <div class="error-text" *ngIf="errores.numeroTarjeta" aria-live="polite">  {{ errores.numeroTarjeta }} </div>
     </div>
 
     <div class="form-group">
       <label>Nombre Titular</label>
-      <input type="text" [(ngModel)]="nombreTitular" (input)="validarCampos()" (blur)="marcarTouched('nombreTitular')"
-        placeholder="Nombre del titular" required />
-      <div class="error-text" *ngIf="errores.nombreTitular">
-        {{ errores.nombreTitular }}
-      </div>
+      <input type="text" [(ngModel)]="nombreTitular" (input)="validarCampos()" 
+            (blur)="marcarTouched('nombreTitular')"
+            placeholder="Nombre del titular" required aria-label="Nombre del titular" />
+      <div class="error-text" *ngIf="errores.nombreTitular" aria-live="polite">  {{ errores.nombreTitular }}</div>
     </div>
 
     <div class="form-row">
+
       <div class="form-group">
         <label>Fecha (MM/AA)</label>
-        <input type="text" [(ngModel)]="fecha" (input)="validarCampos()" (blur)="marcarTouched('fecha')"
-          placeholder="MM/AA" maxlength="5" required />
-        <div class="error-text" *ngIf="errores.fecha">
-          {{ errores.fecha }}
-        </div>
+        <input type="text" [(ngModel)]="fecha" (input)="validarCampos()" 
+              (blur)="marcarTouched('fecha')" placeholder="MM/AA"
+              maxlength="5" required aria-label="Fecha de caducidad de la tarjeta" />
+        <div class="error-text" *ngIf="errores.fecha" aria-live="polite">  {{ errores.fecha }}</div>
       </div>
 
       <div class="form-group">
         <label>CVV</label>
-        <input type="password" [(ngModel)]="cvv" (input)="validarCampos()" (blur)="marcarTouched('cvv')" placeholder="123"
-          maxlength="3" required />
-        <div class="error-text" *ngIf="errores.cvv">
-          {{ errores.cvv }}
-        </div>
+        <input type="password" [(ngModel)]="cvv" (input)="validarCampos()" 
+              (blur)="marcarTouched('cvv')" placeholder="123"
+              maxlength="3" required aria-label="Código de seguridad CVV" />
+        <div class="error-text" *ngIf="errores.cvv" aria-live="polite">{{ errores.cvv }}</div>
       </div>
+
     </div>
 
     <label class="guardar-tarjeta">
-      <input type="checkbox" [(ngModel)]="guardarTarjeta">
+      <input type="checkbox" [(ngModel)]="guardarTarjeta" aria-label="Guardar tarjeta">
       <span>Guardar tarjeta</span>
     </label>
 
     <div class="acciones-modal">
-      <button (click)="cerrarModal()">Cancelar</button>
-      <button (click)="pagar()" [disabled]="!formValido()">Pagar</button>
+      <button (click)="cerrarModal()" aria-label="Cancelar pago">Cancelar</button>
+
+      <button (click)="pagar()" [disabled]="!formValido()"  aria-label="Confirmar pago"> Pagar</button>
     </div>
+
   </div>
 
 </div>

@@ -1,96 +1,107 @@
-<h2>Mi perfil</h2>
-<div *ngIf="loading">Cargando datos...</div>
-<div class="profile-container" *ngIf="!loading">
+<h2 id="perfil-title">Mi perfil</h2>
 
-  <!-- LADO IZQUIERDO -->
-<div class="profile-left">
-
- 
-
-  <!-- SOLO LECTURA -->
-  <div class="profile-summary">
-    <p><strong>Nombre:</strong> {{ user.name }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Teléfono:</strong> {{ user.phone }}</p>
-    <p><strong>Dirección:</strong> {{ user.address }}, {{ user.city }} {{ user.postalCode }}</p>
-  </div>
-
-  <button class="edit-btn" (click)="editMode = !editMode">
-    {{ editMode ? 'Cancelar edición' : 'Cambiar información' }}
-  </button>
-
-  <!-- FORM EDITABLE -->
-  <form *ngIf="editMode" (ngSubmit)="guardar()" class="profile-form">
-
-    <input [(ngModel)]="user.name" name="name" placeholder="Nombre">
-    <input [(ngModel)]="user.phone" name="phone" placeholder="Teléfono">
-
-    <input [(ngModel)]="user.address" name="street" placeholder="Calle">
-    <input [(ngModel)]="user.city" name="city" placeholder="Ciudad">
-    <input [(ngModel)]="user.postalCode" name="cp" placeholder="CP">
-
-    <button type="submit" class="save-btn">Guardar cambios</button>
-
-    <button type="button" class="password-btn" (click)="showPassword = !showPassword">
-      Cambiar contraseña
-    </button>
-
-    <div *ngIf="showPassword" class="password-box">
-
-      <input type="password" [(ngModel)]="oldPassword" name="oldPassword" placeholder="Contraseña actual">
-      <input type="password" [(ngModel)]="newPassword" name="newPassword" placeholder="Nueva contraseña">
-      <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="Confirmar contraseña">
-
-    </div>
-
-  </form>
-
+<div *ngIf="loading" role="status" aria-live="polite">
+  Cargando datos...
 </div>
 
+<div class="profile-container" *ngIf="!loading" aria-labelledby="perfil-title">
+
+  <!-- LADO IZQUIERDO -->
+  <div class="profile-left" role="region" aria-label="Información del usuario">
+
+    <!-- SOLO LECTURA -->
+    <div class="profile-summary" aria-label="Resumen de datos del perfil">
+      <p><strong>Nombre:</strong> {{ user.name }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Teléfono:</strong> {{ user.phone }}</p>
+      <p><strong>Dirección:</strong> {{ user.address }}, {{ user.city }} {{ user.postalCode }}</p>
+    </div>
+
+    <button  class="edit-btn" (click)="editMode = !editMode" type="button"
+      [attr.aria-expanded]="editMode" aria-controls="profile-form" >{{ editMode ? 'Cancelar edición' : 'Cambiar información' }}
+    </button>
+
+    <!-- FORM EDITABLE -->
+    <form  *ngIf="editMode" (ngSubmit)="guardar()" class="profile-form"
+      id="profile-form" aria-label="Formulario de edición del perfil" >
+
+      <input [(ngModel)]="user.name" name="name" placeholder="Nombre" aria-label="Nombre">
+      <input [(ngModel)]="user.phone" name="phone" placeholder="Teléfono" aria-label="Teléfono">
+      <input [(ngModel)]="user.address" name="street" placeholder="Calle" aria-label="Calle">
+      <input [(ngModel)]="user.city" name="city" placeholder="Ciudad" aria-label="Ciudad">
+      <input [(ngModel)]="user.postalCode" name="cp" placeholder="CP" aria-label="Código postal">
+
+      <button type="submit" class="save-btn"> Guardar cambios</button>
+
+      <button type="button" class="password-btn"
+        (click)="showPassword = !showPassword" [attr.aria-expanded]="showPassword"
+        aria-controls="password-box">Cambiar contraseña </button>
+
+      <div *ngIf="showPassword" class="password-box" id="password-box" aria-label="Cambio de contraseña" >
+
+        <input type="password" [(ngModel)]="oldPassword" name="oldPassword" placeholder="Contraseña actual" aria-label="Contraseña actual">
+        <input type="password" [(ngModel)]="newPassword" name="newPassword" placeholder="Nueva contraseña" aria-label="Nueva contraseña">
+        <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="Confirmar contraseña" aria-label="Confirmar contraseña">
+
+      </div>
+    </form>
+  </div>
+
   <!-- LADO DERECHO -->
-  <div class="profile-right">
+  <div class="profile-right" role="region" aria-label="Libros del usuario">
+
     <div class="books-header">
-      <h3>Mis libros subidos</h3> <button class="add-btn" (click)="abrirModalLibro()"> + Añadir libro </button>
+      <h3>Mis libros subidos</h3>
+      <button class="add-btn" (click)="abrirModalLibro()" type="button"> + Añadir libro</button>
     </div>
 
     <!-- TABS -->
-    <div class="tabs"> 
-      <button (click)="tab='uploads'">Subidos</button> 
-      <button (click)="tab='bought'">Comprados</button> <button (click)="tab='rented'">Alquilados</button>
+    <div class="tabs" role="tablist" aria-label="Filtros de libros">
+
+      <button (click)="tab='uploads'" type="button" role="tab" [attr.aria-selected]="tab==='uploads'">Subidos</button>
+      <button (click)="tab='bought'" type="button" role="tab" [attr.aria-selected]="tab==='bought'"> Comprados</button>
+      <button (click)="tab='rented'" type="button" role="tab" [attr.aria-selected]="tab==='rented'"> Alquilados</button>
+
     </div>
 
     <!-- LISTA -->
-    <div *ngFor="let book of getBooks(tab)" class="cart-row"> 
-      <img [src]="book.url">
+    <div *ngFor="let book of getBooks(tab)" class="cart-row" role="listitem">
+
+      <img [src]="book.url" [alt]="'Portada de ' + book.title">
+
       <div class="info">
         <p class="titulo">{{ book.title }}</p>
         <p class="autor">{{ book.author }}</p>
       </div>
+
       <div class="acciones">
-        <p class="precio"> {{ book.sellPrice || book.rentPrice }}€ </p> 
-        <button (click)="deleteBook(book.id)" class="delete">🗑</button>
+        <p class="precio" aria-label="Precio del libro"> {{ book.sellPrice || book.rentPrice }}€</p>
+
+        <button  (click)="deleteBook(book.id)" class="delete"
+          type="button" aria-label="Eliminar libro {{ book.title }}" > 🗑 </button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- MODAL AÑADIR LIBRO -->
-<div class="modal-overlay" *ngIf="showBookModal">
+<div class="modal-overlay" *ngIf="showBookModal"
+  role="dialog" aria-modal="true" aria-label="Añadir nuevo libro">
 
   <div class="modal-pago">
 
     <h3>Añadir libro</h3>
 
-    <input [(ngModel)]="newBook.title" name="title" placeholder="Título">
-    <input [(ngModel)]="newBook.author" name="author" placeholder="Autor">
-    <input [(ngModel)]="newBook.isbn" name="isbn" placeholder="ISBN">
-    <input [(ngModel)]="newBook.category" name="category" placeholder="Categoría">
-    <input [(ngModel)]="newBook.url" name="url" placeholder="URL portada">
+    <input [(ngModel)]="newBook.title" name="title" placeholder="Título" aria-label="Título">
+    <input [(ngModel)]="newBook.author" name="author" placeholder="Autor" aria-label="Autor">
+    <input [(ngModel)]="newBook.isbn" name="isbn" placeholder="ISBN" aria-label="ISBN">
+    <input [(ngModel)]="newBook.category" name="category" placeholder="Categoría" aria-label="Categoría">
+    <input [(ngModel)]="newBook.url" name="url" placeholder="URL portada" aria-label="URL portada">
 
     <div class="price-group">
       <label>Precio de venta</label>
       <div class="price-input">
-        <input type="number" [(ngModel)]="newBook.sell_price" name="sell" placeholder="0.00">
+        <input type="number" [(ngModel)]="newBook.sell_price" name="sell" placeholder="0.00" aria-label="Precio de venta">
         <span>€</span>
       </div>
     </div>
@@ -98,14 +109,14 @@
     <div class="price-group">
       <label>Precio de alquiler</label>
       <div class="price-input">
-        <input type="number" [(ngModel)]="newBook.rent_price" name="rent" placeholder="0.00">
+        <input type="number" [(ngModel)]="newBook.rent_price" name="rent" placeholder="0.00" aria-label="Precio de alquiler">
         <span>€</span>
       </div>
     </div>
 
     <div class="acciones-modal">
-      <button (click)="cerrarModalLibro()">Cancelar</button>
-      <button (click)="crearLibro()">Guardar</button>
+      <button (click)="cerrarModalLibro()" type="button"> Cancelar</button>
+      <button (click)="crearLibro()" type="button">Guardar</button>
     </div>
 
   </div>

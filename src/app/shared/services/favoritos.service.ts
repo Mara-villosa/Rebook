@@ -2,7 +2,6 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
-
 import { GetFavBooksResponse } from '../interfaces/HTTP/Books';
 import { AddBookToFavRequest } from '../interfaces/Favs/add-book-to-fav-request';
 import { RemoveBookFromFavsRequest } from '../interfaces/Favs/remove-book-from-favs-request'

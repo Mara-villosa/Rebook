@@ -1,8 +1,8 @@
 .titulo-seccion {
   text-align: center;
   padding: 80px 0px 10px;
-  color: var(--rebook-dark);
-  font-weight: bold;
+  color: #1f1f1f; /* antes var(--rebook-dark) */
+  font-weight: 700;
 }
 
 .contenedor-carrusel {
@@ -37,8 +37,9 @@
   width: 100%;
   height: 100%;
   font-family: 'Poppins', sans-serif;
-    background: #f7f3ea;
+  background: #f7f3ea;
 }
+
 .item-carrusel {
   width: 400px;
   flex-shrink: 0;
@@ -49,6 +50,8 @@
   width: 100%;
   height: 100%;
 }
+
+/* CARRUSEL BOTONES */
 .contenedor-carrusel {
   display: flex;
   align-items: center;
@@ -72,13 +75,14 @@
   width: 400px;
 }
 
+/* BOTONES CARRUSEL - CONTRASTE AA */
 .btn-carrusel {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   border: none;
-  background: #e7af40;
-  color: #1e1e1e;
+  background: #b7791f; /* más oscuro */
+  color: #ffffff; /* blanco puro para contraste */
   font-size: 20px;
   font-weight: bold;
   cursor: pointer;
@@ -87,37 +91,113 @@
   justify-content: center;
   transition: all 0.2s ease;
   box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-  
 }
 
 .btn-carrusel:hover {
-  transform: scale(1.1);
-  background: #d89c2b;
+  background: #8a5b14;
+  transform: scale(1.05);
 }
 
 .btn-carrusel:disabled {
   opacity: 0.4;
   cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
 }
 
-.btn-carrusel.izquierda {
-  position: absolute;
-  left: 60px;
-}
-
-.btn-carrusel.derecha {
-  position: absolute;
-  right: 60px;
-}
-
+/* LISTA */
 .contenedor-lista {
   padding: 20px 100px;
   max-width: 1600px;
 }
 
-.rejilla-libros {
-  display: grid;
-  gap: 10px;
+/* ===== TARJETA LIBRO (CORRECCIÓN CONTRASTE) ===== */
+
+.tarjeta-libro {
+  width: 100%;
+  max-width: 420px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 2px solid #c28a1d; /* más contraste */
+  border-radius: 12px;
+}
+
+/* AUTOR - PROBLEMA PRINCIPAL (LO ARREGLAMOS) */
+.autor-libro {
+  font-size: 0.85rem;
+  color: #6b4e00; /* antes muy claro */
+  font-style: italic;
+}
+
+/* DESCRIPCIÓN */
+.descripcion-libro {
+  font-size: 0.8rem;
+  color: #333333; /* mejor contraste */
+}
+
+/* TITULO */
+.titulo-libro {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+/* BOTÓN LEER MÁS */
+.leer-mas {
+  font-size: 0.8rem;
+  color: #8a5b14; /* más oscuro */
+  font-weight: 700;
+}
+
+.leer-mas:hover {
+  color: #5c3a0c;
+  text-decoration: underline;
+}
+
+/* ACCIONES */
+.acciones-libro {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  background: #fafafa;
+}
+
+/* BOTONES - MEJOR CONTRASTE */
+.boton-accion {
+  flex: 1;
+  padding: 8px;
+  font-size: 0.8rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* FAVORITO */
+.boton-favorito {
+  background: #fce4e4;
+  color: #8b1e1e;
+}
+
+/* CARRITO */
+.boton-carrito {
+  background: #f5e6c8;
+  color: #5c440a;
+}
+
+/* ALQUILER */
+.boton-alquiler {
+  background: #d8f0ea;
+  color: #1f5a4f;
+}
+
+/* HOVER GENERAL */
+.boton-accion:hover {
+  filter: brightness(0.95);
+  transform: scale(1.02);
+}
+
+/* MODAL (NO CAMBIO GRANDE, SOLO CONTRASTE) */
+.modal-overlay {
+  background: rgba(0,0,0,0.75);
 }

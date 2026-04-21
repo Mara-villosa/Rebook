@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { BookDTO, GetAllBooksFromUserResponse } from '../../shared/interfaces/HTTP/Books';
-import { BookService } from '../../shared/services/book-service';
+import { BookDTO } from '../../shared/interfaces/HTTP/Books';
 import { FavoritosService } from '../../shared/services/favoritos.service';
 import { TarjetaLibroComponent } from '../tarjeta-libro/tarjeta-libro.component';
 
@@ -15,7 +14,6 @@ import { TarjetaLibroComponent } from '../tarjeta-libro/tarjeta-libro.component'
 })
 export class FavoritosComponent implements OnInit {
   private servicioFavoritos = inject(FavoritosService);
-  private servicioLibros = inject(BookService);
 
   libros: BookDTO[] = [];
   librosFavoritos: BookDTO[] = [];
@@ -25,13 +23,13 @@ export class FavoritosComponent implements OnInit {
   }
 
   cargarLibros(): void {
-    this.servicioLibros.getAllBooksFromUser().subscribe({
-      next: (data: GetAllBooksFromUserResponse) => {
-        this.libros = [...(data.uploads ?? []), ...(data.rented ?? []), ...(data.bought ?? [])];
+    this.servicioFavoritos.getFavs().subscribe({
+      next: (res: any) => {
+        this.librosFavoritos = res.favourites ?? [];
       },
-      error: (err) => {
-        console.error('Error cargando libros', err);
-      },
+      error: () => {
+        this.librosFavoritos = [];
+      }
     });
   }
 }

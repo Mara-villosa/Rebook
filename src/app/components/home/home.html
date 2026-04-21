@@ -1,28 +1,36 @@
-<h2 class="titulo-seccion">Libros destacados</h2>
+<h2 class="titulo-seccion" id="destacados">Libros destacados</h2>
 
 <!-- CARRUSEL -->
-<div class="contenedor-carrusel">
-    <button class="btn-carrusel izquierda" (click)="anterior()" [disabled]="indiceActual === 0">‹</button>
-    <div class="carrusel">
+<div class="contenedor-carrusel"  role="region" aria-labelledby="destacados" aria-roledescription="carrusel de libros">
+
+    <button class="btn-carrusel izquierda" (click)="anterior()" [disabled]="indiceActual === 0"
+        aria-label="Ver libros anteriores" type="button" [attr.aria-disabled]="indiceActual === 0" > ‹ </button>
+
+    <!-- 🔹 Mejora clave AA: región dinámica anunciada -->
+    <div class="carrusel"  role="list"  aria-label="Carrusel de libros destacados"
+        tabindex="0"  aria-live="polite">
         @for (libro of librosCarrusel; track libro.id) {
-        <div class="item-carrusel">
+        <div class="item-carrusel" role="listitem">
             <app-tarjeta-libro [libro]="libro" />
         </div>
         }
     </div>
 
-    <button class="btn-carrusel derecha" (click)="siguiente()"
-        [disabled]="indiceActual + 3 >= librosLimitados.length">›</button>
+    <button class="btn-carrusel derecha" (click)="siguiente()" [disabled]="indiceActual + 3 >= librosLimitados.length"
+        aria-label="Ver siguientes libros" type="button" [attr.aria-disabled]="indiceActual + 3 >= librosLimitados.length"
+    > › </button>
 </div>
 
 
 <!-- ÚLTIMAS INCORPORACIONES -->
-<h2 class="titulo-seccion mt-4">Últimas incorporaciones</h2>
+<h2 class="titulo-seccion mt-4" id="ultimas">Últimas incorporaciones</h2>
 
-<div class="contenedor-lista">
-    <div class="rejilla-libros">
+<div class="contenedor-lista" role="region" aria-labelledby="ultimas">
+    <div class="rejilla-libros" role="list">
         @for (libro of ultimosLibros; track libro.id) {
-        <app-tarjeta-libro [libro]="libro" />
+        <div role="listitem">
+            <app-tarjeta-libro [libro]="libro" />
+        </div>
         }
     </div>
 </div>

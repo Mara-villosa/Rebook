@@ -60,3 +60,8 @@
   font-size: 0.85rem;
   width: 100%;
 }
+
+.libro-card:focus {
+  outline: 3px solid #1a73e8;
+  outline-offset: 2px;
+}

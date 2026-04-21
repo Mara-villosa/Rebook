@@ -4,32 +4,33 @@
       <h1>Iniciar Sesión</h1>
     </div>
   </div>
+
   <div class="row d-flex justify-content-center m-4">
     <div class="border rounded shadow col-md-8">
-      <div class="text-danger m-3">
+      
+      <div class="text-danger m-3" role="alert">
         @if (this.errorMessage.length > 0) {
           <p>{{ this.errorMessage }}</p>
         }
       </div>
+
       <!--Email-->
-      <form [formGroup]="form" (submit)="onSubmit()">
+      <form [formGroup]="form" (submit)="onSubmit()" novalidate>
+        
         <div class="m-3">
           <label for="email" class="form-label">Email</label>
-          <input
-            type="email"
-            id="email"
-            class="form-control"
-            name="email"
-            formControlName="email"
-            placeholder="Email..."
+          <input type="email" id="email" class="form-control" name="email"
+            formControlName="email"  placeholder="Email..." required
+            [attr.aria-invalid]="form.get('email')?.invalid && form.get('email')?.touched"
           />
-          <div class="text-danger mt-2 ms-2">
+
+          <div class="text-danger mt-2 ms-2" aria-live="polite">
             @if (this.form.get('email')?.touched) {
               @if (this.form.get('email')?.errors?.['required']) {
                 <p>El email no puede estar vacío</p>
               }
               @if (this.form.get('email')?.errors?.['pattern']) {
-                <p>Introdce un email válido</p>
+                <p>Introduce un email válido</p>
               }
               @if (this.form.get('email')?.errors?.['minlength']) {
                 <p>El email debe tener al menos 6 caracteres</p>
@@ -37,27 +38,27 @@
             }
           </div>
         </div>
+
         <!--Password-->
         <div class="m-3 mt-4">
           <div class="d-flex justify-content-between">
             <label for="password" class="form-label">Contraseña</label>
           </div>
+
           <div class="input-group">
-            <input
-              [type]="this.passwordVisible ? 'text' : 'password'"
-              id="password"
-              class="form-control"
-              name="password"
-              formControlName="password"
-              placeholder="Contraseña..."
+            <input [type]="this.passwordVisible ? 'text' : 'password'"
+              id="password" class="form-control" name="password" formControlName="password" placeholder="Contraseña..." required 
+              [attr.aria-invalid]="form.get('password')?.invalid && form.get('password')?.touched"
             />
+
             <span class="input-group-text border-0">
               <app-password-toggler
-                (toggleVisibility)="togglePasswordVisibility($event)"
+                (toggleVisibility)="togglePasswordVisibility($event)"  aria-label="Mostrar u ocultar contraseña"
               ></app-password-toggler>
             </span>
           </div>
-          <div class="text-danger mt-2 ms-2">
+
+          <div class="text-danger mt-2 ms-2" aria-live="polite">
             @if (this.form.get('password')?.touched) {
               @if (this.form.get('password')?.errors?.['required']) {
                 <p>La contraseña no puede estar vacía</p>
@@ -68,27 +69,29 @@
             }
           </div>
         </div>
+
         <!--Submit Button-->
         <div class="d-flex justify-content-center m-3">
           <button
-            type="submit"
-            class="btn btn-success col-12 m-3 p-3"
-            [disabled]="this.form.invalid || this.validating"
-          >
-            Iniciar Sesión
+            type="submit" class="btn btn-success col-12 m-3 p-3" 
+            [disabled]="this.form.invalid || this.validating" [attr.aria-busy]="validating"> Iniciar Sesión
+
             @if (this.validating) {
               <span class="spinner-border spinner-border-sm ml-5"></span>
+              <span class="visually-hidden">Cargando...</span>
             }
           </button>
         </div>
+
       </form>
     </div>
   </div>
+
   <div class="row mt-3 mb-4">
     <div class="col">
       <h4 class="text-center">¿No tienes cuenta?</h4>
       <h5 class="text-center">
-        <a class="link-opacity-75-hover" [routerLink]="['/auth/signup']">Crea una cuenta</a>
+        <a class="link-opacity-75-hover" [routerLink]="['/auth/signup']" aria-label="Crear una cuenta nueva" > Crea una cuenta </a>
       </h5>
     </div>
   </div>

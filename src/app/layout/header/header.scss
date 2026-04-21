@@ -285,6 +285,28 @@
     z-index: 1059;
   }
 
+  .panel-favoritos-footer {
+  padding: 0.75rem;
+  border-top: 1px solid #f0e8d0;
+  text-align: center;
+}
+
+.btn-ver-favoritos {
+  display: inline-block;
+  width: 100%;
+  padding: 10px;
+  background: var(--rebook-primary);
+  color: var(--rebook-dark);
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn-ver-favoritos:focus {
+  outline: 3px solid #1a73e8;
+  outline-offset: 2px;
+}
+
   @media (max-width: 991px) {
     .navbar-collapse {
       background-color: var(--rebook-light) !important;

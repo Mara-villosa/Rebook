@@ -61,6 +61,10 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+   recargarFavoritos(): void {
+    this.loadFavoritos();
+  }
+
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }
