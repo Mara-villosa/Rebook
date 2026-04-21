@@ -1,106 +1,104 @@
-<div class="tarjeta-libro" *ngIf="libro">
+<div class="tarjeta-libro" *ngIf="libro" role="article">
 
   <div class="tarjeta-superior">
 
-    <!-- FOTO -->
+    <!-- PORTADA -->
     <div class="portada-libro">
-      <img [src]="libro.url" [alt]="libro.title">
-
-      <div class="etiqueta-genero">
-        {{ libro.category }}
-      </div>
+      <img [src]="libro.url" [alt]="'Portada del libro ' + libro.title" loading="lazy" >
+      <div class="etiqueta-genero"> {{ libro.category }}</div>
     </div>
 
-    <!-- INFO -->
+    <!-- CONTENIDO -->
     <div class="contenido-libro">
-      <h3 class="titulo-libro">{{ libro.title }}</h3>
+      <h3 class="titulo-libro" [id]="'titulo-libro-' + libro.id"> {{ libro.title }} </h3>
       <p class="autor-libro">{{ libro.author }}</p>
-      <p class="descripcion-libro">
-        {{ libro.description }}
-      </p>
+      <p class="descripcion-libro"> {{ libro.description }} </p>
 
-      <span class="leer-mas" (click)="abrirModal()">
-        Leer más
-      </span>
+      <!-- BOTÓN ACCESIBLE (antes span) -->
+      <button type="button" class="leer-mas"
+        (click)="abrirModal()"  aria-label="Leer descripción completa de {{ libro.title }}">Leer más </button>
     </div>
-
   </div>
 
-  <!-- BOTONES ABAJO -->
-  <div class="acciones-libro">
+  <!-- ACCIONES -->
+  <div class="acciones-libro" role="group" aria-label="Acciones del libro">
 
-    <button class="boton-accion boton-favorito" [class.activo]="esFavorito" (click)="alternarFavorito()">
+    <button class="boton-accion boton-favorito"  [class.activo]="esFavorito"
+      (click)="alternarFavorito()" type="button"
+      [attr.aria-pressed]="esFavorito"  [attr.aria-label]="(esFavorito ? 'Quitar de favoritos ' : 'Añadir a favoritos ') + libro.title" >
       <span *ngIf="animacionFavorito">✔ Guardado</span>
       <span *ngIf="!animacionFavorito && esFavorito">❌ Quitar</span>
       <span *ngIf="!animacionFavorito && !esFavorito">🤍 Favoritos</span>
     </button>
 
-    <button class="boton-accion boton-carrito" [class.activo]="estaEnCarritoCompra" (click)="agregarCompra()">
+    <button class="boton-accion boton-carrito"  [class.activo]="estaEnCarritoCompra"
+      (click)="agregarCompra()"  type="button"
+      [attr.aria-pressed]="estaEnCarritoCompra" [attr.aria-label]="'Añadir al carrito ' + libro.title" >
       <span *ngIf="!estaEnCarritoCompra">
         🛒 Carrito ({{ libro.sellPrice | currency:'EUR' }})
       </span>
       <span *ngIf="estaEnCarritoCompra">✔ Añadido</span>
     </button>
 
-    <button class="boton-accion boton-alquiler" [class.activo]="estaEnCarritoAlquiler" (click)="agregarAlquiler()">
+    <button class="boton-accion boton-alquiler" [class.activo]="estaEnCarritoAlquiler"
+      (click)="agregarAlquiler()"  type="button"
+      [attr.aria-pressed]="estaEnCarritoAlquiler"  [attr.aria-label]="'Añadir al alquiler ' + libro.title" >
       <span *ngIf="!estaEnCarritoAlquiler">
         📖 Alquilar ({{ (libro.rentPrice || 0) * 0.5 | currency:'EUR' }})
       </span>
       <span *ngIf="estaEnCarritoAlquiler">✔ Añadido</span>
     </button>
-
   </div>
-
 </div>
-<div class="modal-overlay" *ngIf="mostrarModal">
+
+<!-- MODAL -->
+<div class="modal-overlay"
+     *ngIf="mostrarModal" role="dialog"
+     aria-modal="true" [attr.aria-labelledby]="'modal-title-' + libro?.id">
+
   <div class="modal-libro">
 
-    <button class="cerrar" (click)="cerrarModal()">✖</button>
+    <button type="button" class="cerrar"
+      (click)="cerrarModal()" aria-label="Cerrar ventana de detalles del libro">  ✖
+    </button>
 
     <div class="modal-contenido">
 
-      <img [src]="libro?.url" class="modal-img">
+      <img [src]="libro?.url"  class="modal-img"
+        [alt]="'Portada del libro ' + libro?.title">
 
       <div class="modal-info">
-        <h2>{{ libro?.title }}</h2>
+
+        <h2 [id]="'modal-title-' + libro?.id"> {{ libro?.title }} </h2>
         <p class="autor">{{ libro?.author }}</p>
+        <p class="descripcion-completa">  {{ libro?.description }}</p>
 
-        <!-- AQUÍ YA SIN límite -->
-        <p class="descripcion-completa">
-          {{ libro?.description }}
-        </p>
+        <!-- ACCIONES MODAL -->
+        <div class="acciones-libro" role="group" aria-label="Acciones del libro en ventana modal">
 
-        <!-- reutilizas botones -->
-        <div class="acciones-libro">
-          <div class="acciones-libro">
+          <button  class="boton-accion boton-favorito"  [class.activo]="esFavorito"
+            (click)="alternarFavorito()"  type="button"
+            [attr.aria-pressed]="esFavorito"  [attr.aria-label]="(esFavorito ? 'Quitar de favoritos ' : 'Añadir a favoritos ') + libro?.title" >
+            <span *ngIf="animacionFavorito">✔ Guardado</span>
+            <span *ngIf="!animacionFavorito && esFavorito">❌ Quitar</span>
+            <span *ngIf="!animacionFavorito && !esFavorito">🤍 Favoritos</span>
+          </button>
 
-            <button class="boton-accion boton-favorito" [class.activo]="esFavorito" (click)="alternarFavorito()">
-              <span *ngIf="animacionFavorito">✔ Guardado</span>
-              <span *ngIf="!animacionFavorito && esFavorito">❌ Quitar</span>
-              <span *ngIf="!animacionFavorito && !esFavorito">🤍 Favoritos</span>
-            </button>
+          <button  class="boton-accion boton-carrito"  [class.activo]="estaEnCarritoCompra"
+            (click)="agregarCompra()"  type="button"
+            [attr.aria-pressed]="estaEnCarritoCompra"  [attr.aria-label]="'Añadir al carrito ' + libro?.title">
+            <span *ngIf="!estaEnCarritoCompra"> 🛒 Carrito ({{ libro?.sellPrice | currency:'EUR' }}) </span>
+            <span *ngIf="estaEnCarritoCompra">✔ Añadido</span>
+          </button>
 
-            <button class="boton-accion boton-carrito" [class.activo]="estaEnCarritoCompra" (click)="agregarCompra()">
-              <span *ngIf="!estaEnCarritoCompra">
-                🛒 Carrito ({{ libro?.sellPrice | currency:'EUR' }})
-              </span>
-              <span *ngIf="estaEnCarritoCompra">✔ Añadido</span>
-            </button>
-
-            <button class="boton-accion boton-alquiler" [class.activo]="estaEnCarritoAlquiler"
-              (click)="agregarAlquiler()">
-              <span *ngIf="!estaEnCarritoAlquiler">
-                📖 Alquilar ({{ (libro?.rentPrice || 0) * 0.5 | currency:'EUR' }})
-              </span>
-              <span *ngIf="estaEnCarritoAlquiler">✔ Añadido</span>
-            </button>
-
-          </div>
+          <button  class="boton-accion boton-alquiler"  [class.activo]="estaEnCarritoAlquiler"
+            (click)="agregarAlquiler()"  type="button"
+            [attr.aria-pressed]="estaEnCarritoAlquiler" [attr.aria-label]="'Añadir al alquiler ' + libro?.title" >
+            <span *ngIf="!estaEnCarritoAlquiler">📖 Alquilar ({{ (libro?.rentPrice || 0) * 0.5 | currency:'EUR' }}) </span>
+            <span *ngIf="estaEnCarritoAlquiler">✔ Añadido</span>
+          </button>
         </div>
-
       </div>
-
     </div>
-
   </div>
 </div>

@@ -45,11 +45,11 @@ h2 {
 }
 
 .autor {
-  color: var(--rebook-secondary);
+  color: #37474f; 
 }
 
 .precio {
-  color: var(--rebook-primary);
+  color: #1b5e20;
   font-weight: bold;
 }
 
@@ -77,64 +77,7 @@ h2 {
 }
 
 /* MODAL */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(44,62,80,0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-.modal-pago {
-  background: var(--rebook-white);
-  padding: 20px;
-  border-radius: 12px;
-  width: 400px;
-}
-
-/* ALERTA */
-.alert-popup {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: #dc3545;
-  color: white;
-  padding: 12px 18px;
-  border-radius: 10px;
-  z-index: 10000;
-  font-weight: bold;
-}
-.alert-popup {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: #dc3545;
-  color: #fff;
-  padding: 12px 18px;
-  border-radius: 10px;
-  box-shadow: var(--rebook-shadow);
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  z-index: 9999;
-  animation: slideIn 0.25s ease;
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -156,21 +99,28 @@ h2 {
   border-radius: 16px;
   padding: 25px 22px;
   box-shadow: var(--rebook-shadow);
-  border: 1px solid rgba(224, 190, 99, 0.3);
-  animation: modalIn 0.25s ease;
 }
 
-/* Entrada suave */
-@keyframes modalIn {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+/* ALERTA */
+
+.alert-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #b00020;
+  color: #ffffff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  box-shadow: var(--rebook-shadow);
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 9999;
+  animation: slideIn 0.25s ease;
 }
+
+/*FORMULARIO MODAL */
 
 .modal-pago h3 {
   text-align: center;
@@ -179,7 +129,6 @@ h2 {
   font-size: 1.4rem;
 }
 
-/* Inputs */
 .modal-pago input {
   width: 100%;
   padding: 12px;
@@ -192,22 +141,14 @@ h2 {
   transition: var(--rebook-transition);
 }
 
-.modal-pago input:focus {
-  border-color: var(--rebook-primary);
-  box-shadow: 0 0 0 3px rgba(224, 190, 99, 0.2);
+/* FOCUS AA CLARO Y UNIFICADO */
+:host :focus {
+  outline: 3px solid #1a73e8;
+  outline-offset: 2px;
 }
 
-/* Fila doble */
-.fila {
-  display: flex;
-  gap: 10px;
-}
+/*BOTONES */
 
-.fila input {
-  flex: 1;
-}
-
-/* Botonera */
 .acciones-modal {
   display: flex;
   gap: 10px;
@@ -224,26 +165,23 @@ h2 {
   transition: var(--rebook-transition);
 }
 
-/* Cancelar */
+/* foco accesible en botones */
+button:focus {
+  outline: 3px solid #1a73e8;
+  outline-offset: 2px;
+}
+
 .acciones-modal button:first-child {
   background: var(--rebook-accent);
   color: var(--rebook-dark);
 }
 
-.acciones-modal button:first-child:hover {
-  background: #9fb8b5;
-}
-
-/* Pagar */
 .acciones-modal button:last-child {
   background: var(--rebook-primary);
   color: var(--rebook-dark);
 }
 
-.acciones-modal button:last-child:hover {
-  background: var(--rebook-secondary);
-  transform: translateY(-1px);
-}
+/* CHECKBOX*/
 
 .guardar-tarjeta {
   display: flex;
@@ -255,30 +193,37 @@ h2 {
   cursor: pointer;
 }
 
-.guardar-tarjeta input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  margin: 0;
-  accent-color: var(--rebook-primary);
+/* ERRORES*/
+
+.error-text {
+  color: #b00020;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+  margin-top: -5px;
 }
 
-.guardar-tarjeta span {
-  line-height: 1;
+
+   //ANIMACIONES
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
-/* Responsive */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 @media (max-width: 500px) {
   .modal-pago {
     padding: 18px;
   }
-
-  .fila {
-    flex-direction: column;
-  }
-}
-.error-text {
-  color: #dc3545;
-  font-size: 0.85rem;
-  margin-bottom: 8px;
-  margin-top: -5px;
 }

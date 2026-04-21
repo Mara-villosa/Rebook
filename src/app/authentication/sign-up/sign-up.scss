@@ -5,3 +5,10 @@ input.ng-invalid.ng-touched {
 input.ng-valid.ng-touched {
   border: 2px solid green;
 }
+:focus {
+  outline: 2px solid black;
+}
+
+a {
+  text-decoration: underline;
+}

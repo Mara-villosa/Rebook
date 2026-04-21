@@ -54,8 +54,8 @@
 /* Rejilla de tarjetas de favoritos */
 .rejilla-favoritos {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.8rem;
 }
 
 /* Mensaje cuando no hay ningún favorito guardado */

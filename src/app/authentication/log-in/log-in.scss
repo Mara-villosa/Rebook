@@ -9,3 +9,32 @@ input.ng-valid.ng-touched {
 a {
   text-decoration: none;
 }
+
+/* Focus visible (OBLIGATORIO AA) */
+:focus-visible {
+  outline: 3px solid #000;
+  outline-offset: 2px;
+}
+
+/* Mejor contraste en inputs inválidos */
+input.ng-invalid.ng-touched {
+  border: 2px solid #d93025;
+}
+
+input.ng-valid.ng-touched {
+  border: 2px solid #188038;
+}
+
+/* Evitar quitar subrayado sin alternativa */
+a {
+  text-decoration: underline;
+}
+
+/* Oculto accesible */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+}

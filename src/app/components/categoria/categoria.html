@@ -1,19 +1,19 @@
 <div class="categoria-container">
 
-  <h2 class="categoria-title">
-    {{ categoria }}
-  </h2>
+  <h2 class="categoria-title">{{ categoria }}</h2>
 
   @if (libros.length === 0) {
-    <p>No hay libros en esta categoría</p>
+    <p role="status" aria-live="polite"> No hay libros en esta categoría </p>
   }
 
   <div class="libros-grid">
 
     @for (libro of libros; track libro.id) {
-      <div class="libro-card">
+      <div class="libro-card"
+           tabindex="0" role="article"
+           [attr.aria-label]="'Libro ' + libro.title + ' de ' + libro.author">
 
-        <img [src]="libro.url" />
+        <img [src]="libro.url" [alt]="'Portada del libro ' + libro.title" />
 
         <div class="libro-info">
           <h4>{{ libro.title }}</h4>

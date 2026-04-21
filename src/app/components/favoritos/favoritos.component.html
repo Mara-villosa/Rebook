@@ -1,40 +1,31 @@
 <!-- Vista de libros favoritos -->
-<div class="contenedor-favoritos">
+<main class="contenedor-favoritos" aria-labelledby="titulo-favoritos">
 
-  <!-- Cabecera con título, contador y enlace para volver -->
-  <div class="cabecera-favoritos">
-    <h2>❤️ Mis favoritos</h2>
-
+  <!-- Cabecera -->
+  <header class="cabecera-favoritos">
+    <h2 id="titulo-favoritos">❤️ Mis favoritos</h2>
     <span class="contador-favoritos">
       {{ librosFavoritos.length }} libro{{ librosFavoritos.length !== 1 ? 's' : '' }}
     </span>
+    <a class="boton-volver" routerLink="/home" aria-label="Volver a la tienda"> ← Volver a la tienda </a>
+  </header>
 
-    <!-- Enlace de vuelta a la tienda mediante routing -->
-    <a class="boton-volver" routerLink="/tienda">← Volver a la tienda</a>
-  </div>
-
-  <!-- LISTA DE FAVORITOS -->
-  <div *ngIf="librosFavoritos.length > 0; else sinFavoritos">
-
+  <!-- LISTA -->
+  <section *ngIf="librosFavoritos.length > 0; else sinFavoritos">
     <div class="rejilla-favoritos">
-
-      <div *ngFor="let libro of librosFavoritos">
-
+      <article *ngFor="let libro of librosFavoritos">
         <app-tarjeta-libro [libro]="libro"></app-tarjeta-libro>
-
-      </div>
-
+      </article>
     </div>
+  </section>
 
-  </div>
-
-  <!-- SI NO HAY FAVORITOS -->
+  <!-- SIN FAVORITOS -->
   <ng-template #sinFavoritos>
-    <div class="sin-favoritos">
-      <p>🤍</p>
+    <section class="sin-favoritos" role="status" aria-live="polite">
+      <p aria-hidden="true">🤍</p>
       <p>Aún no tienes favoritos</p>
-      <span>Pulsa ❤️ Favoritos en cualquier libro para guardarlo aquí</span>
-    </div>
+      <span> Pulsa ❤️ Favoritos en cualquier libro para guardarlo aquí</span>
+    </section>
   </ng-template>
 
-</div>
+</main>

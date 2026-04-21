@@ -58,6 +58,10 @@ export class HeaderComponent {
     });
   }
 
+   recargarFavoritos(): void {
+    this.loadFavoritos();
+  }
+
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }
