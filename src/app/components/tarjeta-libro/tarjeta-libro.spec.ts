@@ -3,19 +3,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { routes } from '../../app.routes';
-import { SignUp } from './sign-up';
+import { TarjetaLibroComponent } from './tarjeta-libro.component';
 
-describe('SignUp', () => {
-  let component: SignUp;
-  let fixture: ComponentFixture<SignUp>;
+describe('Tarjeta Libro Component', () => {
+  let component: TarjetaLibroComponent;
+  let fixture: ComponentFixture<TarjetaLibroComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SignUp],
+      imports: [TarjetaLibroComponent],
       providers: [provideHttpClient(), provideRouter(routes)],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SignUp);
+    fixture = TestBed.createComponent(TarjetaLibroComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

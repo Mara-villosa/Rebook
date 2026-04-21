@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
 import { provideHttpClient } from '@angular/common/http';
-import { AuthService } from './auth-service';
+import { CarritoService } from './carrito-service';
 
-describe('AuthService', () => {
-  let service: AuthService;
+describe('Carrito Service', () => {
+  let service: CarritoService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideHttpClient()],
     });
-    service = TestBed.inject(AuthService);
+    service = TestBed.inject(CarritoService);
   });
 
   it('should be created', () => {

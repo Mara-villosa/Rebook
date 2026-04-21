@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
 import { provideHttpClient } from '@angular/common/http';
-import { AuthService } from './auth-service';
+import { BookService } from './book-service';
 
-describe('AuthService', () => {
-  let service: AuthService;
+describe('Book Service', () => {
+  let service: BookService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideHttpClient()],
     });
-    service = TestBed.inject(AuthService);
+    service = TestBed.inject(BookService);
   });
 
   it('should be created', () => {
