@@ -1,29 +1,39 @@
 <header class="rebook-header sticky-top" role="banner">
-
   <nav class="navbar navbar-expand-lg navbar-light shadow-sm" aria-label="Navegación principal">
-
     <div class="container-fluid px-3 px-lg-5">
-
       <!-- TOP ROW -->
       <div class="navbar-top-row d-flex align-items-center justify-content-between w-100 d-lg-none">
-        
         <!-- LOGO -->
         <a class="navbar-brand d-flex align-items-center" routerLink="/" aria-label="Ir a inicio">
-          <img  src="/logo.png"  alt="Logo de Rebook"
-            class="rebook-logo"  height="50" style="object-fit: contain"
-            onerror="this.parentElement.innerHTML = '<span>Rebook</span>'"/>
+          <img
+            src="/logo.png"
+            alt="Logo de Rebook"
+            class="rebook-logo"
+            height="50"
+            style="object-fit: contain"
+            onerror="this.parentElement.innerHTML = '<span>Rebook</span>'"
+          />
         </a>
 
         <!-- MENU -->
-        <button class="navbar-toggler border-0" type="button" (click)="toggleMenu()"
-          [attr.aria-expanded]="isMenuOpen" aria-controls="navbarContent" aria-label="Abrir o cerrar menú de navegación" >
+        <button
+          class="navbar-toggler border-0"
+          type="button"
+          (click)="toggleMenu()"
+          [attr.aria-expanded]="isMenuOpen"
+          aria-controls="navbarContent"
+          aria-label="Abrir o cerrar menú de navegación"
+        >
           <span class="navbar-toggler-icon" aria-hidden="true"></span>
         </button>
       </div>
 
       <!-- NAV -->
-      <div class="collapse navbar-collapse navbar-bottom-row mt-2 mt-lg-0" [class.show]="isMenuOpen" id="navbarContent">
-
+      <div
+        class="collapse navbar-collapse navbar-bottom-row mt-2 mt-lg-0"
+        [class.show]="isMenuOpen"
+        id="navbarContent"
+      >
         <!-- IZQUIERDA -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
@@ -34,44 +44,86 @@
 
           <!-- CATEGORÍAS -->
           <li class="nav-item dropdown">
-
-            <button class="nav-link dropdown-toggle btn btn-link"
-              type="button" (click)="toggleCategories($event)"
-              [attr.aria-expanded]="isCategoriesOpen" aria-controls="menu-categorias" aria-haspopup="true">
+            <button
+              class="nav-link dropdown-toggle btn btn-link"
+              type="button"
+              (click)="toggleCategories($event)"
+              [attr.aria-expanded]="isCategoriesOpen"
+              aria-controls="menu-categorias"
+              aria-haspopup="true"
+            >
               <i class="fas fa-list me-1" aria-hidden="true"></i> Categorías
             </button>
 
-            <ul class="dropdown-menu border-0 shadow"
-              [class.show]="isCategoriesOpen" id="menu-categorias" role="menu" >
+            <ul
+              class="dropdown-menu border-0 shadow"
+              [class.show]="isCategoriesOpen"
+              id="menu-categorias"
+              role="menu"
+            >
               <li role="none">
-                <a class="dropdown-item" [routerLink]="['/categoria', 'literatura']" role="menuitem">Literatura</a>
+                <a class="dropdown-item" [routerLink]="['/categoria', 'fantasía']" role="menuitem"
+                  >Fantasía</a
+                >
               </li>
               <li role="none">
-                <a class="dropdown-item" [routerLink]="['/categoria', 'academicos']" role="menuitem">Académicos</a>
+                <a class="dropdown-item" [routerLink]="['/categoria', 'thriller']" role="menuitem"
+                  >Thriller</a
+                >
               </li>
               <li role="none">
-                <a class="dropdown-item" [routerLink]="['/categoria', 'infantil']" role="menuitem">Infantil</a>
+                <a class="dropdown-item" [routerLink]="['/categoria', 'terror']" role="menuitem"
+                  >Terror</a
+                >
+              </li>
+              <li role="none">
+                <a
+                  class="dropdown-item"
+                  [routerLink]="['/categoria', 'ciencia ficción']"
+                  role="menuitem"
+                  >Ciencia Ficción</a
+                >
               </li>
               <li><hr class="dropdown-divider" /></li>
               <li role="none">
-                <a class="dropdown-item" [routerLink]="['/categorias']" role="menuitem">Ver todas</a>
+                <a class="dropdown-item" [routerLink]="['/categoria', 'all']" role="menuitem"
+                  >Ver todos</a
+                >
               </li>
             </ul>
           </li>
         </ul>
 
         <!-- LOGO DESKTOP -->
-        <a class="navbar-brand d-none d-lg-flex align-items-center mx-lg-4" routerLink="/"
-           aria-label="Ir a inicio">
-          <img src="/logo.png"  alt="Logo de Rebook" class="rebook-logo"
-            height="60"  style="object-fit: contain"  onerror="this.parentElement.innerHTML = '<span>Rebook</span>'"/>
+        <a
+          class="navbar-brand d-none d-lg-flex align-items-center mx-lg-4"
+          routerLink="/"
+          aria-label="Ir a inicio"
+        >
+          <img
+            src="/logo.png"
+            alt="Logo de Rebook"
+            class="rebook-logo"
+            height="60"
+            style="object-fit: contain"
+            onerror="this.parentElement.innerHTML = '<span>Rebook</span>'"
+          />
         </a>
 
         <!-- BUSCADOR -->
-        <form class="d-none d-lg-flex my-2 my-lg-0" style="max-width: 400px; width: 100%" role="search" aria-label="Buscar libros">
+        <form
+          class="d-none d-lg-flex my-2 my-lg-0"
+          style="max-width: 400px; width: 100%"
+          role="search"
+          aria-label="Buscar libros"
+        >
           <div class="input-group">
-            <input class="form-control"
-              type="search"  placeholder="Buscar libros..." aria-label="Buscar libros"/>
+            <input
+              class="form-control"
+              type="search"
+              placeholder="Buscar libros..."
+              aria-label="Buscar libros"
+            />
             <button class="btn btn-outline-secondary" type="submit" aria-label="Buscar">
               <i class="fas fa-search" aria-hidden="true"></i>
             </button>
@@ -82,66 +134,82 @@
         <ul class="navbar-nav ms-auto align-items-center">
           <!-- FAVORITOS -->
           <li class="nav-item me-3 position-relative">
-
-            <button class="nav-link btn-favoritos-header" (click)="togglePanelFavoritos()"
-              [attr.aria-expanded]="isPanelFavoritosOpen" aria-controls="panel-favoritos"
-              aria-label="Abrir panel de favoritos" type="button" >
-              <i class="fas fa-heart fa-lg" aria-hidden="true"
-                 [class.tiene-favoritos]="favoritos.length > 0"></i>
+            <button
+              class="nav-link btn-favoritos-header"
+              (click)="togglePanelFavoritos()"
+              [attr.aria-expanded]="isPanelFavoritosOpen"
+              aria-controls="panel-favoritos"
+              aria-label="Abrir panel de favoritos"
+              type="button"
+            >
+              <i
+                class="fas fa-heart fa-lg"
+                aria-hidden="true"
+                [class.tiene-favoritos]="favoritos.length > 0"
+              ></i>
 
               @if (favoritos.length > 0) {
-              <span class="badge-favoritos" aria-label="Número de favoritos">
-                {{ favoritos.length }}
-              </span>
+                <span class="badge-favoritos" aria-label="Número de favoritos">
+                  {{ favoritos.length }}
+                </span>
               }
             </button>
 
             @if (isPanelFavoritosOpen) {
+              <div
+                class="panel-favoritos"
+                id="panel-favoritos"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Panel de favoritos"
+                aria-live="polite"
+              >
+                <div class="panel-favoritos-header">
+                  <span>❤️ Favoritos</span>
 
-            <div class="panel-favoritos" id="panel-favoritos"
-              role="dialog" aria-modal="true"
-              aria-label="Panel de favoritos" aria-live="polite">
-
-              <div class="panel-favoritos-header">
-                <span>❤️ Favoritos</span>
-
-                <button class="btn-cerrar-panel"
-                  (click)="cerrarPanelFavoritos()" aria-label="Cerrar panel de favoritos"
-                  type="button"> ✕</button>
-              </div>
-
-              @if (favoritos.length > 0) {
-
-              <div role="list">
-                @for (libro of favoritos; track libro.id) {
-                <div class="panel-favoritos-item" role="listitem">
-                  <img [src]="libro.url" alt="Portada de {{ libro.title }}" />
-                  <div class="panel-favoritos-info">
-                    <p class="panel-libro-titulo">{{ libro.title }}</p>
-                    <p class="panel-libro-autor">{{ libro.author }}</p>
-                  </div>
+                  <button
+                    class="btn-cerrar-panel"
+                    (click)="cerrarPanelFavoritos()"
+                    aria-label="Cerrar panel de favoritos"
+                    type="button"
+                  >
+                    ✕
+                  </button>
                 </div>
+
+                @if (favoritos.length > 0) {
+                  <div role="list">
+                    @for (libro of favoritos; track libro.id) {
+                      <div class="panel-favoritos-item" role="listitem">
+                        <img [src]="libro.url" alt="Portada de {{ libro.title }}" />
+                        <div class="panel-favoritos-info">
+                          <p class="panel-libro-titulo">{{ libro.title }}</p>
+                          <p class="panel-libro-autor">{{ libro.author }}</p>
+                        </div>
+                      </div>
+                    }
+                  </div>
+
+                  <div class="panel-favoritos-footer">
+                    <a
+                      routerLink="/favoritos"
+                      class="btn-ver-favoritos"
+                      aria-label="Ver todos los libros favoritos"
+                    >
+                      Ver todos los favoritos
+                    </a>
+                  </div>
+                } @else {
+                  <p class="panel-vacio" role="status">No tienes favoritos aún</p>
                 }
               </div>
-
-              <div class="panel-favoritos-footer">
-                <a routerLink="/favoritos" class="btn-ver-favoritos"
-                   aria-label="Ver todos los libros favoritos"> Ver todos los favoritos </a>
-              </div>
-
-              } @else {
-              <p class="panel-vacio" role="status">No tienes favoritos aún</p>
-              }
-            </div>
-            <div class="panel-overlay" (click)="cerrarPanelFavoritos()" aria-hidden="true"> </div>
+              <div class="panel-overlay" (click)="cerrarPanelFavoritos()" aria-hidden="true"></div>
             }
           </li>
 
           <!-- CARRITO -->
           <li class="nav-item me-3">
-            <a class="nav-link position-relative"
-               routerLink="/carrito"
-               aria-label="Ir al carrito">
+            <a class="nav-link position-relative" routerLink="/carrito" aria-label="Ir al carrito">
               <i class="fas fa-shopping-cart fa-lg" aria-hidden="true"></i>
             </a>
           </li>
@@ -149,42 +217,62 @@
           <!-- CUENTA -->
           <li class="nav-item dropdown">
             @if (isAuthenticated()) {
-            <button  class="nav-link dropdown-toggle btn btn-link"
-              type="button" (click)="toggleAccount($event)"
-              [attr.aria-expanded]="isAccountOpen" aria-controls="menu-cuenta" > 
-              <i class="fas fa-user-circle fa-lg me-1" aria-hidden="true"></i> Mi cuenta
-            </button>
+              <button
+                class="nav-link dropdown-toggle btn btn-link"
+                type="button"
+                (click)="toggleAccount($event)"
+                [attr.aria-expanded]="isAccountOpen"
+                aria-controls="menu-cuenta"
+              >
+                <i class="fas fa-user-circle fa-lg me-1" aria-hidden="true"></i> Mi cuenta
+              </button>
 
-            <ul class="dropdown-menu dropdown-menu-end border-0 shadow"
-                [class.show]="isAccountOpen"  id="menu-cuenta"  role="menu">
-              <li role="none">
-                <a class="dropdown-item" routerLink="/perfil" role="menuitem">Mi Perfil</a>
-              </li>
-              <li role="none">
-                <a class="dropdown-item" routerLink="/mis-pedidos" role="menuitem">Mis pedidos</a>
-              </li>
-              <li><hr class="dropdown-divider" /></li>
+              <ul
+                class="dropdown-menu dropdown-menu-end border-0 shadow"
+                [class.show]="isAccountOpen"
+                id="menu-cuenta"
+                role="menu"
+              >
+                <li role="none">
+                  <a class="dropdown-item" routerLink="/perfil" role="menuitem">Mi Perfil</a>
+                </li>
+                <li role="none">
+                  <a class="dropdown-item" routerLink="/mis-pedidos" role="menuitem">Mis pedidos</a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
 
-              <li role="none">
-                <button class="dropdown-item text-danger" (click)="logout()" type="button">Cerrar sesión</button>
-              </li>
-            </ul>
-
+                <li role="none">
+                  <button class="dropdown-item text-danger" (click)="logout()" type="button">
+                    Cerrar sesión
+                  </button>
+                </li>
+              </ul>
             } @else {
+              <button
+                class="nav-link dropdown-toggle btn btn-link"
+                type="button"
+                (click)="toggleAccount($event)"
+                [attr.aria-expanded]="isAccountOpen"
+                aria-controls="menu-login"
+              >
+                Iniciar sesión
+              </button>
 
-            <button class="nav-link dropdown-toggle btn btn-link"
-              type="button" (click)="toggleAccount($event)"
-              [attr.aria-expanded]="isAccountOpen" aria-controls="menu-login">Iniciar sesión </button>
-
-            <ul class="dropdown-menu dropdown-menu-end border-0 shadow" [class.show]="isAccountOpen"
-                id="menu-login" role="menu">
-              <li role="none">
-                <a class="dropdown-item" routerLink="/auth/login" role="menuitem">Iniciar sesión</a>
-              </li>
-              <li role="none">
-                <a class="dropdown-item" routerLink="/auth/signup" role="menuitem">Registrarse</a>
-              </li>
-            </ul>
+              <ul
+                class="dropdown-menu dropdown-menu-end border-0 shadow"
+                [class.show]="isAccountOpen"
+                id="menu-login"
+                role="menu"
+              >
+                <li role="none">
+                  <a class="dropdown-item" routerLink="/auth/login" role="menuitem"
+                    >Iniciar sesión</a
+                  >
+                </li>
+                <li role="none">
+                  <a class="dropdown-item" routerLink="/auth/signup" role="menuitem">Registrarse</a>
+                </li>
+              </ul>
             }
           </li>
         </ul>
