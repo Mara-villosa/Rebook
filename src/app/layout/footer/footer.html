@@ -4,85 +4,103 @@
     <div class="row g-4">
 
       <!-- COLUMNA 1 -->
-      <div class="col-lg-4 col-md-6">
+      <div class="col-lg-4 col-md-12">
         <div class="d-flex align-items-center mb-3">
-          <img src="#"  alt="Rebook"  class="me-2" height="32" onerror="this.parentElement.innerHTML='Rebook'">
+          <img src="#" alt="Rebook" class="me-2" height="32"
+               onerror="this.parentElement.innerHTML='Rebook'">
           <span class="fs-5 fw-bold text-white">Rebook</span>
         </div>
 
-        <p class="text-muted small">Tu marketplace de confianza para comprar, vender y alquilar libros de segunda mano.</p>
+        <p class="text-muted small">
+          Tu marketplace de confianza para comprar, vender y alquilar libros de segunda mano.
+        </p>
 
         <!-- Redes sociales -->
         <nav aria-label="Redes sociales">
           <div class="d-flex gap-3 mt-3">
-            <a href="#"  class="text-light text-decoration-none hover-primary"
+            <a href="#" class="text-light text-decoration-none hover-primary"
                aria-label="Facebook de Rebook" target="_blank" rel="noopener noreferrer">
-              <i class="fab fa-facebook-f fa-lg" aria-hidden="true"></i>
+              <i class="fab fa-facebook-f fa-lg"></i>
             </a>
 
-            <a href="#"  class="text-light text-decoration-none hover-primary" aria-label="Instagram de Rebook"
-               target="_blank" rel="noopener noreferrer">
-              <i class="fab fa-instagram fa-lg" aria-hidden="true"></i>
+            <a href="#" class="text-light text-decoration-none hover-primary"
+               aria-label="Instagram de Rebook" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-instagram fa-lg"></i>
             </a>
           </div>
         </nav>
       </div>
 
-      <!-- COLUMNA 2 -->
-      <div class="col-lg-2 col-md-6">
-        <h6 class="text-uppercase fw-bold mb-3" style="color: var(--rebook-primary);"> Comprar </h6>
+      <!-- FILA DERECHA -->
+      <div class="col-lg-8 col-md-12">
 
-        <nav aria-label="Sección comprar">
-          <ul class="list-unstyled small">
-            @for (link of footerLinks.comprar; track link.label) {
-              <li class="mb-2">
-                <a [routerLink]="link.route" class="text-muted text-decoration-none hover-white"role="link"  >{{ link.label }} </a>
-              </li>
-            }
-          </ul>
-        </nav>
-      </div>
+        <div class="row g-4">
 
-      <!-- COLUMNA 3 -->
-      <div class="col-lg-2 col-md-6">
-        <h6 class="text-uppercase fw-bold mb-3" style="color: var(--rebook-primary);"> Vender </h6>
-
-        <nav aria-label="Sección vender">
-          <ul class="list-unstyled small">
-            @for (link of footerLinks.vender; track link.label) {
-              <li class="mb-2">
-                <a [routerLink]="link.route" class="text-muted text-decoration-none hover-white" role="link" > {{ link.label }}</a>
-              </li>
-            }
-          </ul>
-        </nav>
-      </div>
-
-      <!-- COLUMNA 4 -->
-      <div class="col-lg-4 col-md-6">
-        <div class="row">
+          <!-- COMPRAR -->
           <div class="col-6">
-            <h6 class="text-uppercase fw-bold mb-3" style="color: var(--rebook-primary);">Ayuda </h6>
+            <h6 class="text-uppercase fw-bold mb-3">Comprar</h6>
 
-            <nav aria-label="Sección ayuda">
+            <nav aria-label="Sección comprar">
               <ul class="list-unstyled small">
-                @for (link of footerLinks.ayuda; track link.label) {
+                @for (link of footerLinks.comprar; track link.label) {
                   <li class="mb-2">
                     <a [routerLink]="link.route"
-                       class="text-muted text-decoration-none hover-white"> {{ link.label }} </a>
+                       class="text-muted text-decoration-none hover-white">
+                      {{ link.label }}
+                    </a>
                   </li>
                 }
               </ul>
             </nav>
           </div>
 
+          <!-- VENDER -->
           <div class="col-6">
-            <h6 class="text-uppercase fw-bold mb-3" style="color: var(--rebook-primary);"> Legal </h6>
+            <h6 class="text-uppercase fw-bold mb-3">Vender</h6>
+
+            <nav aria-label="Sección vender">
+              <ul class="list-unstyled small">
+                @for (link of footerLinks.vender; track link.label) {
+                  <li class="mb-2">
+                    <a [routerLink]="link.route"
+                       class="text-muted text-decoration-none hover-white">
+                      {{ link.label }}
+                    </a>
+                  </li>
+                }
+              </ul>
+            </nav>
+          </div>
+
+          <!-- AYUDA -->
+          <div class="col-6">
+            <h6 class="text-uppercase fw-bold mb-3">Ayuda</h6>
+
+            <nav aria-label="Sección ayuda">
+              <ul class="list-unstyled small">
+                @for (link of footerLinks.ayuda; track link.label) {
+                  <li class="mb-2">
+                    <a [routerLink]="link.route"
+                       class="text-muted text-decoration-none hover-white">
+                      {{ link.label }}
+                    </a>
+                  </li>
+                }
+              </ul>
+            </nav>
+          </div>
+
+          <!-- LEGAL -->
+          <div class="col-6">
+            <h6 class="text-uppercase fw-bold mb-3">Legal</h6>
+
             <nav aria-label="Sección legal">
               <ul class="list-unstyled small">
                 @for (link of footerLinks.legal; track link.label) {
                   <li class="mb-2">
-                    <a [routerLink]="link.route" class="text-muted text-decoration-none hover-white">  {{ link.label }}</a>
+                    <a [routerLink]="link.route"
+                       class="text-muted text-decoration-none hover-white">{{ link.label }}
+                    </a>
                   </li>
                 }
               </ul>
@@ -98,23 +116,25 @@
     <!-- COPYRIGHT -->
     <div class="row align-items-center">
       <div class="col-md-6 text-center text-md-start">
-        <small class="text-muted"> &copy; {{ currentYear }} Rebook. Todos los derechos reservados. </small>
+        <small class="text-muted">  &copy; {{ currentYear }} Rebook. Todos los derechos reservados.</small>
       </div>
 
       <div class="col-md-6 text-center text-md-end">
-        <small class="text-muted d-block mb-2">También encuentras nuestros libros en:</small>
+        <small class="text-muted d-block mb-2"> También encuentras nuestros libros en: </small>
 
         <nav aria-label="Tiendas externas">
           <div class="d-flex justify-content-center justify-content-md-end gap-3">
 
-            <a href="https://amazon.es" target="_blank" rel="noopener noreferrer"
-               class="text-muted text-decoration-none small hover-primary" aria-label="Ir a Amazon">
-              <i class="fab fa-amazon fa-lg" aria-hidden="true"></i>
+            <a href="https://amazon.es" target="_blank"
+               class="text-muted text-decoration-none small hover-primary"
+               aria-label="Ir a Amazon">
+              <i class="fab fa-amazon fa-lg"></i>
             </a>
 
             <a href="https://casadellibro.com" target="_blank"
-               rel="noopener noreferrer" class="text-muted text-decoration-none small hover-primary" aria-label="Ir a Casa del Libro">
-              <i class="fas fa-book fa-lg" aria-hidden="true"></i>
+               class="text-muted text-decoration-none small hover-primary"
+               aria-label="Ir a Casa del Libro">
+              <i class="fas fa-book fa-lg"></i>
             </a>
           </div>
         </nav>

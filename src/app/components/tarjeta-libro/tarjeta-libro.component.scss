@@ -1,220 +1,303 @@
-h3 {
-  font-family: 'Lora', serif;
+/* ================= GLOBAL ================= */
+
+* {
+  box-sizing: border-box;
 }
+
+:host {
+  display: block;
+  width: 100%;
+  overflow-x: hidden;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ================= TARJETA ================= */
 
 .tarjeta-libro {
   width: 100%;
-  max-width: 420px;
-  height: 220px;
+  max-width: 320px;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  background: #ffffff;
-   border: 2px solid #c89a2f;
+  background: #fff;
+  border: 2px solid #c89a2f;
   border-radius: 12px;
   overflow: hidden;
   transition: all 0.25s ease;
 }
 
 .tarjeta-libro:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
 }
+
 
 .tarjeta-superior {
   display: flex;
-  gap: 12px;
-  padding: 12px;
+  gap: 10px;
+  padding: 10px;
 }
 
+/* PORTADA */
 .portada-libro {
-  width: 90px;
-  min-width: 90px;
-  height: 120px;
-  border-radius: 10px;
-  overflow: hidden;
+  width: 80px;
+  min-width: 80px;
+  height: 110px;
   position: relative;
-  flex-shrink: 0;
 }
 
 .portada-libro img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
+  border-radius: 6px;
 }
+
+/* ETIQUETA */
 
 .etiqueta-genero {
   position: absolute;
-  top: 6px;
-  left: 6px;
-  background: #e7af40;
-  color: #1e1e1e;
+  top: 8px;
+  left: 8px;
+  background: #b7791f;
+  color: #fff;
   font-size: 0.65rem;
-  font-weight: bold;
-  padding: 3px 6px;
+  font-weight: 700;
+  padding: 4px 7px;
   border-radius: 6px;
 }
+
+/* ================= CONTENIDO ================= */
 
 .contenido-libro {
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: 4px;
 }
 
 .titulo-libro {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  font-weight: 700;
   margin: 0;
-  font-weight: bold;
-  color: #222;
 }
 
 .autor-libro {
   font-size: 0.8rem;
   color: #b8860b;
   font-style: italic;
-  margin: 0;
 }
 
 .descripcion-libro {
   font-size: 0.75rem;
   color: #555;
-  margin: 0;
-}
 
-.acciones-libro {
-  display: flex;
-  gap: 8px;
-  padding: 10px;
-  border-top: 1px solid #eee;
-  background: #fafafa;
-}
-
-.boton-accion {
-  flex: 1;
-  padding: 8px;
-  font-size: 0.75rem;
-  border: none;
-  cursor: pointer;
-  border-radius: 8px;
-  font-weight: bold;
-  transition: all 0.2s;
-}
-
-.boton-favorito {
-  background: rgba(229, 115, 115, 0.15);
-  color: #c62828;
-}
-
-.boton-favorito:hover {
-  background: rgba(229, 115, 115, 0.3);
-}
-
-.boton-favorito.activo {
-  background: rgba(229, 115, 115, 0.5);
-}
-
-.boton-carrito {
-  background: rgba(212, 168, 83, 0.18);
-  color: #8a6d1e;
-}
-.boton-carrito:hover {
-  background: rgba(212, 168, 83, 0.3);
-}
-
-.boton-alquiler {
-  background: rgba(100, 180, 160, 0.18);
-  color: #2e7d6b;
-}
-
-.boton-alquiler:hover {
-  background: rgba(100, 180, 160, 0.3);
-}
-
-.boton-accion:hover {
-  transform: scale(1.03);
-}
-
-.boton-accion:active {
-  transform: scale(0.97);
-}
-
-.descripcion-libro {
-  font-size: 0.75rem;
-  color: #555;
-  margin: 0;
   display: -webkit-box;
-  -webkit-line-clamp: 2;       
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* LEER MÁS */
+
 .leer-mas {
-  font-size: 0.7rem;
-  color: #b8860b;
+  all: unset;
   cursor: pointer;
-  font-weight: bold;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #b7791f;
+  margin-top: 6px;
 }
 
 .leer-mas:hover {
   text-decoration: underline;
 }
 
+/* ================= ACCIONES ================= */
+
+.acciones-libro {
+  margin-top: auto;
+  display: flex;
+  gap: 6px;
+  padding: 10px;
+  flex-wrap: wrap;
+}
+
+.boton-accion {
+  flex: 1;
+  min-width: 90px;
+  padding: 8px;
+  font-size: 0.75rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+/* COLORES */
+
+.boton-favorito {
+  background: #ffe5e5;
+  color: #b71c1c;
+}
+
+.boton-carrito {
+  background: #fff3d6;
+  color: #8a5a00;
+}
+
+.boton-alquiler {
+  background: #d9f5ee;
+  color: #1b6b5a;
+}
+
+/* ================= MODAL ================= */
+
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
+  inset: 0;
+  background: rgba(0,0,0,0.65);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999;
+  z-index: 9999;
+  padding: 20px;
+
+  animation: fadeIn 0.2s ease;
 }
 
 .modal-libro {
-  background: white;
+  background: #fff;
+  width: 100%;
+  max-width: 750px;
   border-radius: 16px;
-  width: 80%;
-  max-width: 800px;
   padding: 20px;
   position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  max-height: 90vh;
+  overflow: hidden;
+
+  animation: scaleIn 0.2s ease;
 }
+
+/* BOTÓN CERRAR */
 
 .cerrar {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 12px;
+  right: 12px;
   border: none;
-  background: none;
-  font-size: 18px;
+  background: transparent;
+  font-size: 20px;
   cursor: pointer;
 }
+
+/* CONTENIDO */
 
 .modal-contenido {
   display: flex;
   gap: 20px;
+  overflow: hidden;
 }
+
+/* IMAGEN */
 
 .modal-img {
-  width: 200px;
+  width: 180px;
   border-radius: 10px;
+  object-fit: cover;
 }
+
+/* INFO */
 
 .modal-info {
+  display: flex;
+  flex-direction: column;
   flex: 1;
+  overflow: hidden;
 }
+
+.modal-info h2 {
+  margin: 0;
+}
+
+.modal-info .autor {
+  font-style: italic;
+  color: #b8860b;
+}
+
+/* 🔥 DESCRIPCIÓN COMPLETA CON SCROLL */
 
 .descripcion-completa {
+  margin-top: 10px;
   font-size: 0.9rem;
   color: #444;
+
+  overflow-y: auto;
+  max-height: 220px;
+
+  padding-right: 6px;
 }
 
-.modal-libro .acciones-libro {
-  margin-top: 20px;
+/* SCROLL ESTILO */
+
+.descripcion-completa::-webkit-scrollbar {
+  width: 6px;
 }
 
-.modal-libro .boton-accion {
-  font-size: 0.85rem;
-  padding: 10px;
+.descripcion-completa::-webkit-scrollbar-thumb {
+  background: #c89a2f;
+  border-radius: 4px;
+}
+
+/* BOTONES ABAJO */
+
+.modal-info .acciones-libro {
+  margin-top: auto;
+}
+
+/* ================= ANIMACIONES ================= */
+
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 600px) {
+
+  .modal-contenido {
+    flex-direction: column;
+  }
+
+  .modal-img {
+    width: 100%;
+    height: 220px;
+  }
+
+  .descripcion-completa {
+    max-height: 150px;
+  }
+
+  .acciones-libro {
+    flex-direction: column;
+  }
+
+  .boton-accion {
+    width: 100%;
+  }
 }

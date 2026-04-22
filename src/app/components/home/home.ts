@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
 import { BookDTO, GetAllBooksResponse } from '../../shared/interfaces/HTTP/Books';
 import { BookService } from '../../shared/services/book-service';
 import { TarjetaLibroComponent } from '../tarjeta-libro/tarjeta-libro.component';
@@ -8,6 +8,7 @@ import { TarjetaLibroComponent } from '../tarjeta-libro/tarjeta-libro.component'
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, TarjetaLibroComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -57,6 +58,6 @@ export class Home implements OnInit {
   }
 
   get ultimosLibros() {
-    return [...this.libros].reverse().slice(0, 9);
+    return [...this.libros].reverse().slice(0, 10);
   }
 }

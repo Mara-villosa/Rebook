@@ -1,7 +1,7 @@
 .rebook-footer {
   // Colores claros para todo el texto del footer
   color: rgba(255, 255, 255, 0.85) !important;
-  
+
   // Títulos de sección (usando color primario de la paleta)
   h6 {
     color: var(--rebook-primary) !important;
@@ -13,7 +13,9 @@
   }
 
   // Párrafos y texto general
-  p, span, small {
+  p,
+  span,
+  small {
     color: rgba(255, 255, 255, 0.85) !important;
   }
 
@@ -23,14 +25,15 @@
     text-decoration: none !important;
     transition: var(--rebook-transition);
     display: inline-block;
-    
+
     &:hover {
       color: var(--rebook-primary) !important;
       transform: translateX(3px);
     }
-    
+
     // Efecto de subrayado animado
     position: relative;
+
     &::after {
       content: '';
       position: absolute;
@@ -41,6 +44,7 @@
       background-color: var(--rebook-primary);
       transition: var(--rebook-transition);
     }
+
     &:hover::after {
       width: 100%;
     }
@@ -50,10 +54,10 @@
   ul.list-unstyled {
     padding: 0;
     margin: 0;
-    
+
     li {
       margin-bottom: 0.5rem;
-      
+
       a {
         font-size: 0.9rem;
         font-weight: 400;
@@ -62,10 +66,11 @@
   }
 
   // Iconos de redes sociales
-  .fab, .fas {
+  .fab,
+  .fas {
     font-size: 1.1rem;
     transition: var(--rebook-transition);
-    
+
     &:hover {
       transform: translateY(-3px) scale(1.1);
       color: var(--rebook-primary) !important;
@@ -84,17 +89,132 @@
   }
 
   // Responsive móvil
-  @media (max-width: 768px) {
-    .row.g-4 {
-      text-align: center;
-      
-      .d-flex.justify-content-center.justify-content-md-end {
-        justify-content: center !important;
-      }
+
+  @media (max-width: 360px) {
+
+    .rebook-footer {
+      padding-top: 2rem !important;
+      padding-bottom: 1.5rem !important;
+      font-size: 0.85rem;
     }
-    
-    h6 {
+
+    .rebook-footer h6 {
+      font-size: 0.75rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .rebook-footer p,
+    .rebook-footer span,
+    .rebook-footer small {
+      font-size: 0.8rem;
+    }
+
+    .rebook-footer .row {
       text-align: center;
+    }
+
+    .rebook-footer .col-lg-2,
+    .rebook-footer .col-lg-4,
+    .rebook-footer .col-md-6 {
+      margin-bottom: 1rem;
+    }
+
+    .rebook-footer .d-flex.gap-3 {
+      justify-content: center !important;
+    }
+
+    .rebook-footer ul li {
+      margin-bottom: 0.35rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+
+    .rebook-footer {
+      padding-top: 2.5rem !important;
+      padding-bottom: 1.8rem !important;
+    }
+
+    .rebook-footer h6 {
+      font-size: 0.8rem;
+    }
+
+    .rebook-footer .row {
+      text-align: center;
+    }
+
+    .rebook-footer .col-lg-2,
+    .rebook-footer .col-lg-4,
+    .rebook-footer .col-md-6 {
+      margin-bottom: 1.2rem;
+    }
+
+    .rebook-footer .d-flex.gap-3 {
+      justify-content: center !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+
+    .rebook-footer {
+      padding-top: 3rem !important;
+      padding-bottom: 2rem !important;
+    }
+
+    .rebook-footer .row {
+      text-align: center;
+    }
+
+    .rebook-footer h6 {
+      text-align: center;
+    }
+
+    .rebook-footer .d-flex.justify-content-center.justify-content-md-end {
+      justify-content: center !important;
+    }
+  }
+
+  @media (max-width: 991px) {
+
+    .rebook-footer {
+      padding-top: 3.5rem !important;
+      padding-bottom: 2.5rem !important;
+    }
+
+    .rebook-footer .row {
+      text-align: center;
+    }
+
+    .rebook-footer .col-lg-2,
+    .rebook-footer .col-lg-4,
+    .rebook-footer .col-md-6 {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  @media (min-width: 992px) {
+
+    .rebook-footer {
+      padding-top: 4rem;
+      padding-bottom: 3rem;
+    }
+  }
+
+  @media (min-width: 1200px) {
+
+    .rebook-footer {
+      padding-top: 4.5rem;
+      padding-bottom: 3.5rem;
+    }
+  }
+
+  @media (min-width: 1920px) {
+
+    .rebook-footer {
+      max-width: 1700px;
+      margin: 0 auto;
+      padding-top: 5rem;
+      padding-bottom: 4rem;
     }
   }
 }

@@ -23,6 +23,7 @@ export class HeaderComponent {
   isCategoriesOpen = false;
   isAccountOpen = false;
   isPanelFavoritosOpen = false;
+  isDrawerCategoriesOpen = false;
 
   favoritos: any[] = [];
 
@@ -58,12 +59,16 @@ export class HeaderComponent {
     });
   }
 
-   recargarFavoritos(): void {
+  recargarFavoritos(): void {
     this.loadFavoritos();
   }
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
+
+    if (!this.isMenuOpen) {
+      this.isDrawerCategoriesOpen = false;
+    }
   }
 
   toggleCategories(event: Event): void {
@@ -93,6 +98,10 @@ export class HeaderComponent {
     if (this.isPanelFavoritosOpen) {
       this.loadFavoritos();
     }
+  }
+
+  toggleDrawerCategories(): void {
+    this.isDrawerCategoriesOpen = !this.isDrawerCategoriesOpen;
   }
 
   cerrarPanelFavoritos(): void {
