@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, HostListener, inject, OnInit } from '@angular/core';
 import { BookDTO, GetAllBooksResponse } from '../../shared/interfaces/HTTP/Books';
 import { BookService } from '../../shared/services/book-service';
 import { TarjetaLibroComponent } from '../tarjeta-libro/tarjeta-libro.component';
@@ -58,6 +58,20 @@ export class Home implements OnInit {
   }
 
   get ultimosLibros() {
-    return [...this.libros].reverse().slice(0, 10);
+    const libros = [...this.libros].reverse();
+    const columnas = this.getColumnas();
+    const filas = 2;
+    const total = Math.floor(libros.length / (columnas * filas)) * (columnas * filas);
+    return libros.slice(0, total);
+  }
+
+  getColumnas(): number {
+    if (window.innerWidth < 600) return 1;
+    if (window.innerWidth < 1024) return 2;
+    return 3;
+  }
+
+  @HostListener('window:resize')
+  onResize() {
   }
 }

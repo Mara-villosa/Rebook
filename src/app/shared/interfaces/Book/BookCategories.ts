@@ -1,6 +1,10 @@
 export enum BookCategories {
-  Fantasy = 'fantasía',
+  Fantasy = 'fantasia',
   Horror = 'terror',
-  SciFi = 'ciencia ficción',
+  SciFi = 'ciencia-ficcion',
   Thriller = 'thriller',
+  Romance = 'romance',
+  Mistery = 'misterio', 
+  BNovel = 'novela-negra',
+  Others = 'otros'
 }

@@ -1,70 +1,152 @@
-/* Vista principal de favoritos */
-.contenedor-favoritos {
-  padding: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
+:host {
+  display: block;
+  max-width: 1100px;
+  margin: 100px auto 20px;
+  padding: 20px;
+  background: var(--rebook-light);
+  border-radius: 12px;
+  box-shadow: var(--rebook-shadow);
+  color: var(--rebook-dark);
 }
 
-/* Cabecera con título, contador y botón de volver */
+// TITULO
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--rebook-dark);
+  font-size: 1.8rem;
+}
+
+// CABECERA
 .cabecera-favoritos {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(212, 168, 83, 0.2);
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
 
-  h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
-    color: var(--acento);
-    margin: 0;
+// CONTADOR
+.contador-favoritos {
+  font-size: 0.85rem;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: rgba(224, 190, 99, 0.15);
+  border: 1px solid rgba(224, 190, 99, 0.3);
+  white-space: nowrap;
+}
+
+// BOTÓN VOLVER
+.boton-volver {
+  font-size: 0.85rem;
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--rebook-accent);
+  color: var(--rebook-dark);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background: var(--rebook-primary);
+    border-color: var(--rebook-primary);
   }
 }
 
-/* Etiqueta con el número de favoritos */
-.contador-favoritos {
-  color: var(--texto-secundario);
-  font-size: 0.9rem;
-  background: rgba(212, 168, 83, 0.1);
-  border: 1px solid rgba(212, 168, 83, 0.2);
-  padding: 0.2rem 0.75rem;
-  border-radius: 20px;
-}
 
-/* Enlace para volver a la tienda */
-.boton-volver {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: transparent;
-  border: 1px solid rgba(212, 168, 83, 0.3);
-  color: var(--texto-secundario);
-  padding: 0.4rem 1rem;
-  border-radius: 20px;
-  font-family: 'Lato', sans-serif;
-  font-size: 0.85rem;
-  text-decoration: none;
-  transition: all 0.2s ease;
-
-  &:hover { border-color: var(--acento); color: var(--acento); }
-}
-
-/* Rejilla de tarjetas de favoritos */
 .rejilla-favoritos {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.8rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  justify-items: center;
 }
 
-/* Mensaje cuando no hay ningún favorito guardado */
+//TARJETA
+.favorito-item {
+  width: 450px;
+  display: flex;
+  justify-content: center;
+}
+
+// caja que envuelve la tarjeta
+.favorito-item app-tarjeta-libro {
+  width: 100%;
+  max-width: 520px; 
+  background: var(--rebook-white);
+  border: 1px solid var(--rebook-accent);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  min-height: 150px;
+}
+
+// imagen
+.favorito-item img {
+  width: 70px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+// contenido
+.info,
+.contenido {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+// título
+.titulo {
+  font-weight: bold;
+  margin: 0;
+}
+
+// autor
+.autor {
+  font-size: 0.85rem;
+  color: #37474f;
+}
+
+// descripción 2 líneas
+.descripcion {
+  font-size: 0.85rem;
+  color: #555;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+//SIN FAVS
 .sin-favoritos {
   text-align: center;
-  padding: 5rem 1rem;
-  color: var(--texto-secundario);
+  padding: 60px 20px;
+}
 
-  p:first-child { font-size: 3.5rem; margin-bottom: 0.75rem; }
-  p { font-size: 1.1rem; margin: 0 0 0.5rem; color: var(--texto-principal); }
-  span { font-size: 0.85rem; }
+//RESPONSIVE
+@media (max-width: 900px) {
+  .rejilla-favoritos {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .favorito-item app-tarjeta-libro {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .acciones {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+  }
 }

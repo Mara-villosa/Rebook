@@ -1,6 +1,28 @@
+:host {
+  display: block;
+  width: 100%;
+  padding: 100px 40px 20px 40px;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(200, 154, 47, 0.14),
+      rgba(247, 243, 234, 0.9) 55%
+    ),
+    linear-gradient(to bottom, #f7f3ea, #ffffff);
+}
+
+.profile-left,
+.profile-right {
+  backdrop-filter: blur(4px);
+}
+
 .profile-container {
   display: flex;
   gap: 25px;
+  
 }
 
 .profile-left {
@@ -8,7 +30,7 @@
   background: #fff;
   padding: 15px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .profile-photo {
@@ -71,7 +93,7 @@
 
 .profile-form input:focus {
   border-color: #d4af37;
-  box-shadow: 0 0 6px rgba(212,175,55,0.3);
+  box-shadow: 0 0 6px rgba(212, 175, 55, 0.3);
 }
 
 .save-btn {
@@ -140,7 +162,7 @@
   margin-bottom: 10px;
   background: white;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .cart-row img {
@@ -172,7 +194,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -185,7 +207,7 @@
   border-radius: 12px;
   width: 420px;
   max-width: 90%;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   animation: modalIn 0.2s ease;
 }
 
@@ -195,6 +217,24 @@
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ddd;
+}
+
+.modal-pago textarea {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-family: inherit;
+  font-size: 0.95rem;
+  resize: none;
+  min-height: 90px;
+  outline: none;
+}
+
+.modal-pago textarea:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 6px rgba(212, 175, 55, 0.3);
 }
 
 .acciones-modal {
@@ -229,11 +269,13 @@
     transform: scale(0.9);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;
   }
 }
+
 .price-group {
   margin-bottom: 10px;
 }
@@ -265,6 +307,7 @@
   border-left: 1px solid #ddd;
   font-weight: bold;
 }
+
 .profile-summary {
   background: #fafafa;
   padding: 12px;
@@ -314,4 +357,60 @@
   padding: 8px;
   border-radius: 6px;
   border: 1px solid #ccc;
+}
+
+@media (max-width: 900px) {
+
+  :host {
+    padding: 90px 16px 20px 16px;
+  }
+
+  .profile-container {
+    flex-direction: column;
+  }
+
+  .profile-left,
+  .profile-right {
+    width: 100%;
+  }
+
+  .profile-left {
+    order: 1;
+  }
+
+  .profile-right {
+    order: 2;
+  }
+
+  .cart-row {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .cart-row img {
+    width: 50px;
+    height: 75px;
+  }
+}
+
+@media (max-width: 500px) {
+
+  .profile-photo img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .books-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+  }
+
+  .modal-pago {
+    width: 95%;
+  }
 }

@@ -146,7 +146,7 @@
     <div class="acciones-modal">
       <button (click)="cerrarModal()" aria-label="Cancelar pago">Cancelar</button>
 
-      <button (click)="pagar()" [disabled]="!formValido()"  aria-label="Confirmar pago"> Pagar</button>
+      <button class="btn-comprar" (click)="pagar()" [disabled]="isFormInvalid()"  aria-label="Confirmar pago"> Pagar</button>
     </div>
 
   </div>

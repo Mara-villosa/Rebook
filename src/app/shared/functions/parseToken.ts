@@ -1,4 +1,4 @@
-import { TokenDecoded } from '../interfaces/Storage/TokenDecoded';
+import { TokenDecoded } from '../interfaces/HTTP/Storage/TokenDecoded';
 
 /**
  * Decodifica un token con formato JWT (https://www.jwt.io/introduction#what-is-json-web-token)

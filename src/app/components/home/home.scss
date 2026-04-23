@@ -7,9 +7,16 @@
 :host {
   display: block;
   width: 100%;
+  padding-top: 80px;
   font-family: 'Poppins', sans-serif;
-  background: #f7f3ea;
   overflow-x: hidden;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(200, 154, 47, 0.14),
+      rgba(247, 243, 234, 0.9) 55%
+    ),
+    linear-gradient(to bottom, #f7f3ea, #ffffff);
 }
 
 //TITULOS
@@ -90,7 +97,7 @@
 
 .rejilla-libros {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 340px);
+  grid-template-columns: repeat(3, 340px);
   justify-content: center;
   gap: 24px;
   width: 100%;
@@ -129,6 +136,9 @@
 
 //RESPONSIVE
 @media (max-width: 1024px) {
+  .rejilla-libros {
+    grid-template-columns: repeat(2, 340px);
+  }
 
   .carrusel {
     max-width: 700px;
@@ -140,6 +150,9 @@
 }
 
 @media (max-width: 768px) {
+  .rejilla-libros {
+    grid-template-columns: 1fr;
+  }
 
   .btn-carrusel {
     display: none;

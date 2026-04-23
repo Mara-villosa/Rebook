@@ -13,8 +13,8 @@
   <!-- LISTA -->
   <section *ngIf="librosFavoritos.length > 0; else sinFavoritos">
     <div class="rejilla-favoritos">
-      <article *ngFor="let libro of librosFavoritos">
-        <app-tarjeta-libro [libro]="libro"></app-tarjeta-libro>
+      <article class="favorito-item" *ngFor="let libro of librosFavoritos">
+        <app-tarjeta-libro class="fila" [libro]="libro"></app-tarjeta-libro>
       </article>
     </div>
   </section>

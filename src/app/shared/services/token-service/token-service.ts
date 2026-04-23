@@ -4,7 +4,7 @@ import { Observable, tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { parseToken } from '../../functions/parseToken';
 import { RefreshTokenResponse } from '../../interfaces/HTTP/RefreshToken';
-import { TokenDecoded } from '../../interfaces/Storage/TokenDecoded';
+import { TokenDecoded } from '../../interfaces/HTTP/Storage/TokenDecoded';
 
 @Injectable({
   providedIn: 'root',

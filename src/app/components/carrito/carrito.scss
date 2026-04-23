@@ -2,7 +2,7 @@
   display: block;
   max-width: 900px;
   margin: 20px auto;
-  padding: 20px;
+  padding: 120px 20px 20px; 
   background: var(--rebook-light);
   border-radius: 12px;
   box-shadow: var(--rebook-shadow);
@@ -76,8 +76,16 @@ h2 {
   cursor: pointer;
 }
 
-/* MODAL */
+.btn-comprar:disabled {
+  background: #c9c9c9;      
+  color: #6b6b6b;           
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+  opacity: 0.7;
+}
 
+/* MODAL */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -186,10 +194,19 @@ button:focus {
 .guardar-tarjeta {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 10px;
+  margin-top: 12px;
   font-size: 0.95rem;
   color: var(--rebook-dark);
+  cursor: pointer;
+}
+
+/* 🔥 FIX DEL CHECKBOX */
+.guardar-tarjeta input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--rebook-primary);
   cursor: pointer;
 }
 

@@ -51,7 +51,7 @@ export class Carrito implements OnInit {
     private carritoService: CarritoService,
     private userService: UserService,
     private authService: AuthService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (this.#authService.isAuthenticated()) this.loadCart();
@@ -144,12 +144,18 @@ export class Carrito implements OnInit {
     this.marcarTodoTouched();
     this.validarCampos();
 
+    // 🔥 LIMPIA ERROR GENERAL
+    this.errorMessage = '';
+
     if (
       this.errores.numeroTarjeta ||
       this.errores.nombreTitular ||
       this.errores.fecha ||
       this.errores.cvv
     ) {
+      // 🔥 ERROR NUEVO AÑADIDO
+      this.errorMessage = 'Debes completar todos los campos de la tarjeta correctamente';
+
       this.mostrarMensaje('Revisa los datos de la tarjeta');
       return;
     }
@@ -250,6 +256,10 @@ export class Carrito implements OnInit {
     setTimeout(() => {
       this.mostrarAlerta = false;
     }, 2500);
+  }
+
+  isFormInvalid(): boolean {
+    return !this.formValido();
   }
 
   formValido(): boolean {

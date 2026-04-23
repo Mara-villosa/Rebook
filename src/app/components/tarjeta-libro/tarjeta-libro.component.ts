@@ -10,6 +10,7 @@ import { AuthService } from '../../shared/services/auth-service/auth-service';
 import { CarritoService } from '../../shared/services/carrito-service';
 import { FavoritosService } from '../../shared/services/favoritos.service';
 
+
 @Component({
   selector: 'app-tarjeta-libro',
   standalone: true,

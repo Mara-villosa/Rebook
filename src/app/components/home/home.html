@@ -6,7 +6,7 @@
     <button class="btn-carrusel izquierda" (click)="anterior()" [disabled]="indiceActual === 0"
         aria-label="Ver libros anteriores" type="button" [attr.aria-disabled]="indiceActual === 0" > ‹ </button>
 
-    <!-- 🔹 Mejora clave AA: región dinámica anunciada -->
+    <!-- Mejora clave AA: región dinámica anunciada -->
     <div class="carrusel"  role="list"  aria-label="Carrusel de libros destacados"
         tabindex="0"  aria-live="polite">
         @for (libro of librosCarrusel; track libro.id) {
