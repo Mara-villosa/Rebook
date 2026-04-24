@@ -50,7 +50,6 @@ export class Carrito implements OnInit {
 
   constructor(
     private carritoService: CarritoService,
-    private userService: UserService,
     private authService: AuthService,
     private router: Router
   ) { }
@@ -62,6 +61,7 @@ export class Carrito implements OnInit {
   loadCart() {
     this.carritoService.getCart().subscribe({
       next: (res) => {
+        console.log('CART RESPONSE:', res.books);
         this.cartItems = res.books.map((book: any) => ({
           id: book.id,
           titulo: book.title,
@@ -70,7 +70,7 @@ export class Carrito implements OnInit {
           price: book.in_cart_for_rent ? book.rentPrice : book.sellPrice,
           type: book.in_cart_for_rent ? 'rent' : 'buy',
           quantity: 1,
-          returnDate: book.return_date || '',
+          rent_expiration_date: book.rent_expiration_date || '',
         }));
 
         this.calcularTotal();
@@ -120,8 +120,8 @@ export class Carrito implements OnInit {
 
   remove(item: CartItem) {
     this.carritoService.removeFromCart({
-        book_id: String(item.id),
-      })
+      book_id: String(item.id),
+    })
       .subscribe({
         next: () => this.loadCart(),
         error: () => this.mostrarMensaje('Error al eliminar del carrito'),

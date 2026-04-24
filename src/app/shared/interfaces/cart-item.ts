@@ -5,6 +5,6 @@ export interface CartItem {
   portada: string;
   price: number;
   type: 'buy' | 'rent';
-  returnDate?: string;
+  rent_expiration_date: string;
   quantity: number;
 }
