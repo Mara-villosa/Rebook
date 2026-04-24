@@ -207,10 +207,23 @@
       <a routerLink="/categoria/otros" (click)="toggleMenu()">Otros</a>
     </div>
 
+    <!--CARRITO-->
     <div class="drawer-item" (click)="checkAuth($event, '/carrito'); toggleMenu()">
       <i class="fas fa-shopping-cart"></i>
       Carrito
     </div>
+
+    <!-- FAVORITOS -->
+    <a class="drawer-item position-relative" routerLink="/favoritos" (click)="toggleMenu()">
+      <i class="fas fa-heart"></i>
+      Favoritos
+
+      @if (isAuthenticated() && favoritos.length > 0) {
+      <span class="badge-favoritos-mobile">
+        {{ favoritos.length }}
+      </span>
+      }
+    </a>
 
     <!-- CUENTA -->
     <div class="drawer-item" (click)="toggleDrawerAccount()">
