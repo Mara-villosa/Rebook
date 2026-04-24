@@ -129,25 +129,44 @@ h2 {
   transform: translateY(-1px);
 }
 
-/* VOLVER A COMPRAR */
-.btn-primary {
-  background: var(--rebook-success);
-  color: white;
+//BOTÓN DEVOLVER
+.btn-return {
+  background-color: #e74c3c; 
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-.btn-primary:hover {
-  opacity: 0.9;
+.btn-return:hover {
+  background-color: #c0392b;
   transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* ALQUILAR / SECUNDARIO */
-.btn-secondary {
-  background: var(--rebook-accent);
-  color: var(--rebook-dark);
+.btn-return:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
-.btn-secondary:hover {
-  background: #9fb8b5;
+.btn-return:focus {
+  outline: 2px solid #ffb3a8;
+  outline-offset: 2px;
+}
+
+.btn-return:disabled {
+  background-color: #e0e0e0;
+  color: #888;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 /* VACIO */
@@ -159,15 +178,40 @@ h2 {
 }
 
 /* ERRORES */
-.error-message {
-  background: #dc3545;
-  color: white;
-  padding: 10px 14px;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  text-align: center;
-  font-weight: bold;
-  box-shadow: var(--rebook-shadow);
+.toast-error,
+.toast-success {
+  position: fixed;
+  top: 90px;
+  right: 20px;
+  z-index: 9999;
+  min-width: 240px;
+  max-width: 320px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: toastIn 0.3s ease;
+}
+
+.toast-error {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.toast-success {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+}
+
+@keyframes toastIn {
+  from {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 /* RESPONSIVE */

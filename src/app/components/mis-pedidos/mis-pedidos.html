@@ -1,8 +1,7 @@
 <h2 id="mis-pedidos">Mis pedidos</h2>
 
-<div *ngIf="errorMessage" class="error-message" role="alert" aria-live="assertive">
-  {{ errorMessage }}
-</div>
+<div *ngIf="errorMessage" class="toast-error">{{ errorMessage }}</div>
+<div *ngIf="successMessage" class="toast-success">{{ successMessage }}</div>
 
 <!-- LIBROS ALQUILADOS -->
 <div class="cart-section" role="region" aria-labelledby="alquilados-title">
@@ -22,47 +21,16 @@
     <div class="info">
       <p class="titulo">{{ item.title }}</p>
       <p class="autor">{{ item.author }}</p>
-      <p class="fecha"> Devolver: {{ item.returnDate | date:'shortDate' }}</p>
+      <p class="fecha">  Devolver: {{ item.rent_expiration_date | date:'shortDate' }}</p>
     </div>
     <div class="acciones">
 
-      <button class="btn-extend" (click)="extenderAlquiler(item)"
-        type="button"  aria-label="Extender alquiler del libro {{ item.title }}"> ⏳ Extender
+      <button class="btn-extend" (click)="extenderAlquiler(item)" type="button"
+        aria-label="Extender alquiler del libro {{ item.title }}"> Extender
       </button>
 
-    </div>
-
-  </div>
-</div>
-
-<!-- LIBROS COMPRADOS -->
-<div class="cart-section" role="region" aria-labelledby="comprados-title">
-
-  <div class="section-header">
-    <h3 id="comprados-title">Libros comprados</h3>
-  </div>
-
-  <div *ngIf="purchasedBooks.length === 0" role="status" aria-live="polite">
-    <p class="empty">No has comprado libros todavía</p>
-  </div>
-
-  <div *ngFor="let item of purchasedBooks" class="cart-row" role="listitem">
-
-    <img [src]="item.url" [alt]="'Portada de ' + item.title" />
-
-    <div class="info">
-      <p class="titulo">{{ item.title }}</p>
-      <p class="autor">{{ item.author }}</p>
-    </div>
-
-    <div class="acciones">
-
-      <button class="btn-secondary"  (click)="volverAComprar(item)"
-        type="button"  aria-label="Volver a comprar el libro {{ item.title }}" >🔁 Volver a comprar
-      </button>
-
-      <button class="btn-primary" (click)="alquilar(item)"  type="button" 
-        aria-label="Alquilar el libro {{ item.title }}">Alquilar 
+      <button class="btn-return" (click)="devolverLibro(item)" type="button"
+        aria-label="Devolver libro {{ item.title }}"> Devolver
       </button>
     </div>
   </div>

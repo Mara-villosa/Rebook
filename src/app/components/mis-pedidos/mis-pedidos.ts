@@ -17,14 +17,15 @@ export class MisPedidos implements OnInit {
 
   // ESTADO
   rentedBooks: any[] = [];
-  purchasedBooks: any[] = [];
-
   errorMessage: string = '';
+  successMessage: string = '';
   loading: boolean = false;
 
   //INIT
   ngOnInit(): void {
-    if (this.#authService.isAuthenticated()) this.cargarPedidos();
+    if (this.#authService.isAuthenticated()) {
+      this.cargarPedidos();
+    }
   }
 
   // CARGAR PEDIDOS
@@ -33,20 +34,17 @@ export class MisPedidos implements OnInit {
     this.errorMessage = '';
 
     this.http
-      .get(`${environment.api.url}${environment.api.endpoints.private.getRentedFromUser}`)
+      .get(`${environment.api.url}${environment.api.endpoints.private.getAllBooksFromUser}`)
       .subscribe({
         next: (res: any) => {
-          // backend esperado:
-          // { rented: [], bought: [] }
+          console.log('RESPUESTA BACKEND:', res);
 
           this.rentedBooks = res?.rented ?? [];
-          this.purchasedBooks = res?.bought ?? [];
-
           this.loading = false;
         },
         error: (err) => {
           console.error(err);
-          this.errorMessage = 'Error al cargar los pedidos';
+          this.errorMessage = 'Error al cargar los libros alquilados';
           this.loading = false;
         },
       });
@@ -60,53 +58,46 @@ export class MisPedidos implements OnInit {
       })
       .subscribe({
         next: () => {
-          alert('Alquiler extendido correctamente');
+          this.mostrarMensaje('Alquiler extendido correctamente');
           this.cargarPedidos();
         },
-        error: (err) => {
-          console.error(err);
-          this.errorMessage = 'No se pudo extender el alquiler';
+        error: () => {
+          this.mostrarMensaje('❌ No se pudo extender el alquiler');
         },
       });
   }
 
-  // VOLVER A COMPRAR
-  volverAComprar(book: any): void {
+  //DEVOLVER LIBRO
+  devolverLibro(book: any): void {
     this.http
-      .post(`${environment.api.url}/buy`, {
+      .post(`${environment.api.url}${environment.api.endpoints.private.returnRentedBook}`, {
         book_id: book.id,
       })
       .subscribe({
         next: () => {
-          alert('Libro comprado de nuevo');
-        },
-        error: (err) => {
-          console.error(err);
-          this.errorMessage = 'Error al recomprar el libro';
-        },
-      });
-  }
-
-  // ALQUILAR LIBRO
-  alquilar(book: any): void {
-    this.http
-      .post(`${environment.api.url}${environment.api.endpoints.private.rentBook}`, {
-        book_id: book.id,
-      })
-      .subscribe({
-        next: () => {
-          alert('Libro alquilado correctamente');
+          this.mostrarMensaje('Libro devuelto correctamente');
           this.cargarPedidos();
         },
-        error: (err) => {
-          console.error(err);
-          this.errorMessage = 'Error al alquilar el libro';
+        error: () => {
+          this.mostrarMensaje('❌ No se pudo devolver el libro');
         },
       });
   }
 
-  // UTILIDAD (si quieres estados)
+  mostrarMensaje(msg: string, type: 'error' | 'success' = 'success'): void {
+    if (type === 'error') {
+      this.errorMessage = msg;
+    } else {
+      this.successMessage = msg;
+    }
+
+    setTimeout(() => {
+      this.errorMessage = '';
+      this.successMessage = '';
+    }, 2500);
+  }
+
   isEmpty(): boolean {
-    return this.rentedBooks.length === 0 && this.purchasedBooks.length === 0;
+    return this.rentedBooks.length === 0;
   }
 }

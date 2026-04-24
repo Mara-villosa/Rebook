@@ -4,33 +4,18 @@
       <!-- TOP ROW (MÓVIL) -->
       <div class="navbar-top-row d-flex align-items-center justify-content-between w-100 d-lg-none">
         <a class="navbar-brand d-flex align-items-center" routerLink="/" aria-label="Ir a inicio">
-          <img
-            src="/logo.png"
-            alt="Logo de Rebook"
-            class="rebook-logo"
-            height="50"
-            style="object-fit: contain"
-            onerror="this.parentElement.innerHTML = '<span>Rebook</span>'"
-          />
+          <img src="/logo.png" alt="Logo de Rebook" class="rebook-logo" height="50" style="object-fit: contain"
+            onerror="this.parentElement.innerHTML = '<span>Rebook</span>'" />
         </a>
 
-        <button
-          class="navbar-toggler border-0"
-          type="button"
-          (click)="toggleMenu()"
-          [attr.aria-expanded]="isMenuOpen"
-          aria-controls="navbarContent"
-          aria-label="Abrir o cerrar menú de navegación"
-        >
+        <button class="navbar-toggler border-0" type="button" (click)="toggleMenu()" [attr.aria-expanded]="isMenuOpen"
+          aria-controls="navbarContent" aria-label="Abrir o cerrar menú de navegación">
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
 
       <!-- NAV -->
-      <div
-        class="collapse navbar-collapse navbar-bottom-row mt-2 mt-lg-0 d-none d-lg-flex"
-        id="navbarContent"
-      >
+      <div class="collapse navbar-collapse navbar-bottom-row mt-2 mt-lg-0 d-none d-lg-flex" id="navbarContent">
         <!-- IZQUIERDA -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
@@ -40,12 +25,8 @@
           </li>
 
           <li class="nav-item dropdown">
-            <button
-              class="nav-link dropdown-toggle btn btn-link"
-              type="button"
-              (click)="toggleCategories($event)"
-              [attr.aria-expanded]="isCategoriesOpen"
-            >
+            <button class="nav-link dropdown-toggle btn btn-link" type="button" (click)="toggleCategories($event)"
+              [attr.aria-expanded]="isCategoriesOpen">
               <i class="fas fa-list me-1"></i> Categorías
             </button>
 
@@ -58,18 +39,14 @@
               </li>
               <li><a class="dropdown-item" [routerLink]="['/categoria', 'terror']">Terror</a></li>
               <li>
-                <a class="dropdown-item" [routerLink]="['/categoria', 'cienciaFiccion']"
-                  >Ciencia Ficción</a
-                >
+                <a class="dropdown-item" [routerLink]="['/categoria', 'cienciaFiccion']">Ciencia Ficción</a>
               </li>
               <li><a class="dropdown-item" [routerLink]="['/categoria', 'romance']">Romance</a></li>
               <li>
                 <a class="dropdown-item" [routerLink]="['/categoria', 'misterio']">Misterio</a>
               </li>
               <li>
-                <a class="dropdown-item" [routerLink]="['/categoria', 'novela-negra']"
-                  >Novela Negra</a
-                >
+                <a class="dropdown-item" [routerLink]="['/categoria', 'novela-negra']">Novela Negra</a>
               </li>
               <li><a class="dropdown-item" [routerLink]="['/categoria', 'otros']">Otros...</a></li>
               <li>
@@ -86,38 +63,27 @@
         </a>
 
         <!-- BUSCADOR -->
-        <form
-          class="drawer-search mb-2 position-relative"
-          role="search"
-          (submit)="onSearchSubmit($event)"
-        >
+        <form class="drawer-search mb-2 position-relative" role="search" (submit)="onSearchSubmit($event)">
           <div class="input-group">
-            <input
-              class="form-control"
-              type="search"
-              placeholder="Buscar libros..."
-              [(ngModel)]="searchTerm"
-              name="searchTerm"
-              (input)="onSearchChange()"
-              autocomplete="off"
-            />
+            <input class="form-control" type="search" placeholder="Buscar libros..." [(ngModel)]="searchTerm"
+              name="searchTerm" (input)="onSearchChange()" autocomplete="off" />
             <button class="btn btn-outline-secondary" type="submit">
               <i class="fas fa-search"></i>
             </button>
           </div>
 
           @if (searchResults.length > 0) {
-            <div class="search-dropdown">
-              @for (libro of searchResults; track libro.id) {
-                <div class="search-item" (click)="goToBook(libro)">
-                  <img [src]="libro.url" />
-                  <div>
-                    <p>{{ libro.title }}</p>
-                    <small>{{ libro.author }}</small>
-                  </div>
-                </div>
-              }
+          <div class="search-dropdown">
+            @for (libro of searchResults; track libro.id) {
+            <div class="search-item" (click)="goToBook(libro)">
+              <img [src]="libro.url" />
+              <div>
+                <p>{{ libro.title }}</p>
+                <small>{{ libro.author }}</small>
+              </div>
             </div>
+            }
+          </div>
           }
         </form>
 
@@ -125,49 +91,46 @@
         <ul class="navbar-nav ms-auto align-items-center">
           <!-- FAVORITOS -->
           @if (isAuthenticated()) {
-            <li class="nav-item me-3 position-relative">
-              <button
-                class="nav-link btn-favoritos-header"
-                (click)="togglePanelFavoritos()"
-                [attr.aria-expanded]="isPanelFavoritosOpen"
-              >
-                <i class="fas fa-heart fa-lg" [class.tiene-favoritos]="favoritos.length > 0"></i>
+          <li class="nav-item me-3 position-relative">
+            <button class="nav-link btn-favoritos-header" (click)="togglePanelFavoritos()"
+              [attr.aria-expanded]="isPanelFavoritosOpen">
+              <i class="fas fa-heart fa-lg" [class.tiene-favoritos]="favoritos.length > 0"></i>
 
-                @if (favoritos.length > 0) {
-                  <span class="badge-favoritos">{{ favoritos.length }}</span>
-                }
-              </button>
+              @if (favoritos.length > 0) {
+              <span class="badge-favoritos">{{ favoritos.length }}</span>
+              }
+            </button>
 
-              @if (isPanelFavoritosOpen) {
-                <div class="panel-favoritos" role="dialog">
-                  <div class="panel-favoritos-header">
-                    <span>❤️ Favoritos</span>
-                    <button (click)="cerrarPanelFavoritos()">✕</button>
-                  </div>
+            @if (isPanelFavoritosOpen) {
+            <div class="panel-favoritos" role="dialog">
+              <div class="panel-favoritos-header">
+                <span>❤️ Favoritos</span>
+                <button (click)="cerrarPanelFavoritos()">✕</button>
+              </div>
 
-                  @if (favoritos.length > 0) {
-                    <div role="list">
-                      @for (libro of favoritos; track libro.id) {
-                        <div class="panel-favoritos-item" role="listitem">
-                          <img [src]="libro.url" />
-                          <div>
-                            <p>{{ libro.title }}</p>
-                            <small>{{ libro.author }}</small>
-                          </div>
-                        </div>
-                      }
-                    </div>
-                  } @else {
-                    <p>No tienes favoritos aún</p>
-                  }
-
-                  <div class="panel-favoritos-footer">
-                    <a routerLink="/favoritos"> Ver todos los favoritos </a>
+              @if (favoritos.length > 0) {
+              <div role="list">
+                @for (libro of favoritos; track libro.id) {
+                <div class="panel-favoritos-item" role="listitem">
+                  <img [src]="libro.url" />
+                  <div>
+                    <p>{{ libro.title }}</p>
+                    <small>{{ libro.author }}</small>
                   </div>
                 </div>
-                <div class="panel-overlay" (click)="cerrarPanelFavoritos()"></div>
+                }
+              </div>
+              } @else {
+              <p>No tienes favoritos aún</p>
               }
-            </li>
+
+              <div class="panel-favoritos-footer">
+                <a routerLink="/favoritos"> Ver todos los favoritos </a>
+              </div>
+            </div>
+            <div class="panel-overlay" (click)="cerrarPanelFavoritos()"></div>
+            }
+          </li>
           }
 
           <!-- CARRITO -->
@@ -180,27 +143,27 @@
           <!-- CUENTA -->
           <li class="nav-item dropdown">
             @if (isAuthenticated()) {
-              <button class="nav-link dropdown-toggle btn btn-link" (click)="toggleAccount($event)">
-                <i class="fas fa-user-circle me-1"></i> Mi cuenta
-              </button>
+            <button class="nav-link dropdown-toggle btn btn-link" (click)="toggleAccount($event)">
+              <i class="fas fa-user-circle me-1"></i> Mi cuenta
+            </button>
 
-              <ul class="dropdown-menu dropdown-menu-end" [class.show]="isAccountOpen">
-                <li><a routerLink="/perfil">Mi perfil</a></li>
-                <li><a routerLink="/mis-pedidos">Mis pedidos</a></li>
-                <li>
-                  <hr />
-                </li>
-                <li><button class="logout" (click)="logout()">Cerrar sesión</button></li>
-              </ul>
+            <ul class="dropdown-menu dropdown-menu-end" [class.show]="isAccountOpen">
+              <li><a routerLink="/perfil">Mi perfil</a></li>
+              <li><a routerLink="/mis-pedidos">Mis Alquilados</a></li>
+              <li>
+                <hr />
+              </li>
+              <li><button class="logout" (click)="logout()">Cerrar sesión</button></li>
+            </ul>
             } @else {
-              <button class="nav-link dropdown-toggle btn btn-link" (click)="toggleAccount($event)">
-                Iniciar sesión
-              </button>
+            <button class="nav-link dropdown-toggle btn btn-link" (click)="toggleAccount($event)">
+              Iniciar sesión
+            </button>
 
-              <ul class="dropdown-menu dropdown-menu-end" [class.show]="isAccountOpen">
-                <li><a routerLink="/auth/login">Inicio</a></li>
-                <li><a routerLink="/auth/signup">Registrarse</a></li>
-              </ul>
+            <ul class="dropdown-menu dropdown-menu-end" [class.show]="isAccountOpen">
+              <li><a routerLink="/auth/login">Inicio</a></li>
+              <li><a routerLink="/auth/signup">Registrarse</a></li>
+            </ul>
             }
           </li>
         </ul>
@@ -244,6 +207,11 @@
       <a routerLink="/categoria/otros" (click)="toggleMenu()">Otros</a>
     </div>
 
+    <div class="drawer-item" (click)="checkAuth($event, '/carrito'); toggleMenu()">
+      <i class="fas fa-shopping-cart"></i>
+      Carrito
+    </div>
+
     <!-- CUENTA -->
     <div class="drawer-item" (click)="toggleDrawerAccount()">
       <i class="fas fa-user"></i>
@@ -253,25 +221,25 @@
 
     <div class="drawer-submenu" *ngIf="isDrawerAccountOpen">
       @if (isAuthenticated()) {
-        <a routerLink="/perfil" (click)="toggleMenu()">
-          <i class="fas fa-id-card"></i> Mi Perfil
-        </a>
+      <a routerLink="/perfil" (click)="toggleMenu()">
+        <i class="fas fa-id-card"></i> Mi Perfil
+      </a>
 
-        <a routerLink="/mis-pedidos" (click)="toggleMenu()">
-          <i class="fas fa-box"></i> Mis pedidos
-        </a>
+      <a routerLink="/mis-pedidos" (click)="toggleMenu()">
+        <i class="fas fa-box"></i> Mis Alquilados
+      </a>
 
-        <a (click)="logout(); toggleMenu()" class="text-danger">
-          <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-        </a>
+      <a (click)="logout(); toggleMenu()" class="text-danger">
+        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+      </a>
       } @else {
-        <a routerLink="/auth/login" (click)="toggleMenu()">
-          <i class="fas fa-sign-in-alt"></i> Inicio de sesión
-        </a>
+      <a routerLink="/auth/login" (click)="toggleMenu()">
+        <i class="fas fa-sign-in-alt"></i> Inicio de sesión
+      </a>
 
-        <a routerLink="/auth/signup" (click)="toggleMenu()">
-          <i class="fas fa-user-plus"></i> Registrarse
-        </a>
+      <a routerLink="/auth/signup" (click)="toggleMenu()">
+        <i class="fas fa-user-plus"></i> Registrarse
+      </a>
       }
     </div>
   </div>

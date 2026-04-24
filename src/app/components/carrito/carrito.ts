@@ -5,6 +5,7 @@ import { CartItem } from '../../shared/interfaces/cart-item';
 import { AuthService } from '../../shared/services/auth-service/auth-service';
 import { CarritoService } from '../../shared/services/carrito-service';
 import { UserService } from '../../shared/services/user-service/user-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-carrito',
@@ -51,6 +52,7 @@ export class Carrito implements OnInit {
     private carritoService: CarritoService,
     private userService: UserService,
     private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -117,8 +119,7 @@ export class Carrito implements OnInit {
   }
 
   remove(item: CartItem) {
-    this.carritoService
-      .removeFromCart({
+    this.carritoService.removeFromCart({
         book_id: String(item.id),
       })
       .subscribe({
@@ -144,7 +145,7 @@ export class Carrito implements OnInit {
     this.marcarTodoTouched();
     this.validarCampos();
 
-    // 🔥 LIMPIA ERROR GENERAL
+    // LIMPIA ERROR GENERAL
     this.errorMessage = '';
 
     if (
@@ -153,7 +154,7 @@ export class Carrito implements OnInit {
       this.errores.fecha ||
       this.errores.cvv
     ) {
-      // 🔥 ERROR NUEVO AÑADIDO
+      // ERROR NUEVO AÑADIDO
       this.errorMessage = 'Debes completar todos los campos de la tarjeta correctamente';
 
       this.mostrarMensaje('Revisa los datos de la tarjeta');
@@ -179,6 +180,8 @@ export class Carrito implements OnInit {
         this.mostrarModal = false;
 
         this.mostrarMensaje('Pago realizado correctamente');
+
+        this.router.navigate(['/mis-pedidos']);
       },
       error: () => {
         this.mostrarMensaje('Error al procesar el pago');

@@ -110,7 +110,7 @@ html, body {
   display: block;
 }
 
-// 🔴 LOGOUT
+// LOGOUT
 .dropdown-menu .logout {
   color: #d64545 !important;
   font-weight: 600;
@@ -370,7 +370,6 @@ html, body {
 }
 
 //DRAWER
-
 .drawer-item {
   display: flex;
   align-items: center;
@@ -403,7 +402,6 @@ html, body {
   color: #cf9d53;
 }
 
-/* ===== SUBMENU ===== */
 .drawer-submenu {
   display: flex;
   flex-direction: column;
@@ -429,6 +427,10 @@ html, body {
   background: #f5f5f5;
   color: #cf9d53;
   transform: translateX(4px);
+}
+
+.drawer-item i.fa-shopping-cart {
+  color: var(--rebook-dark);
 }
 
 //RESPONSIVE
