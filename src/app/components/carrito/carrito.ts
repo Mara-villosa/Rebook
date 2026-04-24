@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { CartItem } from '../../shared/interfaces/cart-item';
 import { AuthService } from '../../shared/services/auth-service/auth-service';
 import { CarritoService } from '../../shared/services/carrito-service';
-import { UserService } from '../../shared/services/user-service/user-service';
 
 @Component({
   selector: 'app-carrito',
@@ -50,7 +49,6 @@ export class Carrito implements OnInit {
 
   constructor(
     private carritoService: CarritoService,
-    private userService: UserService,
     private authService: AuthService,
     private router: Router,
   ) {}
@@ -62,6 +60,7 @@ export class Carrito implements OnInit {
   loadCart() {
     this.carritoService.getCart().subscribe({
       next: (res) => {
+        console.log('CART RESPONSE:', res.books);
         this.cartItems = res.books.map((book: any) => ({
           id: book.id,
           titulo: book.title,
@@ -70,7 +69,7 @@ export class Carrito implements OnInit {
           price: book.in_cart_for_rent ? book.rentPrice : book.sellPrice,
           type: book.in_cart_for_rent ? 'rent' : 'buy',
           quantity: 1,
-          returnDate: book.rent_expiration_date || '',
+          rent_expiration_date: book.rent_expiration_date || '',
         }));
 
         this.calcularTotal();
